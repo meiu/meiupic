@@ -1,0 +1,115 @@
+body{
+    margin:0;
+    padding:0;
+    background: url(../images/loginbg.png) repeat;
+}
+
+div.loginArea{
+    width:259px;
+    height:285px;
+    position: absolute;
+    top:50%;
+    left:50%;
+    margin-top: -160px;
+    margin-left: -149px;
+}
+div.loginArea div.bbg1{
+    border-radius: 8px;
+    background: #e2e2e2;
+    padding:5px;
+}
+div.loginArea div.bbg2{
+    width: 249px;
+    background: url(../images/loginformbg.png) no-repeat;
+    border-radius: 8px;
+}
+div.loginArea div.fields{
+    height:39px;
+}
+div.loginArea div.sec{
+    height:38px;
+}
+div.loginArea div.captcha{
+    padding-top:1px;
+    height:38px;
+}
+div.loginArea div.fields label{
+    display: block;
+    width:48px;
+    height:39px;
+    float: left;
+    overflow: hidden;
+    text-indent: -1000px;
+}
+div.loginArea div.fields input{
+    border:none;
+    width:180px;
+    height:30px;
+    padding:4px 8px 3px;
+    line-height: 30px;
+    font-size: 18px;
+    font-family: "HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue",sans-serif;
+    color:#888;
+    border:0;
+}
+div.loginArea div.fields input:focus{
+    outline: none; 
+    color:#444;
+}
+div.loginArea div.sec label{
+    height:38px;
+}
+div.loginArea div.captcha input{
+    width:90px;
+}
+div.loginArea div.captcha img{
+    float: right;
+    width:80px;
+    height:34px;
+    vertical-align: middle;
+    padding:2px 4px 0 0;
+    cursor:pointer;
+}
+input.loginbtn{
+    margin-top:20px;
+    display: block;
+    width:100%;
+    background: #0b93d5 url(../images/loginbtbg.png) repeat-x;
+    height:40px;
+    font-size: 16px;
+    border:1px solid #57bdee;
+    border-radius: 8px;
+    font-weight: bold;
+    color:#fff;
+    padding: 0;
+    text-shadow:1px 1px 2px #888;
+    border:0;
+}
+div.loginArea h1{
+    margin:14px 0;
+    font-size:24px;
+    font-family: "微软雅黑","Microsoft YaHei","黑体";
+    text-align: center;
+    color:#6d6e71;
+}
+div.loginArea .notice {
+    height: 25px;
+    margin: 10px 0;
+    font-size: 13px;
+    color:#666;
+}
+div.loginArea .notice div{
+    border-radius: 6px;
+    border-style: solid;
+    border-width: 1px;
+    line-height: 23px;
+    padding:0 10px;
+    border:1px solid #ccc;
+    background-color: #f9f9f9;
+}
+div.loginArea .notice  div.error {
+    color:#CC0000;
+}
+div.loginArea .success {
+    color: green;
+}

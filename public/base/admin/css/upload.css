@@ -1,0 +1,107 @@
+body{overflow:hidden;}
+img{border:none;}
+#filemanager{
+    padding-top:10px;
+    width:490px;
+    overflow: hidden;
+    margin:0 auto;
+}
+#filemanager div.tab{padding-left:10px;}
+#muilti_uploader{
+    height:280px;
+    overflow-y:auto;
+}
+.filelist ul,.filelist li{padding:0;margin:0;list-style: none;}
+.filelist ul{
+    padding:0 10px;
+}
+.filelist ul li{
+    float:left;
+    margin-right: 4px;
+    margin-bottom: 5px;
+    width:90px;
+    height:90px;
+    overflow: hidden;
+    position: relative;
+}
+.filelist ul li a{
+    border:1px solid #ccc;
+    display: table-cell;
+	*display:block;
+	*float:left;
+    padding:4px;
+    height: 80px;
+    text-align: center;
+    vertical-align: middle;
+    width: 80px;
+    overflow: hidden;
+}
+.filelist ul li a:hover{
+    background: #F3F6FA;
+    border-color: #D0DEF1;
+}
+.filelist ul li a.on div.icon{
+    background: url("../images/checked.png") no-repeat;
+    bottom: 4px;
+    height: 18px;
+    overflow: hidden;
+    position: absolute;
+    right: 3px;
+    width: 16px;
+    z-index: 100;
+}
+.filelist a{color:#76453e;text-decoration:none;}
+
+.filelist div.pages{
+    text-align: center;
+    padding:6px 0 8px;
+    clear: both;
+}
+.filelist div.pages a{
+    padding:2px 4px;
+    margin:0 2px;
+    font-size:12px;
+}
+.filelist div.pages a:hover{
+    background: #eee;
+    text-decoration: none;
+}
+.filelist div.pages a i{
+    font-style: normal;
+}
+.filelist div.pages a.on{
+    background: #f17727;
+    color:#fff;
+}
+.filesearch{
+    padding:5px 5px 8px;
+    font-size:12px;
+    color: #666;
+    text-align: left;
+}
+.filesearch form{
+	margin:0;
+}
+.filesearch input.txt{
+    border: 2px solid #DDDDDD;
+    padding: 3px;
+    height:auto;
+}
+.filesearch input.submit,input.btn{
+    background: #ddd;
+    border-color: #eee #666 #666 #eee;
+    border-style: none solid solid none;
+    border-width: 0 1px 1px 0;
+    height: 24px;
+    margin-left: 5px;
+    padding: 3px 6px;
+}
+
+.tips_info p{
+    padding:2px 10px;
+    font-size:12px;
+    color:green;
+}
+.editor_buttons{
+    text-align: center;
+}

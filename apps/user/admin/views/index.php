@@ -1,0 +1,47 @@
+<div class="toolbar">
+    <a href="<?php echo U('user','index','a=add');?>" class="i-add">新增用户</a>
+</div>
+<table cellspacing="0">
+  <tbody>
+  <tr class="th">
+    <th>编号</th><th>登录名</th><th>昵称</th><th>Email</th><th>注册时间</th><th>注册ip</th><th>最后登录</th><th>最后登录ip</th><th>权限</th><th>操作</th>
+  </tr>
+  <?php
+  foreach ($rows as $key => $value): ?>
+  <tr <?php if($key%2==0):?>class="odd"<?php endif;?>> 
+    <td>
+      <?php echo $value['id']; ?>
+    </td>
+    <td>
+      <?php echo $value['username']; ?>
+    </td>
+    <td>
+      <?php echo $value['nickname']; ?>
+    </td>
+    <td>
+      <?php echo $value['email']; ?>
+    </td>
+    <td>
+      <?php echo date('Y-m-d H:i',$value['regtime']); ?>
+    </td>
+    <td>
+      <?php echo $value['regip']; ?>
+    </td>
+    <td>
+      <?php echo date('Y-m-d H:i',$value['logintime']); ?>
+    </td>
+    <td>
+      <?php echo $value['loginip']; ?>
+    </td>
+    <td>
+      <?php echo $value['level']=='99'?'管理员':$value['level']; ?>
+    </td>
+    <td> 
+        <a href="<?php echo U('user','index','a=edit&id='.$value['id']);?>" title="编辑"><img src="<?php echo S('base','admin/images/b-edit.png')?>" alt="编辑"></a>
+        <a href="<?php echo U('user','index','a=del&id='.$value['id']);?>" onclick="return del_one(this,'确定要删除该用户么？');" title="删除"><img src="<?php echo S('base','admin/images/b-del.png')?>" alt="删除"></a>
+    </td> 
+  </tr>
+  <?php endforeach ?>
+</tbody>
+</table>
+<?php echo $pagestr; ?>

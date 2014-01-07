@@ -1,0 +1,75 @@
+<?php
+
+defined('IN_MWEB') or die('access denied');
+
+$user_setting = getSetting('user_setting',true);
+if(!$user_setting['enable_register']){
+    showInfo('当前网站关闭了注册！','javascript:history.back();',3);
+}
+
+if(isPost() || getGet('ajax') ){
+    $data['username'] = safestr(trim(getPost('username')));
+    $data['userpass'] = getPost('userpass');
+    $data['email'] = safestr(trim(getPost('email')));
+    $data['nickname'] = safestr(trim(getPost('nickname')));
+    $data['extra1'] = safestr(getPost('extra1'));
+    $data['extra2'] = safestr(getPost('extra2'));
+    $data['extra3'] = safestr(getPost('extra3'));
+    $data['extra4'] = safestr(getPost('extra4'));
+    $data['extra5'] = safestr(getPost('extra5'));
+    $data['extra6'] = safestr(getPost('extra6'));
+    $data['extra7'] = safestr(getPost('extra7'));
+    $data['extra8'] = safestr(getPost('extra8'));
+
+
+    if(empty($data['username'])){
+        alert('请输入用户名!',false,'',array('field'=>'username'));
+    }
+    if(empty($data['userpass'])){
+        alert('请输入密码!',false,'',array('field'=>'userpass'));
+    }
+    if(strlen($data['userpass']) < 6){
+        alert('密码不得少于6位!',false,'',array('field'=>'userpass'));
+    }
+    if(empty($data['email'])){
+        alert('请输入Email!',false,'',array('field'=>'email'));
+    }
+    if(!isEmail($data['email'])){
+        alert('Email格式不正确!',false,'',array('field'=>'email'));
+    }
+    
+    if(empty($data['nickname'])){
+        alert('请输入昵称!',false,'',array('field'=>'nickname'));
+    }
+    $user_setting = getSetting('user_setting',true);
+    if($user_setting['enable_reg_captcha']){
+        $captcha_code = getPost('captcha');
+        $captcha = new Captcha;
+        if(!$captcha_code){
+            alert('请输入验证码!',false,'',array('field'=>'captcha'));
+        }
+        if(!$captcha->check($captcha_code)){
+            alert('验证码输入错误!',false,'',array('field'=>'captcha'));
+        }
+    }
+
+    $data['userpass'] = md5($data['userpass']);
+
+    list($ret,$msg,$field) = app('user')->register($data);
+    if($ret){
+        list($r,$msg) = app('user')->setLogin($data['username'],$data['userpass'],0,false);
+
+        alert('注册成功!',true,U('base','index'),array('othermsg'=>$msg));
+    }else{
+        alert($msg,false,'',array('field'=>$field));
+    }
+    exit;
+}
+//取出额外字段
+$fields = app('base')->getSetting('user_fields',true);
+$view->assign('fields',$fields);
+
+$site_title = '用户注册 - '.getSetting('site_title');
+$view->assign('site_title',$site_title);
+
+$view->display('user/register.php');
