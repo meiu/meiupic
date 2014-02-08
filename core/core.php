@@ -531,7 +531,15 @@ function __autoload($className) {
     if (class_exists($className, false) || interface_exists($className, false)) {
         return true;
     }
-    $path = CORE_PATH.'class/'.strtolower($className).'.class.php';
+    if(strtolower(substr( $className, 0, 2 )) == 'x_'){//载入app的lib类,类名必须以x_开头
+        $arrPath = explode('_', strtolower($className));
+        array_shift($arrPath);
+        $appName = array_shift($arrPath);
+        $path = ROOT_DIR.'apps/'.$appName.'/libs/'.implode('_', $arrPath).'.lib.php';
+    }else{
+        $path = CORE_PATH.'class/'.strtolower($className).'.class.php';
+    }
+    
     if(file_exists($path)){
         require_once $path;
     }else{
@@ -548,6 +556,7 @@ function run(){
     global $_G;
 
     G('begin');
+    unsetGlobals();
 
     @session_start();
 
@@ -621,6 +630,7 @@ function run(){
 function runAdmin(){
     global $_G;
 
+    unsetGlobals();
     @session_start();
     G('begin');
     $app = getGet('app')?getGet('app'):'base';

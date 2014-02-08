@@ -92,7 +92,7 @@ $(function(){
     ele.delegate('.captcha_show a,.captcha_show img','click',function(e){
         var imgobj = $(this).parent().find('img');
         var osrc=imgobj.attr('orgisrc');
-        imgobj.attr('src',osrc+(osrc.indexOf('?')?'&':'?')+'t='+Math.random() );
+        imgobj.attr('src',osrc+(osrc.indexOf('?')>=0?'&':'?')+'t='+Math.random() );
         return false;
     });
 
