@@ -133,13 +133,26 @@ CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(100) NOT NULL COMMENT '登录名',
   `userpass` varchar(100) NOT NULL COMMENT '密码',
+  `salt`  varchar(10)  NOT NULL COMMENT '加点儿盐',
   `email` varchar(100) NOT NULL COMMENT 'Email',
   `nickname` varchar(100) NOT NULL DEFAULT '' COMMENT '昵称',
+  `points`  int(11) NOT NULL DEFAULT '0' COMMENT '积分数',
   `regtime` int(11) NOT NULL COMMENT '注册时间',
   `regip` varchar(50) NOT NULL COMMENT '注册ip',
   `logintime` int(11) NOT NULL COMMENT '登录时间',
   `loginip` varchar(50) NOT NULL COMMENT '最后登录ip',
   `level`  int(11) NOT NULL DEFAULT '0' COMMENT '用户级别，99为管理员',
+  `status` tinyint(3) NOT NULL DEFAULT '1' COMMENT '0,停用 1,启用 2,删除',
+  PRIMARY KEY (`id`),
+  KEY `username` (`username`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='用户表' AUTO_INCREMENT=1 ;
+
+--
+-- 表的结构 `users_info`
+--
+
+CREATE TABLE IF NOT EXISTS `users_info` (
+  `uid` int(11) NOT NULL,
   `extra1` varchar(200) NOT NULL COMMENT '扩展字段1',
   `extra2` varchar(200) NOT NULL COMMENT '扩展字段2',
   `extra3` varchar(200) NOT NULL COMMENT '扩展字段3',
@@ -148,10 +161,34 @@ CREATE TABLE IF NOT EXISTS `users` (
   `extra6` varchar(200) NOT NULL COMMENT '扩展字段6',
   `extra7` varchar(200) NOT NULL COMMENT '扩展字段7',
   `extra8` varchar(200) NOT NULL COMMENT '扩展字段8',
-  `status` tinyint(3) NOT NULL DEFAULT '1' COMMENT '0,停用 1,启用 2,删除',
+  PRIMARY KEY (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户表详情表';
+--
+-- 表的结构 `users_point`
+-- 
+CREATE TABLE IF NOT EXISTS `users_point` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL COMMENT '积分说明',
+  `pointkey` varchar(100) NOT NULL COMMENT '积分key',
+  `points`  int(11) NOT NULL DEFAULT '0' COMMENT '积分数',
+  `ac` tinyint(1) NOT NULL COMMENT '0加积分1减积分',
   PRIMARY KEY (`id`),
-  KEY `username` (`username`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='用户表' AUTO_INCREMENT=1 ;
+  KEY `pointkey` (`pointkey`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='用户积分定义' AUTO_INCREMENT=1 ;
+
+--
+-- 表的结构 `users_point_log`
+-- 
+CREATE TABLE IF NOT EXISTS `users_point_log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) NOT NULL COMMENT '用户id',
+  `name` varchar(100) NOT NULL COMMENT '积分说明',
+  `points`  int(11) NOT NULL DEFAULT '0' COMMENT '积分数',
+  `ac` tinyint(1) NOT NULL COMMENT '0加积分1减积分',
+  `addtime` int(11) NOT NULL COMMENT '积分变化的时间',
+  PRIMARY KEY (`id`),
+  KEY `uid` (`uid`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='用户积分日志' AUTO_INCREMENT=1 ;
 
 --
 -- 表的结构 `upfiles`

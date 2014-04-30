@@ -553,7 +553,7 @@ function __autoload($className) {
 }
 //运行前台部分
 function run(){
-    global $_G;
+    global $_G,$meiuHooks;
 
     G('begin');
     unsetGlobals();
@@ -599,7 +599,8 @@ function run(){
     //初始化用户登录状态
     $_G['user'] = app('user')->init();
 
-    $app = getGet('app')?getGet('app'):'base';
+
+    $app = getGet('app')?getGet('app'):(!empty($_G['settings']['default_app'])?$_G['settings']['default_app']:'base');
     $m = getGet('m')? getGet('m'):'index';
 
     //过滤非法的字符
@@ -611,6 +612,28 @@ function run(){
         'm' => $m
     );
     $_G['get'] = $_GET;
+
+    //加载插件
+    $actived_plugins = app('base')->getSetting('actived_plugins',true);
+    $meiuHooks = array();
+    //公共插件
+    if (isset($actived_plugins['pub']) && is_array($actived_plugins['pub'])) {
+        foreach($actived_plugins['pub'] as $plugin) {
+            if(true === checkPlugin($plugin,'pub')) {
+                include_once(ROOT_DIR . '/plugins/pub/'.$plugin.'/'.$plugin.'.php');
+            }
+        }
+    }
+    //某个应用的专属插件
+    if (isset($actived_plugins[$app]) && is_array($actived_plugins[$app])) {
+        foreach($actived_plugins[$app] as $plugin) {
+            if(true === checkPlugin($plugin,$app)) {
+                include_once(ROOT_DIR . '/plugins/'.$app.'/'. $plugin.'/'.$plugin.'.php');
+            }
+        }
+    }
+
+    doAction('beforeAction');
 
     $file_path = ROOT_DIR.'apps'.DS.$app.DS.'site'.DS.$m.'.php';
 
@@ -645,6 +668,27 @@ function runAdmin(){
         'app' => $app,
         'm' => $m
     );
+
+    //加载插件
+    $actived_plugins = app('base')->getSetting('actived_plugins',true);
+    $meiuHooks = array();
+    //公共插件
+    if (isset($actived_plugins['pub']) && is_array($actived_plugins['pub'])) {
+        foreach($actived_plugins['pub'] as $plugin) {
+            if(true === checkPlugin($plugin,'pub')) {
+                include_once(ROOT_DIR . '/plugins/pub/'.$plugin.'/'.$plugin.'.php');
+            }
+        }
+    }
+    //某个应用的专属插件
+    if (isset($actived_plugins[$app]) && is_array($actived_plugins[$app])) {
+        foreach($actived_plugins[$app] as $plugin) {
+            if(true === checkPlugin($plugin,$app)) {
+                include_once(ROOT_DIR . '/plugins/'.$app.'/'. $plugin.'/'.$plugin.'.php');
+            }
+        }
+    }
+    
     $_G['settings'] = app('base')->getAllSettings();
 
     if(!app('user')->checkAdminSession($_G['user']) && !($app=='user' && $m == 'login') && !($app=='base' && $m == 'captcha')){
@@ -672,6 +716,8 @@ function runAdmin(){
     $_G['runtime']['cache'] = $cache;
     
     $view->assign('current_menu',$_G['uri']['app'].'_'.$_G['uri']['m']);
+
+    doAction('beforeAdminAction');
 
     if(file_exists($file_path)){
         include($file_path);

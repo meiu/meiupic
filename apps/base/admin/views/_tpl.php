@@ -13,9 +13,11 @@
     <script>
     var UPFILE_PRE = "<?php echo C('upload.url_pre'); ?>";
     </script>
+    <?php doAction('adm_head'); ?>
 </head>
 <body>
 <?php if ( !isset($ismini) || !$ismini): ?>
+    <?php doAction('adm_main_top'); ?>
     <div id="head">
         <div id="logo">MeiuCms</div>
         <ul id="menu">
@@ -26,18 +28,25 @@
             foreach ($admin_menu as $key => $value):
                 if(!$value['enable']) continue;
             ?>
-                <li <?php
-                if(isset($value['mod'])):
+                <li 
+                <?php
+                if(isset($value['cid']))://内容分类
+                    if($current_menu == $value['app'].'_'.$value['mod'] && getGet('cid')==$value['cid']):
+                ?>class="current"<?php
+                    endif;
+                elseif(isset($value['mod'])):
                     if($current_menu == $value['app'].'_'.$value['mod']):
                 ?>class="current"<?php 
                     endif;
                 elseif($current_menu_app == $value['app']):
                 ?>class="current"<?php 
                 endif;
-                ?>><a href="<?php echo U($value['app'],isset($value['mod'])?$value['mod']:'index');?>"><span><?php echo $value['name'];?></span></a></li>
+                ?>><a href="<?php echo U($value['app'],isset($value['mod'])?$value['mod']:'index',isset($value['cid'])?'cid='.$value['cid']:'');?>"><span><?php echo $value['name'];?></span></a></li>
             <?php 
             endforeach;
             ?>
+            
+            <?php doAction('adm_menu'); ?>
         </ul>
         <a href="<?php echo U('base','setting','a=menu');?>" class="editmenu" title="编辑菜单">编辑</a>
         <ul id="rightmenu">
@@ -68,6 +77,7 @@
 </div>
 <?php if ( !isset($ismini) || !$ismini): ?>
 <div id="footer" > Powered by <a href="http://www.meiu.cn" target="_blank">MeiuPic 3.0</a> , processed in <?php echo G('begin','end',4); ?>s</div>
+<?php doAction('adm_main_foot'); ?>
 <?php endif; ?>
 </body>
 </html>

@@ -67,7 +67,12 @@ if($needaudit){
 }
 
 $m_comment = M('comments');
+doAction('comment_post', $data);
+
 if($m_comment->insert($data)){
+    $cid = $m_comment->insertId();
+    doAction('comment_saved', $data, $cid);
+    
     alert('评论成功！'.($needaudit?'需要审核通过后才能看到您的评论！':''),true);
 }else{
     alert('评论失败！');

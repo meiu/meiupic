@@ -10,7 +10,7 @@ return array(
         'port'     => '3306',
         'dbuser'   => 'root',
         'dbpass'   => '',
-        'dbname'   => 'simplecms',
+        'dbname'   => 'meiupic3',
         'pconnect' => false,
         'charset'  => 'utf8',
         'pre'      => ''

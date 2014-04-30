@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="<?php echo S('base','admin/codemirror/lib/codemirror.css');?>">
-<script src="<?php echo S('base','admin/codemirror/meiucms.js');?>"></script>
+<script src="<?php echo S('base','admin/codemirror/core.js');?>"></script>
 <a href="<?php echo U('base','template','a=filelist&theme='.$file_info['theme'].'&dir='.dirname($file_info['file'])) ?>" >&lt;&lt;返回</a><br>
 <form id="submit_form" class="ajaxform" method="post">
     <input type="hidden" name="file" value="<?php echo $file_info['file'];?>" />

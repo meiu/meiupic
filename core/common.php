@@ -319,6 +319,84 @@ function sc_encode($arr,$addslashes = false){
 function sc_decode($string){
     return unserialize($string);
 }
+
+
+/**
+ * 该函数在插件中调用,挂载插件函数到预留的钩子上
+ *
+ * @param string $hook
+ * @param string $actionFunc
+ * @return boolearn
+ */
+function addAction($hook, $actionFunc) {
+    global $meiuHooks;
+    if (!@in_array($actionFunc, $meiuHooks[$hook])) {
+        $meiuHooks[$hook][] = $actionFunc;
+    }
+    return true;
+}
+
+/**
+ * 执行挂在钩子上的函数,支持多参数 eg:doAction('post_comment', $author, $email, $url, $comment);
+ *
+ * @param string $hook
+ */
+function doAction($hook) {
+    global $meiuHooks;
+    $args = array_slice(func_get_args(), 1);
+    if (isset($meiuHooks[$hook])) {
+        foreach ($meiuHooks[$hook] as $function) {
+            $string = call_user_func_array($function, $args);
+        }
+    }
+}
+/**
+ * 检查插件
+ */
+function checkPlugin($plugin,$app) {
+    if (is_string($plugin) && preg_match("/^[\w\-]+$/", $plugin) && file_exists(ROOT_DIR . '/plugins/'.$app.'/' . $plugin.'/'.$plugin.'.php')) {
+        return true;
+    } else {
+        return false;
+    }
+}
+/**
+ * 获取插件信息
+ */
+function getPluginData($plugin,$app) {
+    $pluginPath = ROOT_DIR . 'plugins/'.$app.'/';
+    $pluginFile = $pluginPath . $plugin . '/' . $plugin . '.php';
+
+    $pluginData = implode('', file($pluginFile));
+    preg_match("/Plugin Name:(.*)/i", $pluginData, $plugin_name);
+    preg_match("/Version:(.*)/i", $pluginData, $version);
+    preg_match("/Plugin URL:(.*)/i", $pluginData, $plugin_url);
+    preg_match("/Description:(.*)/i", $pluginData, $description);
+    preg_match("/Author:(.*)/i", $pluginData, $author_name);
+    preg_match("/Author URL:(.*)/i", $pluginData, $author_url);
+
+    $setting = file_exists($pluginPath . $plugin . '/' . $plugin . '_setting.php') ? true : false;
+
+    $plugin_name = isset($plugin_name[1]) ? strip_tags(trim($plugin_name[1])) : '';
+    $version = isset($version[1]) ? strip_tags(trim($version[1])) : '';
+    $description = isset($description[1]) ? strip_tags(trim($description[1])) : '';
+    $plugin_url = isset($plugin_url[1]) ? strip_tags(trim($plugin_url[1])) : '';
+    $author = isset($author_name[1]) ?strip_tags( trim($author_name[1])) : '';
+    $author_url = isset($author_url[1]) ? strip_tags(trim($author_url[1])) : '';
+
+    return array(
+        'Name' => $plugin_name,
+        'Version' => $version,
+        'Description' => $description,
+        'Url' => $plugin_url,
+        'App' => $app,
+        'Author' => $author,
+        'AuthorUrl' => $author_url,
+        'Setting' => $setting,
+        'Plugin' => $plugin,
+    );
+}
+
 //可编辑的图片列表
 function editImgList($arr,$id){
     if(is_array($arr)){

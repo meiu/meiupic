@@ -7,7 +7,7 @@
         <span class="status"></span>
         <div class="thumb">
             <a href="<?php echo U('base','template','a=enable&theme='.$value['id']);?>" onclick="return switchTheme(this);" title="切换到该风格" name="<?php echo $value['name'];?>">
-            <img src="<?php echo C('base_url').'templates/'.$value['id'].'/preview.jpg';?>" width="150" height="150" />
+            <img src="<?php echo U('base','template','a=preview&id='.$value['id']);?>" width="150" height="150" />
             </a>
         </div>
         <div class="title"><?php echo $value['name'];?></div>

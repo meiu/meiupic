@@ -86,7 +86,7 @@ var uploadWin={
             uploadWin.callback = null;
         }
         art.dialog.open('admin.php?app=base&m=upfile&type='+arg_type+'&num='+arg_num,{
-            title: 'MeiuCms上传组件',
+            title: 'MeiuPic上传组件',
             lock: true,
             background: '#000', // 背景色
             opacity: 0.3,  // 透明度
@@ -94,6 +94,11 @@ var uploadWin={
             ok: function (w) {
                 var paths = w.$('#att-path').html();
                 var names = w.$('#att-name').html();
+                if(paths == ''){//如果没有选择任何文件的话，提醒
+                    alert('请先选择文件！');
+                    return false;
+                }
+
                 var patharr = paths.split('|');
                 var namearr = names.split('|');
                 var ret = new Array;
@@ -117,6 +122,32 @@ var uploadWin={
     callback: function(ret){}
 }
 
+//图片输入框显示缩略图
+function picArea(){
+    $('.picarea').hover(function(){
+        //显示图片
+        var picurl = $(this).val();
+        var pos = $(this).offset();
+        var iheight=$(this).outerHeight();
+
+        if(!picurl){
+            return false;
+        }
+        var im=new Image();
+        im.src=UPFILE_PRE+picurl;
+        var size = resize_img(im.width,im.height,120,120);
+        var div_html = '<img src="'+im.src+'" width="'+parseInt(size.width)+'" height="'+parseInt(size.height)+'" /></div>';
+        if($('#img_preview').length <= 0 ){
+            $('body').append('<div id="img_preview">'+div_html+'</div>');
+        }else{
+            $('#img_preview').html(div_html);
+        }
+        $('#img_preview').css({top:pos.top+iheight-2,left:pos.left}).show();
+    },function(){
+        //隐藏图片
+        $('#img_preview').hide();
+    });
+}
 //最后一个参数可选
 function addEpics(vReturnValue,thediv,inputname){
     var append='';

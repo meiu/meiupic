@@ -6,6 +6,7 @@ $submenu = array(
     '基本' => array('index'),
     '自定义路由' => array('route','routeadd','routeedit'),
     '后台菜单' => array('menu'),
+    '插件扩展' => array('plugin','pluginset'),
     '系统信息及缓存' => array('system')
 );
 $view->assign('submenu',$submenu);
@@ -172,13 +173,16 @@ switch ($act) {
 
             $menuslist = app('base')->getSetting('admin_menu',true);
             foreach ($menuslist as $key => $value) {
+                $skey = $value['app'];
                 if(isset($value['mod'])){
-                    $menuslist[$key]['sort'] = $sort[$value['app'].'_'.$value['mod']];
-                    $menuslist[$key]['enable'] = isset($enable[$value['app'].'_'.$value['mod']])?true:false;
-                }else{
-                    $menuslist[$key]['sort'] = $sort[$value['app']];
-                    $menuslist[$key]['enable'] = isset($enable[$value['app']])?true:false;
+                    $skey .= '_'.$value['mod'];
                 }
+                if(isset($value['cid'])){
+                    $skey .= '_'.$value['cid'];
+                }
+
+                $menuslist[$key]['sort'] = $sort[$skey];
+                $menuslist[$key]['enable'] = isset($enable[$skey])?true:false;
             }
             $baseapp = app('base');
             usort($menuslist,'sortFields');
@@ -192,13 +196,111 @@ switch ($act) {
         break;
     case 'menudel':
         $appid = getGet('appid');
+        $modid = getGet('modid');
+        $cid = getGet('cid');
+
+        $quest_key = $appid.($modid?'_'.$modid:'').($cid?'_'.$cid:'');
         $menuslist = app('base')->getSetting('admin_menu',true);
         foreach ($menuslist as $key => $value) {
-            if($value['app'] == $appid && !$value['fixed']){
+            $skey = $value['app'];
+            if(isset($value['mod'])){
+                $skey .= '_'.$value['mod'];
+            }
+            if(isset($value['cid'])){
+                $skey .= '_'.$value['cid'];
+            }
+            if($skey == $quest_key && !$value['fixed']){
                 unset($menuslist[$key]);
             }
         }
         app('base')->setSetting('admin_menu',$menuslist);
         alert('删除成功！',true,'js_reload');
+        break;
+    case 'plugin':
+        $pluginapp = getGet('pluginapp');
+        //读取plugin列表
+        $arrApps = dirlist('',ROOT_DIR.'plugins');
+
+        $pluginList = array();
+        $appList = array();
+        foreach ($arrApps as $value) {
+            if($value['filename'] == '..' || $value['type'] != 'dir'){
+                continue;
+            }
+            $app = $value['filename'];
+            $appList[] = $app;
+
+            if($pluginapp && $pluginapp!=$app){//筛选了app
+                continue;
+            }
+            //子文件夹
+            $plugins = dirlist($app,ROOT_DIR.'plugins');
+            foreach ($plugins as $plugin) {
+                if($plugin['filename'] == '..' || $plugin['type'] != 'dir'){
+                    continue;
+                }
+                if(!checkPlugin($plugin['filename'],$app)){
+                    continue;
+                }
+                $pluginList[] = getPluginData($plugin['filename'],$app);
+            }
+        }
+        $activedPlugins = app('base')->getSetting('actived_plugins',true);
+
+        $view->assign('pluginapp',$pluginapp);
+        $view->assign('appList',$appList);
+        $view->assign('activedPlugins',$activedPlugins);
+        $view->assign('pluginList',$pluginList);
+        $view->display('setting_plugin.php');
+        break;
+    case 'pluginset':
+        $app = getGet('pluginapp');
+        $plugin = getGet('plugin');
+
+        require_once ROOT_DIR."plugins/{$app}/{$plugin}/{$plugin}_setting.php";
+
+        if(isPost()){
+            if(plugin_setting_save()){
+                alert('设置成功！',true,U('base','setting','a=plugin'));
+            }else{
+                alert('设置失败！');
+            }
+        }
+
+        $pluginSettingContent = plugin_setting_view();
+        $view->assign('pluginSettingContent',$pluginSettingContent);
+        $view->display('setting_pluginset.php');
+        break;
+    case 'pluginactive':
+        $app = getGet('pluginapp');
+        $plugin = getGet('plugin');
+        $status = getGet('status');
+
+        $activedPlugins = app('base')->getSetting('actived_plugins',true);
+
+        if($status == 'inactive' && isset($activedPlugins[$app])){
+            //禁用已启用插件
+            $key = array_search($plugin, $activedPlugins[$app]);
+            unset($activedPlugins[$app][$key]);
+
+            $ret = true;
+            app('base')->setSetting('actived_plugins',$activedPlugins);
+
+            alert('禁用成功！',true,'js_reload');
+        }elseif($status == 'active'){
+            if (isset($activedPlugins[$app]) && in_array($plugin, $activedPlugins[$app])) {
+                $ret = true;
+            } elseif(true === checkPlugin($plugin,$app)) {
+                $activedPlugins[$app][] = $plugin;
+                $ret = true;
+                app('base')->setSetting('actived_plugins',$activedPlugins);
+
+                alert('启用成功！',true,'js_reload');
+            }else{
+                $ret = false;
+                alert('启用失败！',false);
+            }
+
+        }
         break;
 }

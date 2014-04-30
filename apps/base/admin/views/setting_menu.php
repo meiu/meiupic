@@ -9,15 +9,15 @@
   if(!empty($menulist)):
   foreach ($menulist as $value): 
   if(isset($value['mod'])){
-    $value['menu'] = $value['app'].'_'.$value['mod'];
+    $value['menu'] = $value['app'].'_'.$value['mod'].(isset($value['cid'])?'_'.$value['cid']:'');
   }
   ?>
   <tr <?php if($i%2==1):?>class="odd"<?php endif;?>>
     <td>
-      <?php echo $value['name']; ?>
+      <a href="<?php echo U($value['app'],isset($value['mod'])?$value['mod']:'index',isset($value['cid'])?'cid='.$value['cid']:'');?>"><?php echo $value['name']; ?></a>
     </td>
     <td>
-      <?php echo U($value['app'],isset($value['mod'])?$value['mod']:'index');?>
+      <?php echo U($value['app'],isset($value['mod'])?$value['mod']:'index',isset($value['cid'])?'cid='.$value['cid']:'');?>
     </td>
     <td>
       <input type="text" size="8" name="sort[<?php echo isset($value['menu'])?$value['menu']:$value['app']; ?>]" value="<?php echo $i; ?>" />
@@ -27,7 +27,7 @@
     </td>
     <td>
     <?php if(!$value['fixed']): ?>
-      <a href="<?php echo U('base','setting','a=menudel&appid='.$value['app']); ?>" onclick="return del_one(this,'确定要删除该项么？');" title="删除"><img src="<?php echo S('base','admin/images/b-del.png')?>" alt="删除"></a>
+      <a href="<?php echo U('base','setting','a=menudel&appid='.$value['app'].(isset($value['mod'])?'&modid='.$value['mod']:'').(isset($value['cid'])?'&cid='.$value['cid']:'')); ?>" onclick="return del_one(this,'确定要删除该项么？');" title="删除"><img src="<?php echo S('base','admin/images/b-del.png')?>" alt="删除"></a>
     <?php endif; ?>
     </td>
   </tr>

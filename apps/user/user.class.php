@@ -38,8 +38,10 @@ Class UserClass{
         if(!$user_info){
             return array(false,'用户名不存在！','username');
         }
-
-        if($user_info['userpass'] != $userpass){
+        if($user_info['status']!=1){
+            return array(false,'用户名已被停用！','username');
+        }
+        if($user_info['userpass'] != md5($userpass.$user_info['salt'])){
             return array(false,'密码错误！','userpass');
         }
 
@@ -58,13 +60,20 @@ Class UserClass{
         $cookie_domain = C('cookie.domain');
         $cookie_path = C('cookie.path');
 
-        $myauth = authcode($user_info['id']."\t".$username."\t".$userpass,'ENCODE',$cookie_auth_key);
+        $myauth = authcode($user_info['id']."\t".$username."\t".$user_info['userpass'],'ENCODE',$cookie_auth_key);
         setcookie($cookie_name,$myauth,$expire_time,$cookie_path,$cookie_domain);
 
         //修改最后登录时间
         $update['logintime'] = CURRENT_TIME;
         $update['loginip'] = getClientIp();
         $m_user->update($user_info['id'],$update);
+
+        doAction('user_login',$username,$user_info['id']);
+        
+        //登录增加积分 ,一天只增加一次
+        if($user_info['logintime'] < strtotime(date('Y-m-d'))){
+            $this->doPoints($user_info['id'],'user_login');
+        }
 
         return array($user_info['id'],'','');
     }
@@ -99,6 +108,9 @@ Class UserClass{
             return array($ret,$msg,$field);
         }
 
+        $data['salt'] = substr(uniqid(rand()), -6); 
+        $data['userpass'] = md5($data['userpass'].$data['salt']);
+
         $data['regtime'] = CURRENT_TIME;
         $data['regip'] = getClientIp();
 
@@ -106,8 +118,14 @@ Class UserClass{
 
         $ret = $m_user->insert($data);
         if($ret){
+            $uid = $m_user->insertId();
+
+            doAction('user_register',$data['username'],$uid);
+            //注册增加积分
+            $this->doPoints($uid,'user_register');
+
             $msg = '';
-            return array($ret,$msg,'');
+            return array($uid,$msg,'');
         }else{
             $msg = '注册失败，请检查原因后重新提交！';
             return array($ret,$msg,'');
@@ -133,5 +151,34 @@ Class UserClass{
     //获取用户的头像
     public function getAvatar($uid,$email=''){
         return $email?'http://www.gravatar.com/avatar/'.md5($email).'?rating=G&size=48&d=mm':S('user','images/user_normal.png');
+    }
+
+    //增加/减少积分
+    //ac==0，增加积分 否则减少积分
+    public function changePoints($uid,$points,$ac=0,$name=''){
+        $points = intval($points);
+
+        //增加积分日志
+        $m_point_log = M('users_point_log');
+        $m_point_log->insert(array(
+            'uid'=>$uid,
+            'name'=>$name,
+            'points'=>$points,
+            'ac'=>$ac,
+            'addtime'=>CURRENT_TIME
+            ));
+
+        $m_user = M('users');
+        return $m_user->update($uid , array('points'=>array('exp','points'.($ac?'-':'+').$points)) );
+    }
+
+    //操作积分
+    public function doPoints($uid,$action){
+        $m_point = M('users_point');
+        $r = $m_point->findRow('pointkey='.$m_point->escape($action));
+        if($r){
+            return $this->changePoints($uid,$r['points'],$r['ac'],$r['name']);
+        }
+        return false;
     }
 }

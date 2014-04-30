@@ -15,10 +15,18 @@
         </tr>
         <tr>
             <td>
-                
+                服务器
             </td>
             <td>
-                
+                <?php echo php_uname("s");?>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                PHP 版本
+            </td>
+            <td>
+                <?php echo PHP_VERSION;?>
             </td>
         </tr>
     </tbody>

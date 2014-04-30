@@ -36,9 +36,9 @@ if($act == 'logout'){
         }
 
         $expire_time = $remember?CURRENT_TIME+86400*30:0;
-        list($ret,$msg,$field) = app('user')->setLogin($username,md5($userpass),$expire_time,false);
+        list($uid,$msg,$field) = app('user')->setLogin($username,md5($userpass),$expire_time,false);
 
-        if($ret){
+        if($uid){
             alert('登录成功!',true, $redirect?$redirect:U('base','index') ,array('othermsg'=>$msg));
         }else{
             alert($msg,false,'',array('field'=>$field));

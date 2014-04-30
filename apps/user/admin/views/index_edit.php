@@ -34,7 +34,7 @@
         ?>
         <tr>
         <th><?php echo $fields['extra'.$i]['cname'];?>：</th>
-        <td><input type="text" name="<?php echo 'extra'.$i;?>" size="20" value="<?php echo $info['extra'.$i];?>" /></td>
+        <td><input type="text" name="<?php echo 'extra'.$i;?>" size="20" value="<?php echo $iinfo['extra'.$i];?>" /></td>
         </tr>
         <?php 
         endfor; ?>

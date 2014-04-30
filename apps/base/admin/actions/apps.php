@@ -1,6 +1,14 @@
 <?php
 defined('IN_MWEB') or die('access denied');
 
+/*二级菜单开始*/
+$submenu = array(
+    '应用列表' => array('index'),
+    '设置默认应用'  => array('default')
+);
+$view->assign('submenu',$submenu);
+/*二级菜单结束*/
+
 $act = getGet('a','index');
 $view->assign('act',$act);
 
@@ -24,7 +32,7 @@ switch ($act) {
         $view->display('apps.php');
         break;
     case 'icon':
-        $id = getGet('id');
+        $id = safestr(getGet('id'));
         $iconpath = ROOT_DIR.'apps'.DS.$id.DS.'icon.png';
 
         header('Content-type: image/png');
@@ -44,14 +52,16 @@ switch ($act) {
                 $exist = true;
             }
         }
+
+        $infopath = ROOT_DIR.'apps'.DS.$appid.DS.'info.php';
+
+        $appinfo = include($infopath);
         if(!$exist){
-            if($appid=='base'){
-                $menuslist[] = array('name'=>'首页','app'=>'base','mod'=>'index','fixed'=>true,'enable'=>true);
-                $menuslist[] = array('name'=>'模版','app'=>'base','mod'=>'template','fixed'=>true,'enable'=>true);
-                $menuslist[] = array('name'=>'设置','app'=>'base','mod'=>'setting','fixed'=>true,'enable'=>true);
-            }elseif($appid=='cms'){
-                $menuslist[] = array('name'=>'内容','app'=>'cms','mod'=>'content','fixed'=>false,'enable'=>true);
-                $menuslist[] = array('name'=>'模型','app'=>'cms','mod'=>'model','fixed'=>false,'enable'=>true);
+            if(isset($appinfo['adminmenu'])){
+                foreach ($appinfo['adminmenu'] as $key => $value) {
+                    $value['enable'] = true;
+                    $menuslist[] = $value;
+                }
             }else{
                 $menuslist[] = array('name'=>$name,'app'=>$appid,'fixed'=>false,'enable'=>true);
             }
@@ -60,5 +70,37 @@ switch ($act) {
         app('base')->setSetting('admin_menu',$menuslist);
 
         exit('1');
+        break;
+    case 'default':
+        if(isPost()){
+            $default_app = getPost('default_app');
+            app('base')->setSetting('default_app',$default_app);
+
+            alert('设置默认应用成功！',true,U('base','apps','a=default'));
+        }
+
+        $default_app = app('base')->getSetting('default_app');
+
+        if(!$default_app){
+            $default_app = 'base';
+        }
+        //遍历app目录
+        $appsdirs = dirlist('apps',ROOT_DIR);
+        $applist = array();
+
+        foreach ($appsdirs as $key => $value) {
+            if($value['filename']=='..'){ continue; }
+            $infopath = ROOT_DIR.$value['path'].DS.'info.php';
+            if(!file_exists($infopath)){ continue;}
+
+            $info = include($infopath);
+            $info['id'] = $value['filename'];
+            $applist[] = $info;
+        }
+
+        $view->assign('default_app',$default_app);
+        $view->assign('applist',$applist);
+        
+        $view->display('apps_default.php');
         break;
 }

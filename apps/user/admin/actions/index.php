@@ -10,10 +10,22 @@ switch ($act) {
     case 'index':
         $page = getGet('page',1);
 
+        $search['keyword'] = trim(getRequest('keyword'));
+
         $m_user = M('users');
 
-        $totalCount = $m_user->count();
-        $pageurl = U('user','index','page=%page%');
+        $where = '1';
+        if( $search['keyword'] ){
+            if( is_numeric($search['keyword']) ){
+                $where .= ' and id ='.intval($search['keyword']);
+            }else{
+                $keyword = trim($search['keyword'],'*');
+                $where .= " and (username like '%".$m_user->escape($keyword,false)."%' or email like '%".$m_user->escape($keyword,false)."%' or nickname like '%".$m_user->escape($keyword,false)."%')";
+            }
+        }
+
+        $totalCount = $m_user->count($where);
+        $pageurl = U('user','index','keyword='.$search['keyword'].'&page=%page%');
 
         $pager = new Pager($page,C('pageset.admin',15),$totalCount,$pageurl);
         $pager->config(C('page'));
@@ -21,12 +33,13 @@ switch ($act) {
         $view->assign('pagestr',$pager->html());
 
         $rows = $m_user->findAll(array(
+                    'where' => $where,
                     'start' => $limit['start'],
                     'limit' => $limit['limit']
                 ));
 
         $view->assign('rows',$rows);
-
+        $view->assign('search',$search);
         $view->display('index.php');
         break;
     case 'edit':
@@ -59,14 +72,21 @@ switch ($act) {
                 alert('两次密码输入不一致！');
             }
             if($userpass){
-                $data['userpass'] = md5($userpass);
+                $data['salt'] = substr(uniqid(rand()), -6);
+                $data['userpass'] = md5(md5($userpass).$data['salt']);
             }
-            $fields = app('base')->getSetting('user_fields',true);
-            foreach($fields as $k=>$v){
-                $data[$k] = trim(getPost($k));
-            }
+            
 
             if($m_user->update($id,$data)){
+                //更新用户相关信息
+                $fields = app('base')->getSetting('user_fields',true);
+                $infodata = array();
+                foreach($fields as $k=>$v){
+                    $infodata[$k] = trim(getPost($k));
+                }
+                M('users_info')->updateW('uid='.$id,$infodata);
+                
+
                 alert('修改用户成功！',true,U('user','index'));
             }else{
                 alert('修改用户失败！');
@@ -74,11 +94,13 @@ switch ($act) {
         }
 
         $info = $m_user->load($id);
+        $iinfo = M('users_info')->load($id,'*','uid');
 
         $fields = app('base')->getSetting('user_fields',true);
 
         $view->assign('fields',$fields);
         $view->assign('info',$info);
+        $view->assign('iinfo',$iinfo);
         $view->display('index_edit.php');
         break;
     case 'add':
@@ -115,13 +137,16 @@ switch ($act) {
             $data['regtime'] = time();
             $data['regip'] = getClientIp();
 
-            $fields = app('base')->getSetting('user_fields',true);
-            foreach($fields as $k=>$v){
-                $data[$k] = trim(getPost($k));
-            }
-            
-
             if($m_user->insert($data)){
+                $uid = $m_user->insertId();
+                //额外字段信息
+                $fields = app('base')->getSetting('user_fields',true);
+                $infodata = array( 'uid' => $uid);
+                foreach($fields as $k=>$v){
+                    $infodata[$k] = trim(getPost($k));
+                }
+                M('users_info')->insert($infodata);
+
                 alert('添加用户成功！',true,U('user','index'));
             }else{
                 alert('添加用户失败！');
@@ -144,6 +169,9 @@ switch ($act) {
         }
 
         if(M('users')->delete($id)){
+            //删除额外信息
+            M('users_info')->delete($id,'uid');
+
             alert('删除用户成功！',true,U('user','index'));
         }else{
             alert('删除用户失败！');

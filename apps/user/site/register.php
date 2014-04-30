@@ -8,19 +8,20 @@ if(!$user_setting['enable_register']){
 }
 
 if(isPost() || getGet('ajax') ){
+    $data = $infodata = array();
     $data['username'] = safestr(trim(getPost('username')));
     $data['userpass'] = getPost('userpass');
     $data['email'] = safestr(trim(getPost('email')));
     $data['nickname'] = safestr(trim(getPost('nickname')));
-    $data['extra1'] = safestr(getPost('extra1'));
-    $data['extra2'] = safestr(getPost('extra2'));
-    $data['extra3'] = safestr(getPost('extra3'));
-    $data['extra4'] = safestr(getPost('extra4'));
-    $data['extra5'] = safestr(getPost('extra5'));
-    $data['extra6'] = safestr(getPost('extra6'));
-    $data['extra7'] = safestr(getPost('extra7'));
-    $data['extra8'] = safestr(getPost('extra8'));
 
+    $infodata['extra1'] = safestr(getPost('extra1'));
+    $infodata['extra2'] = safestr(getPost('extra2'));
+    $infodata['extra3'] = safestr(getPost('extra3'));
+    $infodata['extra4'] = safestr(getPost('extra4'));
+    $infodata['extra5'] = safestr(getPost('extra5'));
+    $infodata['extra6'] = safestr(getPost('extra6'));
+    $infodata['extra7'] = safestr(getPost('extra7'));
+    $infodata['extra8'] = safestr(getPost('extra8'));
 
     if(empty($data['username'])){
         alert('请输入用户名!',false,'',array('field'=>'username'));
@@ -54,9 +55,13 @@ if(isPost() || getGet('ajax') ){
     }
 
     $data['userpass'] = md5($data['userpass']);
+    
+    list($uid,$msg,$field) = app('user')->register($data);
+    if($uid){
+        //插入额外信息
+        $infodata['uid'] = $uid;
+        M('users_info')->insert($infodata);
 
-    list($ret,$msg,$field) = app('user')->register($data);
-    if($ret){
         list($r,$msg) = app('user')->setLogin($data['username'],$data['userpass'],0,false);
 
         alert('注册成功!',true,U('base','index'),array('othermsg'=>$msg));

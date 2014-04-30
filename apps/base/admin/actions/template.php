@@ -45,6 +45,14 @@ case 'index'://风格列表
     $view->display('template.php');
 
     break;
+case 'preview':
+    $id = safestr(getGet('id'));
+    $tplpath = ROOT_DIR.'templates'.DS.$id.DS.'preview.jpg';
+
+    header('Content-type: image/jpeg');
+    echo readfile($tplpath);
+    exit;
+    break;
 case 'filelist'://文件列表
 
     $theme = getGet('theme');
@@ -295,6 +303,8 @@ case 'labeledit':
     if(!$label_info){
         alert('您要编辑的标签不存在！');
     }
+    //fix ckeditor bug
+    //$label_info['data'] = str_replace('&', '&amp;', $label_info['data']);
 
     $view->assign('label_info',$label_info);
     $view->display('label_edit.php');

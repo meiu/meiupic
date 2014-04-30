@@ -70,10 +70,10 @@ div.pages a.on{
 #logo{
     height:56px;
     background: url(../images/logo.png) no-repeat;
-    width:139px;
+    width:120px;
     float: left;
     text-indent:-1000px;
-    margin-right: 50px;
+    margin-right: 30px;
 }
 #menu li,#rightmenu li{
     font-family: "微软雅黑";
@@ -114,7 +114,7 @@ div.pages a.on{
 }
 #submenu {
     clear:both;
-    padding:0 0 0 190px;
+    padding:0 0 0 155px;
     height:30px;
     background:#f6f6f6;
     border-bottom:solid 3px #ddd;
@@ -221,7 +221,7 @@ div.titlebar h2 {
 }
 
 
-div.body th,div.body td{padding:5px 10px;border-bottom:solid 1px #eee;}
+div.body th,div.body td{padding:4px 10px;border-bottom:solid 1px #eee;}
 div.body tr{background:#fcfcfc;}
 div.body th.bk{background:#eee;}
 div.body tr.th{color:#464646;padding:0 5px;font:normal 14px/26px arial;background-color: #F1F1F1;  
@@ -274,18 +274,18 @@ div.text_label{
 }
 
 div.tab{
-    height:35px;
+    height:31px;
     border-bottom: 1px solid #ccc;
 }
 div.tab a.back{
     float: right;
-    margin-top: 5px;
+    margin-top: 3px;
 }
 div.tab li{
     float:left;
     padding:0 10px;
     margin:0 3px;
-    line-height: 28px;
+    line-height: 24px;
     color: #76453E;
     cursor: pointer;
     border-radius: 4px;
@@ -302,7 +302,7 @@ div.tabc{
 
 /*超链接的tab标签*/
 div.taba{
-    height:35px;
+    height:31px;
     border-bottom: 1px solid #ccc;
 }
 div.taba li{
@@ -312,7 +312,7 @@ div.taba li a{
     float:left;
     padding:0 10px;
     margin:0 3px;
-    line-height: 28px;
+    line-height: 24px;
     color: #76453E;
     cursor: pointer;
     border-radius: 4px;
