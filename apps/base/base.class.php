@@ -184,4 +184,19 @@ Class BaseClass{
         return $data;
     }
     
+
+    //获取全局标签
+    public static function getLabel($name){
+        $cache = Cache::instance();
+        $label = $cache->get('label_'.$name);
+        if($label===false){
+            $m_label = M('labels');
+            $label = $m_label->findRow("name=".$m_label->escape($name));
+            $cache->set('label_'.$name,$label);
+        }
+        if(!$label){
+            return '';
+        }
+        return $label['data'];
+    }
 }
