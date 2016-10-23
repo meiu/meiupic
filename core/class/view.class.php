@@ -1,4 +1,6 @@
 <?php
+defined('IN_MWEB') || exit('Access denied!');
+
 /**
  *  模板解析缓存
  */
@@ -43,14 +45,24 @@ class View{
 
     public function fetch($file,$data=null){
         global $_G;
-
+        $ofile = $file;
+        if(!ADMINPAGE && IS_MOBILE){
+            $file = str_replace('.php', '_mobile.php', $file);
+        }
+        
         if($data){
             extract($data);
         }else{
             extract($this->_data);
         }
         $tpl_path = $this->_config['views_dir'].DS.$file;
-        if(!file_exists($tpl_path)){
+        $file_exists  = file_exists($tpl_path);
+        if(!$file_exists && strpos($file, '_mobile.php')){
+            $tpl_path = $this->_config['views_dir'].DS.$ofile;
+            if(!file_exists($tpl_path)){
+                trace('模版"'.$file.'"不存在！','View','ERR');
+            }
+        }elseif(!$file_exists){
             trace('模版"'.$file.'"不存在！','View','ERR');
         }
         ob_start();

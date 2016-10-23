@@ -1,8 +1,9 @@
+<div class="main-head">
+    <h3>路由列表</h3>
+    <a href="<?php echo U('base','setting','a=routeadd');?>" class="i-add">新增路由</a>
+</div>
 <div class="notice">
   注：路由规则从上往下匹配。如果需要优先匹配某个规则，可以将它的排序提前。
-</div>
-<div class="toolbar">
-    <a href="<?php echo U('base','setting','a=routeadd');?>" class="i-add">新增路由</a>
 </div>
 <form id="submit_form" class="ajaxform" method="post">
 <table cellspacing="0">

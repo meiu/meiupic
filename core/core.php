@@ -100,7 +100,7 @@ function checkRoute($url){
         $routes_setting = include(DATA_PATH.'routes.php');
         $routes = $routes_setting['data'];
     }
-
+    $url = trim($url,'/');
     foreach ($routes as $key => $value) {
         $need_replace = $value['needreplace'];
         $rule = $value['regex'];
@@ -203,7 +203,7 @@ function replaceRoute($app,$action,$params,$extra){
     if(!$routes['data']){
         return false;
     }
-    if(!in_array($app.'.'.$action, $routes['mods'])){
+    if(!in_array($app.'.'.$action, $routes['mods'],true)){
         return false;
     }
 
@@ -218,7 +218,7 @@ function replaceRoute($app,$action,$params,$extra){
 
     $flag = false;
     foreach ($routes['data'] as $key => $rule) {
-        if($rule['params']['app'] != $params['params']['app'] && $rule['params']['m'] != $params['m']){//如果app及m不匹配直接退出
+        if($rule['params']['app'] != $params['app'] && $rule['params']['m'] != $params['m']){//如果app及m不匹配直接退出
             continue;
         }
         $need_replace = $rule['needreplace'];
@@ -247,7 +247,7 @@ function replaceRoute($app,$action,$params,$extra){
         $url = $matched_rule;
         foreach ($repalce_arr as $value) {
             $key = ltrim($value,':');
-            $url = str_replace('{'.$value.'}', $params[$key], $url);
+            $url = str_replace('{'.$value.'}', @$params[$key], $url);
             if(isset($oldparams[$key])){
                 unset($oldparams[$key]);
             }
@@ -271,10 +271,10 @@ function U($app,$action,$param = array(),$extraparam=array(),$entry = 'default')
     $enable_route = getSetting('enable_route',false);
 
     if(ADMINPAGE && $entry=='default'){
-        $url = $base_url.'admin.php';
+        $url = $base_url.'sys.php';
         $is_admin = true;
     }elseif($entry == 'admin'){
-        $url = $base_url.'admin.php';
+        $url = $base_url.'sys.php';
         $is_admin = true;
     }else{
         if($app=='base' && $action=='index'){
@@ -391,7 +391,7 @@ function toGuidString($mix) {
  */
 function unsetGlobals() {
   if (ini_get('register_globals')) {
-    $allowed = array('_ENV' => 1, '_GET' => 1,'_SESSION'=>1, '_POST' => 1, '_COOKIE' => 1, '_FILES' => 1, '_SERVER' => 1, '_REQUEST' => 1, 'GLOBALS' => 1);
+    $allowed = array('_ENV' => 1, '_GET' => 1,'_SESSION'=>1, '_POST' => 1, '_COOKIE' => 1, '_FILES' => 1, '_SERVER' => 1, '_REQUEST' => 1, 'GLOBALS' => 1,'_G'=>1,'meiuHooks'=>1);
     foreach ($GLOBALS as $key => $value) {
       if (!isset($allowed[$key])) {
         unset($GLOBALS[$key]);
@@ -447,6 +447,12 @@ function arrStripslashes($arr){
 
 function isPost(){
     if(strtolower($_SERVER['REQUEST_METHOD']) == 'post'){
+        return true;
+    }
+    return false;
+}
+function isAjax(){
+    if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == "XMLHttpRequest"){
         return true;
     }
     return false;
@@ -562,13 +568,21 @@ function run(){
 
     //初始化基本设置
     $_G['settings'] = app('base')->getAllSettings();
+    
+    //判断是否是手机
+    if(app('base')->getSetting('enable_wap')){
+        $mdetect = new mobiledetect();
+        define('IS_MOBILE',$mdetect->isMobile());
+    }else{
+        define('IS_MOBILE',false);
+    }
 
     //初始化缓存
     $cache = Cache::instance();
     //判断是否开启缓存
     $q = getGet('q');
     $html_cache_opened = $_G['settings']['html_cache_time'] > 0 && preg_match('/(\.html|\.htm)$/', $q);
-    $html_cache_key = md5('html_cache_'.$q);
+    $html_cache_key = md5('html_cache_'.$q.(IS_MOBILE?'_wap':''));
     if($html_cache_opened){//页面需要缓存
         $cache_content = $cache->get($html_cache_key);
         if($cache_content){//如果缓存命中
@@ -612,6 +626,15 @@ function run(){
         'm' => $m
     );
     $_G['get'] = $_GET;
+
+    //如果app是不使用模版的话，那么加载前台的view文件夹的视图
+    if(file_exists(ROOT_DIR.'apps'.DS.$app.DS.'info.php')){ 
+        $_G['appinfo'] = include(ROOT_DIR.'apps'.DS.$app.DS.'info.php');
+        if(isset($_G['appinfo']['without_tpl']) && $_G['appinfo']['without_tpl']){
+            $view = new View(array('views_dir'=>ROOT_DIR.'apps'.DS.$app.DS.'site'.DS.'views'));
+            $_G['runtime']['view'] = $view;//将该对象加入到全局变量中的运行时
+        }
+    }
 
     //加载插件
     $actived_plugins = app('base')->getSetting('actived_plugins',true);
@@ -690,10 +713,8 @@ function runAdmin(){
     }
     
     $_G['settings'] = app('base')->getAllSettings();
-
-    if(!app('user')->checkAdminSession($_G['user']) && !($app=='user' && $m == 'login') && !($app=='base' && $m == 'captcha')){
-        redirect(U('user','login'));
-    }
+    
+    app('user')->checkAdminLogin($app,$m);
 
     $file_path = ROOT_DIR.'apps'.DS.$app.DS.'admin'.DS.'actions'.DS.$m.'.php';
     $view_dir = ROOT_DIR.'apps'.DS.$app.DS.'admin'.DS.'views';
@@ -719,8 +740,16 @@ function runAdmin(){
 
     doAction('beforeAdminAction');
 
+    $act = getGet('a','index');
+    $view->assign('act',$act);
+
     if(file_exists($file_path)){
         include($file_path);
+
+        $mClassName = ucfirst($app).ucfirst($m);
+        if(class_exists($mClassName, false)){
+            call_user_func_array(array(new $mClassName(),$act.'Act'), array());
+        }
     }else{
         trace('404 Page Not Found!','ROUTE','ERR');
     }

@@ -2,15 +2,15 @@
 defined('IN_MWEB') or die('access denied');
 
 return array(
-    'base_url' => '/meiupic/',
-    'public_url' => '/meiupic/public/',
+    'base_url' => '/',
+    'public_url' => '/public/',
     'database' => array(
         'adapter'  => 'mysqli',
-        'host'     => 'localhost',
+        'host'     => '127.0.0.1',
         'port'     => '3306',
         'dbuser'   => 'root',
         'dbpass'   => '',
-        'dbname'   => 'meiupic3',
+        'dbname'   => 'newmeiu',
         'pconnect' => false,
         'charset'  => 'utf8',
         'pre'      => ''
@@ -28,7 +28,7 @@ return array(
     'upload' => array(
         'dirpath' => ROOT_DIR.'public/upfiles/',
         'dir' => '/public/upfiles/',
-        'url_pre' => 'http://newpic.meiu.cn/public/upfiles/'
+        'url_pre' => '/public/upfiles/'
     ),
     /*Cookie相关设置*/
     'cookie' => array(
@@ -42,6 +42,16 @@ return array(
         'default' => 15,
         'admin' => 15,
         'filelist'=>10
+    ),
+    'adminpage' => array(
+            'showSinglePage'   => false,
+            'prefix'=>'<div class="pages">',
+            'current'=>'<a class="on"><em><i>%page%</i></em></a>',
+            'page'=>'<a href="%link%"><em><i>%page%</i></em></a>',
+            'prev'=>'<a href="%link%"><em><i>上一页</i></em></a>',
+            'next'=>'<a href="%link%"><em><i>下一页</i></em></a>',
+            'first'=> '<a href="%link%"><em><i>%page%</i></em></a><span>...</span>',
+            'last'=> '<span>...</span><a href="%link%"><em><i>%page%</i></em></a>',
     ),
     'page' => array(
             'showSinglePage'   => false,

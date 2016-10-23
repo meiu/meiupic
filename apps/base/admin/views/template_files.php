@@ -1,24 +1,14 @@
-<a href="<?php echo U('base','template') ?>" >&lt;&lt;返回风格列表</a><br>
+<div class="main-head">
+    <h3>风格文件列表</h3>
+    <a href="<?php echo U('base','template') ?>" >&lt;&lt;返回风格列表</a>
+</div>
 
 <form class="ajaxform" method="post" action="<?php echo U('base','template','a=newfile&theme='.$theme.'&dir='.$dir);?>">
   <table cellspacing="0">
     <tbody><tr>
         <td width="350">新建文件：
-          <input type="text" name="file" size="20" value="" /> <span class="gray">(不含后缀)</span> 
+          <input type="text" name="file" size="20" value="" />
         </td>
-        
-        <?php if($dir == 'content'): ?>
-        <td width="100">
-            <select name="type">
-            <option value="">选择类别</option>
-            <?php foreach ($tpl_type as $key => $value): ?>
-              <option value="<?php echo $key;?>"><?php echo $value;?></option>
-            <?php endforeach ?>
-            </select>
-        </td>
-        <?php else: ?>
-            <input type="hidden" name="type" value="other" />
-        <?php endif; ?>
         <td><input type="submit" value="保存" class="submit-btn"></td>
       </tr>
     </tbody>
@@ -45,6 +35,9 @@
       <?php elseif($value['type'] == 'dir'): ?>
       <img src="<?php echo S('base','admin/images/b-dir.png');?>" align="absmiddle" />
       <a href="<?php echo U('base','template','a=filelist&theme='.$theme.'&dir='.$value['path']);?>" title="编辑"><?php echo $value['filename'];?></a>
+      <?php elseif(in_array($value['type'],array('jpg','jpeg','gif','png','swf'))): ?>
+      <img src="<?php echo S('base','admin/images/b-page.png');?>" align="absmiddle" />
+      <a href="<?php echo S('_root','templates/'.$theme.'/'.$value['path']);?>" target="_blank" title="查看"><?php echo $value['filename'];?></a>
       <?php else: ?>
       <img src="<?php echo S('base','admin/images/b-page.png');?>" align="absmiddle" />
       <?php echo $value['filename'];?>

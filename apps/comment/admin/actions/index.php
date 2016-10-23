@@ -3,13 +3,8 @@ defined('IN_MWEB') or die('access denied');
 
 require_once('_submenu.php');
 
-$act = getGet('a','index');
-$view->assign('act',$act);
-
-//获取评论列表
-
-switch ($act) {
-    case 'index':
+class CommentIndex extends Adminbase{
+    function indexAct(){
         $page = getGet('page',1);
         $search['tab'] = getGet('tab');
         $search['keyword'] = getRequest('keyword');
@@ -41,9 +36,9 @@ switch ($act) {
         $pageurl = U('comment','index',$par);
 
         $pager = new Pager($page,C('pageset.admin',15),$totalCount,$pageurl);
-        $pager->config(C('page'));
+        $pager->config(C('adminpage'));
         $limit = $pager->getLimit();
-        $view->assign('pagestr',$pager->html());
+        $this->view->assign('pagestr',$pager->html());
 
         $rows = $m_comment->findAll(array(
             'where' => $where,
@@ -52,18 +47,20 @@ switch ($act) {
             'order' =>'id desc'
         ));
 
-        $view->assign('search',$search);
-        $view->assign('rows',$rows);
-        $view->display('index.php');
-        break;
-    case 'del':
+        $this->view->assign('search',$search);
+        $this->view->assign('rows',$rows);
+        $this->view->display('index.php');
+    }
+
+    function delAct(){
         $ids = getPost('ids');
 
         $m_comment = M('comments');
         $m_comment->deleteMany($ids);
         alert('删除成功！',true,'js_reload');
-        break;
-    case 'audit':
+    }
+
+    function auditAct(){
         $ids = getPost('ids');
         $status = getGet('status')==1?1:2;
 
@@ -72,5 +69,5 @@ switch ($act) {
         $m_comment = M('comments');
         $m_comment->updateW("id in (".implode(',', $ids).")",$data);
         alert('审核成功！',true,'js_reload');
-        break;
+    }
 }

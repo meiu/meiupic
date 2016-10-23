@@ -1,4 +1,6 @@
 <?php
+defined('IN_MWEB') || exit('Access denied!');
+
 /**
  * @author yanue
  * @copyright  Copyright (c) 2012 yanue.net

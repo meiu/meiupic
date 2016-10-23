@@ -3,11 +3,8 @@ defined('IN_MWEB') or die('access denied');
 
 require_once('_submenu.php');
 
-$act = getGet('a','index');
-$view->assign('act',$act);
-
-switch ($act) {
-    case 'index':
+class UserIndex extends Adminbase{
+    function indexAct(){
         $page = getGet('page',1);
 
         $search['keyword'] = trim(getRequest('keyword'));
@@ -28,9 +25,9 @@ switch ($act) {
         $pageurl = U('user','index','keyword='.$search['keyword'].'&page=%page%');
 
         $pager = new Pager($page,C('pageset.admin',15),$totalCount,$pageurl);
-        $pager->config(C('page'));
+        $pager->config(C('adminpage'));
         $limit = $pager->getLimit();
-        $view->assign('pagestr',$pager->html());
+        $this->view->assign('pagestr',$pager->html());
 
         $rows = $m_user->findAll(array(
                     'where' => $where,
@@ -38,11 +35,12 @@ switch ($act) {
                     'limit' => $limit['limit']
                 ));
 
-        $view->assign('rows',$rows);
-        $view->assign('search',$search);
-        $view->display('index.php');
-        break;
-    case 'edit':
+        $this->view->assign('rows',$rows);
+        $this->view->assign('search',$search);
+        $this->view->display('index.php');
+    }
+
+    function editAct(){
         $id = intval(getGet('id'));
         $m_user = M('users');
 
@@ -84,8 +82,13 @@ switch ($act) {
                 foreach($fields as $k=>$v){
                     $infodata[$k] = trim(getPost($k));
                 }
-                M('users_info')->updateW('uid='.$id,$infodata);
-                
+                $uiinfo = M('users_info')->load($id,'*','uid');
+                if($uiinfo){
+                    M('users_info')->updateW('uid='.$id,$infodata);
+                }else{
+                    $infodata['uid'] = $id;
+                    M('users_info')->insert($infodata);
+                }
 
                 alert('修改用户成功！',true,U('user','index'));
             }else{
@@ -95,15 +98,17 @@ switch ($act) {
 
         $info = $m_user->load($id);
         $iinfo = M('users_info')->load($id,'*','uid');
+        if(!$iinfo) $iinfo = M('users_info')->loadDefault();
 
         $fields = app('base')->getSetting('user_fields',true);
 
-        $view->assign('fields',$fields);
-        $view->assign('info',$info);
-        $view->assign('iinfo',$iinfo);
-        $view->display('index_edit.php');
-        break;
-    case 'add':
+        $this->view->assign('fields',$fields);
+        $this->view->assign('info',$info);
+        $this->view->assign('iinfo',$iinfo);
+        $this->view->display('index_edit.php');
+    }
+
+    function addAct(){
         $m_user = M('users');
         if(isPost()){
             $data['username'] = safestr(trim(getPost('username')));
@@ -158,11 +163,13 @@ switch ($act) {
 
         $fields = app('base')->getSetting('user_fields',true);
 
-        $view->assign('fields',$fields);
-        $view->assign('info',$info);
-        $view->display('index_edit.php');
-        break;
-    case 'del':
+        $this->view->assign('fields',$fields);
+        $this->view->assign('info',$info);
+        $this->view->assign('iinfo',M('users_info')->loadDefault());
+        $this->view->display('index_edit.php');
+    }
+
+    function delAct(){
         $id = intval(getGet('id'));
         if($id == $_G['user']['id']){
             alert('你不能删除自己！');
@@ -176,5 +183,5 @@ switch ($act) {
         }else{
             alert('删除用户失败！');
         }
-        break;
+    }
 }

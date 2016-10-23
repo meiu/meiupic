@@ -1,22 +1,16 @@
 <?php 
 defined('IN_MWEB') or die('access denied');
 
-/*二级菜单开始*/
-$submenu = array(
-    '基本' => array('index'),
-    '自定义路由' => array('route','routeadd','routeedit'),
-    '后台菜单' => array('menu'),
-    '插件扩展' => array('plugin','pluginset'),
-    '系统信息及缓存' => array('system')
-);
-$view->assign('submenu',$submenu);
-/*二级菜单结束*/
+class BaseSetting extends Adminbase{
+    protected $_submenu = array(
+        '基本' => array('index'),
+        '自定义路由' => array('route','routeadd','routeedit'),
+        '后台菜单' => array('menu'),
+        '插件扩展' => array('plugin','pluginset'),
+        '系统信息及缓存' => array('system')
+    );
 
-$act = getGet('a','index');
-$view->assign('act',$act);
-
-switch ($act) {
-    case 'index':
+    function indexAct(){
         $m_setting = M('settings');
         if(isPost()){
             $settings = getPost('setting');
@@ -34,10 +28,11 @@ switch ($act) {
         }
 
         $settings_info = app('base')->getAllSettings();
-        $view->assign('settings_info',$settings_info);
-        $view->display('setting.php');
-        break;
-    case 'route':
+        $this->view->assign('settings_info',$settings_info);
+        $this->view->display('setting.php');
+    }
+
+    function routeAct(){
         $page = getGet('page',1);
         $m_route = M('routes');
 
@@ -54,7 +49,7 @@ switch ($act) {
         $pageurl = U('base','setting','a=route&page=%page%');
 
         $pager = new Pager($page,C('pageset.admin',15),$totalCount,$pageurl);
-        $pager->config(C('page'));
+        $pager->config(C('adminpage'));
         $limit = $pager->getLimit();
 
         $rows = $m_route->findAll(array(
@@ -62,14 +57,14 @@ switch ($act) {
             'limit' => $limit['limit'],
             'order' => 'sort asc'
         ));
-        $view->assign('rows',$rows);
+        $this->view->assign('rows',$rows);
 
-        $view->assign('pagestr',$pager->html());
+        $this->view->assign('pagestr',$pager->html());
 
-        $view->display('setting_route.php');
-        break;
-    case 'routeedit':
+        $this->view->display('setting_route.php');
+    }
 
+    function routeeditAct(){
         $id = intval(getGet('id'));
         $m_route = M('routes');
         if(isPost()){
@@ -108,10 +103,11 @@ switch ($act) {
             alert('您要编辑的路由不存在！');
         }
 
-        $view->assign('route_info',$route_info);
-        $view->display('route_edit.php');
-        break;
-     case 'routeadd':
+        $this->view->assign('route_info',$route_info);
+        $this->view->display('route_edit.php');
+    }
+
+    function routeaddAct(){
         $m_route = M('routes');
 
         if(isPost()){
@@ -146,10 +142,11 @@ switch ($act) {
 
         $route_info = $m_route->loadDefault();
 
-        $view->assign('route_info',$route_info);
-        $view->display('route_edit.php');
-        break;
-    case 'routedel':
+        $this->view->assign('route_info',$route_info);
+        $this->view->display('route_edit.php');
+    }
+
+    function routedelAct(){
         $id = intval(getGet('id'));
         $m_route = M('routes');
         if($m_route->delete($id)){
@@ -158,15 +155,18 @@ switch ($act) {
         }else{
             alert('删除失败！');
         }
-        break;
-    case 'system':
-        $view->display('setting_system.php');
-        break;
-    case 'clearcache':
-        $cache->clean();
+    }
+
+    function systemAct(){
+        $this->view->display('setting_system.php');
+    }
+
+    function clearcacheAct(){
+        $this->cache->clean();
         alert('清空缓存成功！',true);
-        break;
-    case 'menu':
+    }
+
+    function menuAct(){
         if(isPost()){
             $sort = getPost('sort');
             $enable = getPost('enable');
@@ -191,10 +191,11 @@ switch ($act) {
             alert('更新排序成功！',true,'js_reload');
         }
         $menulist = app('base')->getSetting('admin_menu',true);
-        $view->assign('menulist',$menulist);
-        $view->display('setting_menu.php');
-        break;
-    case 'menudel':
+        $this->view->assign('menulist',$menulist);
+        $this->view->display('setting_menu.php');
+    }
+
+    function menudelAct(){
         $appid = getGet('appid');
         $modid = getGet('modid');
         $cid = getGet('cid');
@@ -215,8 +216,9 @@ switch ($act) {
         }
         app('base')->setSetting('admin_menu',$menuslist);
         alert('删除成功！',true,'js_reload');
-        break;
-    case 'plugin':
+    }
+
+    function pluginAct(){
         $pluginapp = getGet('pluginapp');
         //读取plugin列表
         $arrApps = dirlist('',ROOT_DIR.'plugins');
@@ -247,13 +249,14 @@ switch ($act) {
         }
         $activedPlugins = app('base')->getSetting('actived_plugins',true);
 
-        $view->assign('pluginapp',$pluginapp);
-        $view->assign('appList',$appList);
-        $view->assign('activedPlugins',$activedPlugins);
-        $view->assign('pluginList',$pluginList);
-        $view->display('setting_plugin.php');
-        break;
-    case 'pluginset':
+        $this->view->assign('pluginapp',$pluginapp);
+        $this->view->assign('appList',$appList);
+        $this->view->assign('activedPlugins',$activedPlugins);
+        $this->view->assign('pluginList',$pluginList);
+        $this->view->display('setting_plugin.php');
+    }
+
+    function pluginsetAct(){
         $app = getGet('pluginapp');
         $plugin = getGet('plugin');
 
@@ -268,10 +271,11 @@ switch ($act) {
         }
 
         $pluginSettingContent = plugin_setting_view();
-        $view->assign('pluginSettingContent',$pluginSettingContent);
-        $view->display('setting_pluginset.php');
-        break;
-    case 'pluginactive':
+        $this->view->assign('pluginSettingContent',$pluginSettingContent);
+        $this->view->display('setting_pluginset.php');
+    }
+
+    function pluginactiveAct(){
         $app = getGet('pluginapp');
         $plugin = getGet('plugin');
         $status = getGet('status');
@@ -302,5 +306,5 @@ switch ($act) {
             }
 
         }
-        break;
+    }
 }

@@ -1,3 +1,6 @@
+<div class="main-head">
+    <h3>用户设置</h3>
+</div>
 <form class="ajaxform" method="post">
 <table cellspacing="0">
   <tbody>

@@ -1,19 +1,14 @@
 <?php
 defined('IN_MWEB') or die('access denied');
 
-/*二级菜单开始*/
-$submenu = array(
-    '应用列表' => array('index'),
-    '设置默认应用'  => array('default')
-);
-$view->assign('submenu',$submenu);
-/*二级菜单结束*/
+class BaseApps extends Adminbase{
 
-$act = getGet('a','index');
-$view->assign('act',$act);
+    protected $_submenu = array(
+        '应用列表' => array('index'),
+        '设置默认应用'  => array('default')
+    );
 
-switch ($act) {
-    case 'index':
+    function indexAct(){
         //遍历app目录
         $appsdirs = dirlist('apps',ROOT_DIR);
         $applist = array();
@@ -28,18 +23,20 @@ switch ($act) {
             $applist[] = $info;
         }
 
-        $view->assign('applist',$applist);
-        $view->display('apps.php');
-        break;
-    case 'icon':
+        $this->view->assign('applist',$applist);
+        $this->view->display('apps.php');
+    }
+
+    function iconAct(){
         $id = safestr(getGet('id'));
         $iconpath = ROOT_DIR.'apps'.DS.$id.DS.'icon.png';
 
         header('Content-type: image/png');
         echo readfile($iconpath);
         exit;
-        break;
-    case 'addmenu':
+    }
+
+    function addmenuAct(){
         $appid = getPost('appid');
         $name  = getPost('name');
 
@@ -70,8 +67,9 @@ switch ($act) {
         app('base')->setSetting('admin_menu',$menuslist);
 
         exit('1');
-        break;
-    case 'default':
+    }
+
+    function defaultAct(){
         if(isPost()){
             $default_app = getPost('default_app');
             app('base')->setSetting('default_app',$default_app);
@@ -98,9 +96,9 @@ switch ($act) {
             $applist[] = $info;
         }
 
-        $view->assign('default_app',$default_app);
-        $view->assign('applist',$applist);
+        $this->view->assign('default_app',$default_app);
+        $this->view->assign('applist',$applist);
         
-        $view->display('apps_default.php');
-        break;
+        $this->view->display('apps_default.php');
+    }
 }

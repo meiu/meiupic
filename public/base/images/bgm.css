@@ -1,0 +1,11 @@
+.bgm-btn{ position:absolute; left: 16px; top:16px; width: 30px; height: 30px; background-size: 100%; background-image: url("bgm.png"); z-index: 1; -webkit-animation: myrotate 5s linear 0s infinite normal;}
+.bgm-btn.mut{ background-position: 0px -30px; -webkit-animation: none;}
+
+@-webkit-keyframes myrotate /*Safari and Chrome*/
+{
+0% { -webkit-transform:rotate(0deg);}
+25% { -webkit-transform:rotate(-90deg);}    
+50% { -webkit-transform:rotate(-180deg);}
+75% { -webkit-transform:rotate(-270deg);}
+100% { -webkit-transform:rotate(-360deg);}
+}

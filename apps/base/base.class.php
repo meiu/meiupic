@@ -1,4 +1,5 @@
 <?php
+defined('IN_MWEB') or die('access denied');
 
 Class BaseClass{
     //template文件列表（分组）
@@ -51,6 +52,7 @@ Class BaseClass{
         $cache = Cache::instance();
         $cache->remove('label_'.$name);
     }
+    
     //重新刷新设置
     public function refreshSettings(){
         $cache = Cache::instance();
@@ -184,7 +186,6 @@ Class BaseClass{
         return $data;
     }
     
-
     //获取全局标签
     public static function getLabel($name){
         $cache = Cache::instance();

@@ -10,9 +10,13 @@
     'default' => 
     array (
       'common' => '文件头尾等',
+      'content' => 'CMS内容模版',
       'css' => 'CSS样式',
       'default.php' => '首页页面',
+      'default_mobile.php' => '手机首页',
       'images' => '图片',
+      'js' => 'js文件',
+      'layout' => '常用布局',
       'preview.jpg' => '缩略图',
       'user' => '用户相关',
     ),

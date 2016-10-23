@@ -1,4 +1,5 @@
-<div class="toolbar">
+<div class="main-head">
+    <h3>积分设置列表</h3>
     <a href="<?php echo U('user','point','a=add');?>" class="i-add">新增设置</a>
 </div>
 <table cellspacing="0">

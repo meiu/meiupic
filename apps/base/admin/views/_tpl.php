@@ -19,7 +19,8 @@
 <?php if ( !isset($ismini) || !$ismini): ?>
     <?php doAction('adm_main_top'); ?>
     <div id="head">
-        <div id="logo">MeiuCms</div>
+        <div id="logo">Meiu</div>
+        <a class="dropmenu">&nbsp;</a>
         <ul id="menu">
             <?php
             $admin_menu = getSetting('admin_menu',true);
@@ -47,36 +48,56 @@
             ?>
             
             <?php doAction('adm_menu'); ?>
-        </ul>
-        <a href="<?php echo U('base','setting','a=menu');?>" class="editmenu" title="编辑菜单">编辑</a>
-        <ul id="rightmenu">
-            <li <?php if($current_menu == 'base_apps'):?>class="current"<?php endif; ?>><a href="<?php echo U('base','apps');?>"><span>应用</span></a></li>
-            <li><a href="/" target="_blank"><span>浏览网站</span></a></li>
-            <li><a href="<?php echo U('user','login','a=logout');?>"><span>退出</span></a></li>
+            <li class="editmenu"><a href="<?php echo U('base','setting','a=menu');?>" title="编辑菜单">编辑</a></li>
+            <li class="right"><a href="<?php echo U('user','login','a=logout');?>"><span>退出</span></a></li>
+            <li class="right"><a href="/" target="_blank"><span>浏览网站</span></a></li>
+            <li class="right<?php if($current_menu == 'base_apps'):?> current<?php endif; ?>"><a href="<?php echo U('base','apps');?>"><span>应用</span></a></li>
         </ul>
     </div>
-    <?php if(isset($submenu)): ?>
-    <div id="submenu">
-        <ul>
-            <?php foreach ($submenu as $key => $value): 
-            if(is_array($value)):
-            ?>
-                <li <?php if(in_array($act ,$value)):?>class="current"<?php endif; ?>><a href="<?php echo U($_G['uri']['app'],$_G['uri']['m'],'a='.$value[0]);?>"><span><?php echo $key;?></span></a></li>
-            <?php else: ?>
-                <li <?php if($_G['uri']['m'] == $value):?>class="current"<?php endif; ?>><a href="<?php echo U($_G['uri']['app'],$value);?>"><span><?php echo $key;?></span></a></li>
-            <?php 
-            endif;
-            endforeach; ?>
-        </ul>
-    </div>
-    <?php endif; ?>
+<?php else: ?>
+<style>
+    html{background: #fff;}
+</style>
 <?php endif ?>
 
 <div class="body">
-<?php echo $_bodycontent; ?>
+    <?php if(isset($submenu)): ?>
+    <div id="js-post-side" class="side">
+        <div class="side-con">
+            <div class="nav-aside nav-aside-large">
+                <ul>
+                    <?php 
+                    $menu_i=0;
+                    foreach ($submenu as $key => $value): 
+                    if(is_array($value)):
+                    ?>
+                        <li class="<?php if($menu_i==0){ echo 'first';} if(in_array($act ,$value)):?> cur<?php endif; ?>"><a href="<?php echo U($_G['uri']['app'],$_G['uri']['m'],'a='.$value[0]);?>"><?php echo $key;?></a></li>
+                    <?php else: ?>
+                        <li class="<?php if($menu_i==0){ echo 'first';} if($_G['uri']['m'] == $value):?> cur<?php endif; ?>"><a href="<?php echo U($_G['uri']['app'],$value);?>"><?php echo $key;?></a></li>
+                    <?php 
+                    endif;
+                    $menu_i++;
+                    endforeach; ?>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="side-bg"></div>
+    <?php endif; ?>
+    <div class="<?php if(isset($submenu)): ?>main<?php else:?>wmain<?php endif; ?>">
+        <?php if ( !isset($ismini) || !$ismini): ?>
+        <div class="main-con">
+            <?php echo $_bodycontent; ?>
+        </div>
+        <?php else: ?>
+        <div class="main-wcon">
+            <?php echo $_bodycontent; ?>
+        </div>
+        <?php endif;?>
+        <!--<div id="foot">processed in <?php echo G('begin','end',4); ?>s</div>-->
+    </div>
 </div>
 <?php if ( !isset($ismini) || !$ismini): ?>
-<div id="footer" > Powered by <a href="http://www.meiu.cn" target="_blank">MeiuPic 3.0</a> , processed in <?php echo G('begin','end',4); ?>s</div>
 <?php doAction('adm_main_foot'); ?>
 <?php endif; ?>
 </body>

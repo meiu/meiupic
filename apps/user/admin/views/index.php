@@ -1,11 +1,13 @@
-<div style="float:right"><!--搜索-->
+
+<div class="main-head">
+    <h3>用户列表</h3>
+    <a href="<?php echo U('user','index','a=add');?>" class="i-add">新增用户</a>
+</div>
+<div class="search"><!--搜索-->
     <form method="post">
       ID/用户名/昵称/Email：<input type="text" size="20" name="keyword" value="<?php echo $search['keyword'];?>" />
       <input type="submit" class="submit-btn" value="搜索" />
     </form>
-</div>
-<div class="toolbar">
-    <a href="<?php echo U('user','index','a=add');?>" class="i-add">新增用户</a>
 </div>
 <table cellspacing="0">
   <tbody>
@@ -43,7 +45,15 @@
       <?php echo $value['loginip']; ?>
     </td>
     <td>
-      <?php echo $value['level']=='99'?'管理员':$value['level']; ?>
+      <?php 
+      if($value['level']=='99'){
+        echo '超级管理员';
+      }elseif($value['level']=='88'){
+        echo '管理员';
+      }else{
+        echo $value['level']; 
+      }
+      ?>
     </td>
     <td> 
         <a href="<?php echo U('user','index','a=edit&id='.$value['id']);?>" title="编辑"><img src="<?php echo S('base','admin/images/b-edit.png')?>" alt="编辑"></a>

@@ -87,7 +87,7 @@ function initPlupload(){
         filters : [
             {title : "<?php echo $filetype['title'];?>", extensions : "<?php echo $filetype['ext'];?>"}
         ],
-        <?php if($num): ?>
+        <?php /*if($num): ?>
         init : {
               FilesAdded: function(up, files) {
                 plupload.each(files, function(file) {
@@ -108,7 +108,7 @@ function initPlupload(){
             <?php if($num==1): ?>
             multi_selection: false,
             <?php endif; ?>
-        <?php endif; ?>
+        <?php endif;*/ ?>
         flash_swf_url : '<?php echo S("base","plupload/plupload.flash.swf");?>'
     });
     var uploader = $('#muilti_uploader').pluploadQueue();

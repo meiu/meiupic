@@ -3,7 +3,6 @@ defined('IN_MWEB') or die('access denied');
 
 require_once('_submenu.php');
 
-
 if(isPost()){
     $setting = getPost('setting');
     if(app('base')->setSetting('comment_setting',$setting)){

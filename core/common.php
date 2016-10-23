@@ -277,6 +277,7 @@ function dirlist($dir,$rootdir){
             }
         }
         $directory->close();
+        usort($dirs, 'sortByFilename');
         return $dirs;
     }else{
         return array();
@@ -287,8 +288,14 @@ function S($app,$path){
     global $_G;
     if($app == '_tpl'){//当app为_tpl时调用当前使用的模版的url地址
         return C('base_url').'templates/'.$_G['settings']['current_theme'].'/'.$path;
+    }elseif($app == '_root'){
+        return C('base_url').$path;
     }
     return C('public_url').$app.'/'.$path;
+}
+//相对模版的静态地址
+function ST($path){
+    return S('_tpl',$path);
 }
 //绝对上传地址
 function D($path){
@@ -402,14 +409,26 @@ function editImgList($arr,$id){
     if(is_array($arr)){
         $html = '';
         foreach($arr as $value){
-            $html .= '<li class="epic"><div class="outerb"><div class="img"><img src="'.D($value).'" width="120" /></div></div><input type="hidden" value="'.$value.'" name="'.$id.'"> <a href="javascript:void(0)" onclick="delEpic(this,\''.$value.'\')">[删除]</a>';
+            $html .= '<li class="epic"><div class="outerb"><div class="img"><img src="'.D($value['img']).'" width="120" /></div></div><div class="txt"><input type="text" value="'.$value['txt'].'" name="txt_'.$id.'" /></div><input type="hidden" value="'.$value['img'].'" name="'.$id.'"> <a href="javascript:void(0)" onclick="delEpic(this,\''.$value['img'].'\')">[删除]</a>';
             $html .= '</li>';
         }
         return $html;
     }
     return '';
 }
- //如果需要50%概率请传入50
+
+function getPicsPosts($imgs,$txts){
+    $arr = array();
+    foreach ($imgs as $key => $value) {
+        $arr[] = array(
+            'img' =>$value,
+            'txt' =>isset($txts[$key])?$txts[$key]:''
+        );
+    }
+    return sc_encode($arr);
+}
+
+//如果需要50%概率请传入50
 function lucker($dot){
     $dot = intval($dot);
     $dot = max($dot,0);//min dot = 0
@@ -425,8 +444,22 @@ function lucker($dot){
 }
 /*自定义的排序*/
 function sortFields($a,$b){
-    if ((int)$a['sort'] == (int)$b['sort']) return 0;
-    return ((int)$a['sort'] > (int)$b['sort']) ? 1 : -1;
+    //if ((int)$a['sort'] == (int)$b['sort']) return 0;
+    return ((int)$a['sort'] >= (int)$b['sort']) ? 1 : -1;
+}
+/**/
+function sortByFilename($a,$b){
+    return strnatcmp($a['filename'],$b['filename']);
+}
+
+function fromArr($fields,$arr){
+    $inarr = explode(',',$fields);
+    foreach($arr as $k=>$v){
+        if(!in_array($k,$inarr)){
+            unset($arr[$k]);
+        }
+    }
+    return $arr;
 }
 /**
  * 生成缩略图并返回缩略图地址
@@ -455,7 +488,7 @@ function thumb($path,$w=100,$h=100,$t=1,$smallpic = 'nopreview.gif'){
     }
 
     list($width_t, $height_t, $type, $attr) = getimagesize($realpath);
-    if($w>=$width_t || $w>=$height_t) return $imgurl;
+    if($w>=$width_t && $h>=$height_t) return $imgurl;
 
     $img = image::instance();
 
@@ -493,12 +526,37 @@ function thumb($path,$w=100,$h=100,$t=1,$smallpic = 'nopreview.gif'){
 function safestr($str){
     return htmlspecialchars($str,ENT_QUOTES);
 }
-
+//模型设置里用得到
+function explodeStr($delimiter,$string){
+    $arr = explode($delimiter, $string);
+    $ret1 = $ret2 = $arr[0];
+    if(isset($arr[1])){
+        $ret2 = $arr[1];
+    }
+    return array('k'=>$ret1,'v'=>$ret2);
+}
 /*相关验证*/
 function isEmail($email){
     return preg_match('/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i', $email);
 }
+function isMobile($value)
+{
+    return preg_match('/^1\d{10}$/i', $value);
+}
 /*相关验证部分结束*/
+
+function sendSmtpEmail($from,$to,$title,$content){
+    $email_config = C('email');
+
+    $email_config['protocol'] = 'smtp';
+    $email_config['wordwrap'] = TRUE;
+    $email_config['mailtype'] = 'html';
+    
+    $email = new Email;
+
+    $email->initialize($email_config)->from($from)->to($to)->subject($title)->message($content);
+    return $email->send();
+}
 //检查权限
 function checkPriv($privstr,$priv,$authorid = ''){
     global $_G;
@@ -574,7 +632,40 @@ function safeContent($content){
    }  
    return $val;  
 }
-
+/*
+获取汉字的拼音
+ */
+function getPinyin($str,$ishead=0,$isclose=1)
+{
+    global $pinyins;
+    $restr = "";
+    $str = trim($str);
+    $str = @iconv('utf-8', 'gb2312', $str);
+    $slen = strlen($str);
+    if($slen<2) return $str;
+    if(count($pinyins)==0){
+        $fp = fopen(CORE_PATH."data/pinyin.db","r");
+        while(!feof($fp)){
+            $line = trim(fgets($fp));
+            $pinyins[$line[0].$line[1]] = substr($line,3,strlen($line)-3);
+        }
+        fclose($fp);
+    }
+    for($i=0;$i<$slen;$i++){
+        if(ord($str[$i])>0x80)
+        {
+            $c = $str[$i].$str[$i+1];
+            $i++;
+            if(isset($pinyins[$c])){
+                if($ishead==0) $restr .= $pinyins[$c];
+                else $restr .= $pinyins[$c][0];
+            }else $restr .= "-";
+        }else if( preg_match("/[a-z0-9]/i",$str[$i]) ){ $restr .= $str[$i]; }
+        else{ $restr .= "-";  }
+    }
+    if($isclose==0) unset($pinyins);
+    return $restr;
+}
 /**
  * 上传文件
  * @param  FILE  $name  文件域
@@ -708,4 +799,76 @@ function show404(){
 
     $_G['runtime']['view']->display('common/404.php');
     exit;
+}
+
+function parse_kw($content){
+    $content=preg_replace_callback("/\[kw\](.+?)\[\/kw\]/is","make_link_kw",$content); 
+    return $content;
+}
+
+function make_link_kw($matches){
+    $url = '/search/?kw=#kw#';
+    $kw = strip_tags($matches[1]);
+    $kw_len = strlen($kw);
+    if( $kw_len < 30 && $kw_len > 0){
+        return '<strong><a href="'.str_replace('#kw#',urlencode($kw),$url).'" target="_blank">'.$kw.'</a></strong>';
+    }else{
+        return $kw;
+    }
+}
+
+function layout($data,$tpl){
+    global $_G;
+    return $_G['runtime']['view']->fetch('layout/'.$tpl.'.php',$data);
+}
+
+function hideStr($string, $bengin=0, $len = 4, $type = 0, $glue = "@") {
+    if (empty($string))
+        return false;
+    $array = array();
+    if ($type == 0 || $type == 1 || $type == 4) {
+        $strlen = $length = mb_strlen($string);
+        while ($strlen) {
+            $array[] = mb_substr($string, 0, 1, "utf8");
+            $string = mb_substr($string, 1, $strlen, "utf8");
+            $strlen = mb_strlen($string);
+        }
+    }
+    if ($type == 0) {
+        for ($i = $bengin; $i < ($bengin + $len); $i++) {
+            if (isset($array[$i]))
+                $array[$i] = "*";
+        }
+        $string = implode("", $array);
+    }else if ($type == 1) {
+        $array = array_reverse($array);
+        for ($i = $bengin; $i < ($bengin + $len); $i++) {
+            if (isset($array[$i]))
+                $array[$i] = "*";
+        }
+        $string = implode("", array_reverse($array));
+    }else if ($type == 2) {
+        $array = explode($glue, $string);
+        $array[0] = hideStr($array[0], $bengin, $len, 1);
+        $string = implode($glue, $array);
+    } else if ($type == 3) {
+        $array = explode($glue, $string);
+        $array[1] = hideStr($array[1], $bengin, $len, 0);
+        $string = implode($glue, $array);
+    } else if ($type == 4) {
+        $left = $bengin;
+        $right = $len;
+        $tem = array();
+        for ($i = 0; $i < ($length - $right); $i++) {
+            if (isset($array[$i]))
+                $tem[] = $i >= $left ? "*" : $array[$i];
+        }
+        $array = array_chunk(array_reverse($array), $right);
+        $array = array_reverse($array[0]);
+        for ($i = 0; $i < $right; $i++) {
+            $tem[] = $array[$i];
+        }
+        $string = implode("", $tem);
+    }
+    return $string;
 }

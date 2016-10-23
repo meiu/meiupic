@@ -11,6 +11,7 @@ class Captcha{
             'ttl'      => 120,//有效时间
             'width'    => 135,//生成的宽度
             'height'   => 53,//生成的高度
+            'textleft' => 0,
             'length'   => 4, //验证码个数
             'fontsize' => 28,//字体大小
             'disturb'  => 160,//干扰象素
@@ -86,7 +87,7 @@ class Captcha{
             $tmp =substr($this->verify_code,$i,1);
             $an = $array[array_rand($array)]*mt_rand(1,10);//角度
             $y = rand(0.6 * $this->_config['height'], 0.8 * $this->_config['height']);
-            imagettftext($im, $size, $an, 0+$i*$size, $y, $text_c, $font, $tmp);
+            imagettftext($im, $size, $an, $this->_config['textleft']+$i*$size, $y, $text_c, $font, $tmp);
         }
         
         $distortion_im = imagecreatetruecolor($im_x, $im_y);

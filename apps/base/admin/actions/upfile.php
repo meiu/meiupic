@@ -1,74 +1,14 @@
 <?php 
 defined('IN_MWEB') or die('access denied');
-//上传进程
-function _uploadProcess($fileName,$append=true,$fullPath=false){
-    $fileName = preg_replace('/[^\w\._]+/', '', $fileName);
 
-    $targetDir = DATA_PATH.'cache/tmp';
-    if (!file_exists($targetDir))
-        @mkdir($targetDir);
-        
-    if($fullPath){
-        $filePath = $fileName;
-    }else{
-        $filePath = $targetDir . DS . $fileName;
-    }
 
-    // Look for the content type header
-    if (isset($_SERVER["HTTP_CONTENT_TYPE"]))
-        $contentType = $_SERVER["HTTP_CONTENT_TYPE"];
-
-    if (isset($_SERVER["CONTENT_TYPE"]))
-        $contentType = $_SERVER["CONTENT_TYPE"];
-    
-    // Handle non multipart uploads older WebKit versions didn't support multipart in HTML5
-    if (strpos($contentType, "multipart") !== false) {
-        if (isset($_FILES['file']['tmp_name']) && is_uploaded_file($_FILES['file']['tmp_name'])) {
-            // Open temp file
-            $out = fopen($filePath, !$append ? "wb" : "ab");
-            if ($out) {
-                $in = fopen($_FILES['file']['tmp_name'], "rb");
-
-                if ($in) {
-                    while ($buff = fread($in, 4096))
-                        fwrite($out, $buff);
-                } else
-                    return 101;
-                fclose($in);
-                fclose($out);
-                @unlink($_FILES['file']['tmp_name']);
-            } else
-                return 102;
-        } else
-            return 0;
-    }else{
-        $out = @fopen($filePath, !$append ? "wb" : "ab");
-        if ($out) {
-            $in = @fopen("php://input", "rb");
-            if ($in) {
-                while ($buff = fread($in, 4096))
-                    fwrite($out, $buff);
-            } else
-                return 101;
-            fclose($in);
-            fclose($out);
-        } else{
-            return 102;
-        }
-        return 0;
-    }
-}
-
-$act = getGet('a','index');
-$view->assign('act',$act);
-
-switch ($act) {
-    case 'index'://上传窗口
+class BaseUpfile extends Adminbase{
+    function indexAct(){
         $num = getGet('num',1);
         $type = getGet('type','image');
 
-        $view->assign('num',$num);
-        $view->assign('type',$type);
+        $this->view->assign('num',$num);
+        $this->view->assign('type',$type);
 
         $filetype = C('upfiles.'.$type);
 
@@ -76,16 +16,17 @@ switch ($act) {
             alert('不支持`'.$type.'`类文件上传！');
         }
 
-        $view->assign('filetype',$filetype);
-        $view->assign('hasnotused',false);
+        $this->view->assign('filetype',$filetype);
+        $this->view->assign('hasnotused',false);
 
-        $view->decorate(false);
-        $view->assign('CKEditor',getGet('CKEditor'));
-        $view->assign('CKEditorFuncNum',getGet('CKEditorFuncNum'));
-        $view->assign('upload_dir',C('upload.dir'));
-        $view->display('upfile.php');
-        break;
-    case 'filelist':
+        $this->view->decorate(false);
+        $this->view->assign('CKEditor',getGet('CKEditor'));
+        $this->view->assign('CKEditorFuncNum',getGet('CKEditorFuncNum'));
+        $this->view->assign('upload_dir',C('upload.dir'));
+        $this->view->display('upfile.php');
+    }
+
+    function filelistAct(){
         $num = getGet('num',1);
         $type = getGet('type','image');
         $name = getRequest('name');
@@ -107,9 +48,9 @@ switch ($act) {
         $pageurl = U('base','upfile','a=filelist&num='.$num.'&name='.$name.'&date='.$date.'&type='.$type.'&page=%page%');
 
         $pager = new Pager($page,C('pageset.filelist',10),$totalCount,$pageurl);
-        $pager->config(C('page'));
+        $pager->config(C('adminpage'));
         $limit = $pager->getLimit();
-        $view->assign('pagestr',$pager->html());
+        $this->view->assign('pagestr',$pager->html());
 
         $rows = $m_upfile->findAll(array(
             'where' => $where,
@@ -118,16 +59,76 @@ switch ($act) {
             'order' => 'id desc'
         ));
 
-        $view->assign('rows',$rows);
-        $view->assign('file_pre',C('upload.url_pre'));
-        $view->assign('num',$num);
-        $view->assign('name',$name);
-        $view->assign('date',$date);
+        $this->view->assign('rows',$rows);
+        $this->view->assign('file_pre',C('upload.url_pre'));
+        $this->view->assign('num',$num);
+        $this->view->assign('name',$name);
+        $this->view->assign('date',$date);
 
-        $view->decorate(false);
-        $view->display('upfile_filelist.php');
-        break;
-    case 'uploadprocess':
+        $this->view->decorate(false);
+        $this->view->display('upfile_filelist.php');
+    }
+
+    //上传进程
+    function _uploadProcess($fileName,$append=true,$fullPath=false){
+        $fileName = preg_replace('/[^\w\._]+/', '', $fileName);
+
+        $targetDir = DATA_PATH.'cache/tmp';
+        if (!file_exists($targetDir))
+            @mkdir($targetDir);
+            
+        if($fullPath){
+            $filePath = $fileName;
+        }else{
+            $filePath = $targetDir . DS . $fileName;
+        }
+
+        // Look for the content type header
+        if (isset($_SERVER["HTTP_CONTENT_TYPE"]))
+            $contentType = $_SERVER["HTTP_CONTENT_TYPE"];
+
+        if (isset($_SERVER["CONTENT_TYPE"]))
+            $contentType = $_SERVER["CONTENT_TYPE"];
+        
+        // Handle non multipart uploads older WebKit versions didn't support multipart in HTML5
+        if (strpos($contentType, "multipart") !== false) {
+            if (isset($_FILES['file']['tmp_name']) && is_uploaded_file($_FILES['file']['tmp_name'])) {
+                // Open temp file
+                $out = fopen($filePath, !$append ? "wb" : "ab");
+                if ($out) {
+                    $in = fopen($_FILES['file']['tmp_name'], "rb");
+
+                    if ($in) {
+                        while ($buff = fread($in, 4096))
+                            fwrite($out, $buff);
+                    } else
+                        return 101;
+                    fclose($in);
+                    fclose($out);
+                    @unlink($_FILES['file']['tmp_name']);
+                } else
+                    return 102;
+            } else
+                return 0;
+        }else{
+            $out = @fopen($filePath, !$append ? "wb" : "ab");
+            if ($out) {
+                $in = @fopen("php://input", "rb");
+                if ($in) {
+                    while ($buff = fread($in, 4096))
+                        fwrite($out, $buff);
+                } else
+                    return 101;
+                fclose($in);
+                fclose($out);
+            } else{
+                return 102;
+            }
+            return 0;
+        }
+    }
+
+    function uploadprocessAct(){
         @set_time_limit(5*60);
         header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
         header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
@@ -139,7 +140,7 @@ switch ($act) {
         $chunks = getRequest('chunks',0);
         $filename = getRequest('name','');
 
-        _uploadProcess($filename,$chunk!=0);
+        $this->_uploadProcess($filename,$chunk!=0);
         
         switch($status){
             case 100:
@@ -174,8 +175,9 @@ switch ($act) {
         }
 
         echo json_encode($return);
-        break;
-    case 'savefiles':
+    }
+
+    function savefilesAct(){
         @set_time_limit(120);
 
         $type = getGet('type');
@@ -249,11 +251,11 @@ switch ($act) {
                     }
                 }
             }
-            $view->assign('file_pre',$upload_setting['url_pre']);
-            $view->assign('uploaded_files',$uploaded_files);
-
-            $view->decorate(false);
-            $view->display('upfile_uploaded.php');
+            $this->view->assign('file_pre',$upload_setting['url_pre']);
+            $this->view->assign('uploaded_files',$uploaded_files);
+            $this->view->assign('num',getGet('num'));
+            $this->view->decorate(false);
+            $this->view->display('upfile_uploaded.php');
         }
-        break;
+    }
 }

@@ -29,7 +29,7 @@ h1{ font-size: 32px; line-height: 48px; }
 </div>
 </div>
 <div class="copyright">
-<p><a href="http://www.meiu.cn/">MeiuPic</a> -- [ meiu.cn ]</p>
+<p><a href="http://www.meiu.cn/">Meiu</a> -- [ meiu.cn ]</p>
 </div>
 </body>
 </html>

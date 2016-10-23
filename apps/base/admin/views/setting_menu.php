@@ -1,3 +1,6 @@
+<div class="main-head">
+    <h3>后台菜单列表</h3>
+</div>
 <form id="submit_form" class="ajaxform" method="post" action="">
 <table cellspacing="0">
   <tbody>

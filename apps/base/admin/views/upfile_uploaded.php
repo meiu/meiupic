@@ -8,7 +8,9 @@
             src="<?php echo S('base','images/mime/'.$value['ext'].'.png');?>" height="60"
             <?php endif; ?>
              fileid="<?php echo $value['id'];?>" path="<?php echo $value['path'];?>" /></a></li>
+            <?php if($key<$num): ?>
             <script type="text/javascript"> file_pick('#fno_<?php echo $value['id'];?>'); </script>
+            <?php endif; ?>
         <?php endforeach ?>
     </ul>
 </div>

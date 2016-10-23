@@ -30,16 +30,10 @@ function multi_audit(status){
     });
 }
 </script>
-
+<div class="main-head">
+    <h3>评论列表</h3>
+</div>
 <div class="taba">
-    <div style="float:right"><!--搜索-->
-      <form method="post">
-        模块：<input type="text" size="12" name="mod" value="<?php echo $search['mod'];?>" />
-        所属ID：<input type="text" size="12" name="rel_id" value="<?php echo $search['rel_id'];?>" />
-        内容：<input type="text" name="keyword" value="<?php echo $search['keyword'];?>" />
-        <input type="submit" class="submit-btn" value="搜索" />
-      </form>
-    </div>
     <ul class="cl">
       <li <?php if(!$search['tab']): ?>class="active"<?php endif; ?>><a href="<?php echo U('comment','index');?>">全部</a></li>
       <li <?php if($search['tab']==1): ?>class="active"<?php endif; ?>><a href="<?php echo U('comment','index','tab=1');?>">待审核</a></li>
@@ -47,6 +41,14 @@ function multi_audit(status){
       <li <?php if($search['tab']==3): ?>class="active"<?php endif; ?>><a href="<?php echo U('comment','index','tab=3');?>">未通过</a></li>
     </ul>
 </div>
+<div class="search"><!--搜索-->
+    <form method="post">
+      模块：<input type="text" size="12" name="mod" value="<?php echo $search['mod'];?>" />
+      所属ID：<input type="text" size="12" name="rel_id" value="<?php echo $search['rel_id'];?>" />
+      内容：<input type="text" name="keyword" value="<?php echo $search['keyword'];?>" />
+      <input type="submit" class="submit-btn" value="搜索" />
+    </form>
+  </div>
 <table cellspacing="0">
   <tbody>
   <tr class="th">

@@ -1,3 +1,6 @@
+html{
+    background: #fff;
+}
 body{overflow:hidden;}
 img{border:none;}
 #filemanager{
@@ -82,10 +85,21 @@ img{border:none;}
 .filesearch form{
 	margin:0;
 }
-.filesearch input.txt{
-    border: 2px solid #DDDDDD;
-    padding: 3px;
-    height:auto;
+.filesearch input{
+    font-size: 12px;
+    line-height: normal;
+    height: 24px;
+    padding: 1px 8px;
+    background-color: white;
+    border: 1px solid #a8acad;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+    outline: none;
+}
+.filesearch input:focus{
+    background: #ffffee;
+    border-color:#48adee;
 }
 .filesearch input.submit,input.btn{
     background: #ddd;

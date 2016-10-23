@@ -1,3 +1,6 @@
+<div class="main-head">
+    <h3>应用列表</h3>
+</div>
 <div class="notice">
   TIPS:您可以点击“+”号将应用设置为菜单项。
 </div>

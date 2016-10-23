@@ -1,3 +1,6 @@
+<div class="main-head">
+    <h3>设置默认应用</h3>
+</div>
 <div class="notice">
   TIPS:您可以设置前台首页默认打开的app
 </div>

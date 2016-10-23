@@ -1,3 +1,7 @@
+
+<div class="main-head">
+    <h3>扩展字段</h3>
+</div>
 <form class="ajaxform" method="post">
 <table cellspacing="0">
   <tbody>

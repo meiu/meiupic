@@ -1,7 +1,6 @@
 <?php
 defined('IN_MWEB') or die('access denied');
 
-$act = getGet('a');
 if($act == 'dologin'){
     $username = safestr(trim(getPost('username')));
     $userpass = getPost('userpass');

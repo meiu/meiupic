@@ -1,4 +1,5 @@
-<div class="toolbar">
+<div class="main-head">
+    <h3>风格列表</h3>
     <a href="<?php echo U('base','template','a=labeladd');?>" class="i-add">新增标签</a>
 </div>
 <table cellspacing="0">
@@ -13,7 +14,7 @@
       <?php echo $value['id']; ?>
     </td>
     <td>
-      <?php echo $value['name']; ?>
+      <a href="<?php echo U('base','template','a=labeledit&id='.$value['id']);?>" title="编辑"><?php echo $value['name']; ?></a>
     </td>
     <td> 
         <a href="<?php echo U('base','template','a=labeledit&id='.$value['id']);?>" title="编辑"><img src="<?php echo S('base','admin/images/b-edit.png')?>" alt="编辑"></a>

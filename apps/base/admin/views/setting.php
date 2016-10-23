@@ -1,3 +1,6 @@
+<div class="main-head">
+    <h3>基本设置</h3>
+</div>
 <form class="ajaxform" method="post">
 <table cellspacing="0">
   <tbody>
@@ -73,6 +76,17 @@
   </tr>
   <tr>
     <td>
+    default_company_tpl
+    </td>
+    <td>
+      默认企业模版的ID
+    </td>
+    <td>
+      <input type="text" size="30" name="setting[default_company_tpl]" value="<?php echo arrval($settings_info,'default_company_tpl');?>" />
+    </td>
+  </tr>
+  <tr>
+    <td>
     icp
     </td>
     <td>
@@ -102,6 +116,18 @@
     </td>
     <td>
       <input type="text" size="30" name="setting[html_cache_time]" value="<?php echo arrval($settings_info,'html_cache_time');?>" />
+    </td>
+  </tr>
+  <tr>
+    <td>
+    enable_wap
+    </td>
+    <td>
+      自动启用手机站
+    </td>
+    <td>
+      <label><input type="radio" name="setting[enable_wap]" value="1" <?php if($settings_info['enable_wap']){ echo 'checked="checked"';} ?> /> 开启</label>
+      <label><input type="radio" name="setting[enable_wap]" value="0" <?php if(!$settings_info['enable_wap']){ echo 'checked="checked"';} ?> /> 关闭</label>
     </td>
   </tr>
   <tr>

@@ -1,3 +1,6 @@
+<div class="main-head">
+    <h3>插件列表</h3>
+</div>
 <form id="submit_form" class="ajaxform" method="post" action="">
 
 <div class="taba">

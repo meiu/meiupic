@@ -1,4 +1,5 @@
 <?php
+defined('IN_MWEB') || exit('Access denied!');
 
 class Model{
     protected $_table = '';

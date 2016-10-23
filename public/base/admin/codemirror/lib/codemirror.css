@@ -5,9 +5,12 @@
   font-family: monospace;
   width:80%;
   height: 400px;
-  border:2px solid #ddd;
+  border: 1px solid #a8acad;
   background: #F9F9F9;
   border-radius: 3px;
+}
+.CodeMirror-focused{
+  border-color:#48adee;
 }
 .CodeMirror-scroll {
   /* Set scrolling behaviour here */

@@ -1,6 +1,6 @@
-<!--<div class="toolbar">
-    <a href="" class="i-add">新增风格</a>
-</div>-->
+<div class="main-head">
+    <h3>风格列表</h3>
+</div>
 <div class="themelist cl">
     <?php foreach ($rows as $key => $value): ?>
     <div class="item <?php if($_G['settings']['current_theme'] == $value['id']){ echo 'using';} ?>">

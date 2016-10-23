@@ -17,7 +17,8 @@
     color:#DD3322;
 }
 .mc-thread .mc-replybox .mc-avatar{
-    float: left;
+    /*float: left;*/
+    position: absolute;
 }
 .mc-thread .mc-replybox .mc-avatar img {
     border-radius: 3px;
@@ -83,7 +84,12 @@
     text-shadow: 0 1px 0 #FFF;
     transition: all 0.15s linear 0s;
     width: 100px;
+    cursor: pointer;
 }
+.mc-thread .mc-replybox .mc-comment-submit input:hover{
+    border-color:#aaa #aaa #888;
+}
+
 .mc-thread .captcha_show{
     padding: 5px 0 0;
 }

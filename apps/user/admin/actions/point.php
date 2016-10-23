@@ -3,11 +3,8 @@ defined('IN_MWEB') or die('access denied');
 
 require_once('_submenu.php');
 
-$act = getGet('a','index');
-$view->assign('act',$act);
-
-switch ($act) {
-    case 'index':
+class UserPoint extends Adminbase{
+    function indexAct(){
         $page = getGet('page',1);
 
         $m_point = M('users_point');
@@ -16,20 +13,21 @@ switch ($act) {
         $pageurl = U('user','point','page=%page%');
 
         $pager = new Pager($page,C('pageset.admin',15),$totalCount,$pageurl);
-        $pager->config(C('page'));
+        $pager->config(C('adminpage'));
         $limit = $pager->getLimit();
-        $view->assign('pagestr',$pager->html());
+        $this->view->assign('pagestr',$pager->html());
 
         $rows = $m_point->findAll(array(
             'start' => $limit['start'],
             'limit' => $limit['limit']
         ));
 
-        $view->assign('rows',$rows);
+        $this->view->assign('rows',$rows);
 
-        $view->display('point_index.php');
-        break;
-    case 'del':
+        $this->view->display('point_index.php');
+    }
+
+    function delAct(){
         $id = intval(getGet('id'));
 
         $m_point = M('users_point');
@@ -39,8 +37,9 @@ switch ($act) {
         }else{
             alert('删除失败！');
         }
-        break;
-    case 'add':
+    }
+
+    function addAct(){
         $m_point = M('users_point');
         if(isPost()){
             $data['pointkey'] = trim(getPost('pointkey'));
@@ -62,10 +61,11 @@ switch ($act) {
             }
         }
         $info = $m_point->loadDefault();
-        $view->assign('info',$info);
-        $view->display('point_edit.php');
-        break;
-    case 'edit':
+        $this->view->assign('info',$info);
+        $this->view->display('point_edit.php');
+    }
+
+    function editAct(){
         $id = intval(getGet('id'));
         $m_point = M('users_point');
         if(isPost()){
@@ -94,7 +94,7 @@ switch ($act) {
             alert('您要编辑的项不存在！');
         }
 
-        $view->assign('info',$info);
-        $view->display('point_edit.php');
-        break;
+        $this->view->assign('info',$info);
+        $this->view->display('point_edit.php');
+    }
 }

@@ -131,12 +131,12 @@ Class UserClass{
             return array($ret,$msg,'');
         }
     }
-    //检查后台用户状态
-    public function checkAdminSession($uinfo){
+    //检查后台用户Session
+    public function checkAdminSession($uinfo,$level=99){
         if(!$uinfo){
             return false;
         }
-        if($uinfo['level'] != '99'){
+        if($uinfo['level'] < $level){
             return false;
         }
         if(!isset($_SESSION['is_admin'])){
@@ -147,10 +147,29 @@ Class UserClass{
         }
         return true;
     }
+    //检查后台登录情况
+    public function checkAdminLogin($app,$m){
+        global $_G;
+        $flag = true;
+        if(!$this->checkAdminSession($_G['user'],99) && !in_array($app.'.'.$m, array('user.login','base.captcha','base.upfile'))){
+            $flag = false;
+        }
+        if(!$this->checkAdminSession($_G['user'],88) && $app.'.'.$m=='base.upfile'){
+            $flag = false;
+        }
+        
+        if(!$flag){
+            if(isAjax()){
+                alert('请先登录！',false,U('user','login'));
+            }else{
+                redirect(U('user','login'));
+            }
+        }
+    }
 
     //获取用户的头像
     public function getAvatar($uid,$email=''){
-        return $email?'http://www.gravatar.com/avatar/'.md5($email).'?rating=G&size=48&d=mm':S('user','images/user_normal.png');
+        return $email?'https://secure.gravatar.com/avatar/'.md5($email).'?rating=G&size=48&d=mm':S('user','images/user_normal.png');
     }
 
     //增加/减少积分
