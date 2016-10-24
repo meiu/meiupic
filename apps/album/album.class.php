@@ -72,7 +72,7 @@ class AlbumClass{
         $okArr = array();
         foreach($tree[$catid] as $k=>$v){
             $okArr[] = $v['id'];
-            $child = $this->childIds($v['id'],$tree,$filter_modid);
+            $child = $this->childIds($v['id'],$tree);
             if($child) $okArr = array_merge($okArr,$child);
         }
         return $okArr;

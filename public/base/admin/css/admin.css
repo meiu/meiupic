@@ -95,8 +95,8 @@ div.pages a.on{
 #head a.dropmenu{display: none;}
 #logo{
     height:56px;
-    background: url(../images/logo.png) no-repeat center;
-    width:150px;
+    /*background: url(../images/logo.png) no-repeat center;
+    */width:150px;
     float: left;
     text-indent:-1000px;
     margin-right: 20px;
@@ -623,4 +623,8 @@ div.applist div.title{
         margin-left: 0;
         padding: 10px;
     }
+}
+
+select.chosen{
+    min-width: 150px;
 }

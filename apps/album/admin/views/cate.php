@@ -20,7 +20,7 @@
     <td><input type="text" size="8" name="sort[<?php echo $value['id'];?>]" value="<?php echo $value['sort'];?>" /></td>
     <td> 
         <a href="<?php echo U('album','cate','a=edit&id='.$value['id']);?>" title="编辑"><img src="<?php echo S('base','admin/images/b-edit.png')?>" alt="编辑"></a>
-        <a href="<?php echo U('album','cate','a=del&id='.$value['id']);?>" onclick="return del_one(this,'确定要删除该分类么，删除后该分类的文章将无法显示？');" title="删除"><img src="<?php echo S('base','admin/images/b-del.png')?>" alt="删除"></a>
+        <a href="<?php echo U('album','cate','a=del&id='.$value['id']);?>" onclick="return del_one(this,'确定要删除该分类么，删除后该分类的图片将无法显示？');" title="删除"><img src="<?php echo S('base','admin/images/b-del.png')?>" alt="删除"></a>
         <a href="<?php echo U('album','cate','a=add&pid='.$value['id']);?>" title="添加子分类"><img src="<?php echo S('base','admin/images/b-add.png')?>" alt="添加子分类"></a>
     </td> 
     <td><?php 

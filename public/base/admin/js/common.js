@@ -218,5 +218,7 @@ $(function(){
         }else{
             $("#menu").slideDown();
         }
-    })
+    });
+
+    $('select.chosen').chosen({no_results_text:'未匹配到'});
 })
