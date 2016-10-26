@@ -76,17 +76,6 @@
   </tr>
   <tr>
     <td>
-    default_company_tpl
-    </td>
-    <td>
-      默认企业模版的ID
-    </td>
-    <td>
-      <input type="text" size="30" name="setting[default_company_tpl]" value="<?php echo arrval($settings_info,'default_company_tpl');?>" />
-    </td>
-  </tr>
-  <tr>
-    <td>
     icp
     </td>
     <td>
