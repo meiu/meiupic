@@ -1,0 +1,79 @@
+.grid .gallary_item {
+    display: inline-block;
+    margin-bottom: 20px;
+    padding: 8px;
+    vertical-align: baseline;
+    width: 225px;
+}
+.grid .gallary_item table{
+    border:none;
+    margin:0;
+}
+.grid .gallary_item tr{
+    background: transparent;
+}
+.grid .gallary_item th, .grid .gallary_item td{
+    border:none;
+    padding:0;
+}
+.grid .sel_on{
+    background:#eee;
+}
+.grid .pic_box img{
+    border:1px solid #ccc;
+    padding:4px;
+    background:#fff;
+    border-radius:3px;
+} 
+.grid .pic_box table{width:100%}
+.grid .pic_box table td{
+    text-align: left;
+    vertical-align: middle;
+}
+.grid .pic_ctl{
+    min-height:20px;
+    height:auto !important;
+    height:20px;
+}
+.grid .pic_ctl .btns{
+    padding:0 5px;
+}
+.grid .pic_ctl li{
+    display:inline;
+}
+.grid .info .title{
+    font-size:14px;
+    line-height:2;
+    height:30px;
+    overflow: hidden;
+}
+.grid .info .title input.selitem{
+    margin:6px 5px 0 0 !important;
+    margin:2px 5px 0 0;
+    float:left;
+}
+.grid .info .title .name{
+    float:left;
+    width:200px;
+}
+.grid .info .title .name input{
+    width:180px;
+}
+.grid .sel_on .info .title .name a{
+    display:block;
+    cursor: text;
+    text-decoration:none;
+}
+.grid .sel_on .info .title .name a:hover{
+    background:#ffffcc;
+    text-decoration:none;
+}
+.grid .info .info_col{
+    height:44px;
+    line-height:22px;
+}
+.grid .info .info_col span.cover{
+    background:green;
+    color:white;
+    padding:0 4px;
+}

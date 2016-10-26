@@ -7,22 +7,30 @@ class AlbumIndex extends Adminbase{
     function indexAct(){
         $page = getGet('page',1);
 
-        $search['keyword'] = trim(getRequest('keyword'));
+        $search['name'] = trim(getRequest('name'));
+        $search['uid']  = getRequest('uid');
+        $search['cate_id']  = getRequest('cate_id');
 
         $m_album = M('albums');
 
         $where = '1';
-        if( $search['keyword'] ){
-            if( is_numeric($search['keyword']) ){
-                $where .= ' and id ='.intval($search['keyword']);
+        if( $search['name'] ){
+            if( is_numeric($search['name']) ){
+                $where .= ' and id ='.intval($search['name']);
             }else{
-                $keyword = trim($search['keyword'],'*');
+                $keyword = trim($search['name'],'*');
                 $where .= " and name like '%".$m_album->escape($keyword,false)."%'";
             }
         }
-
+        if( $search['uid'] ){
+            $where .= ' and id ='.intval($search['uid']);
+        }
+        if( $search['cate_id'] ){
+            $catIds = app('album')->catIds(intval($search['cate_id']));
+            $where .= ' and cate_id in ('.implode(',', $catIds).')';
+        }
         $totalCount = $m_album->count($where);
-        $pageurl = U('album','index','keyword='.$search['keyword'].'&page=%page%');
+        $pageurl = U('album','index',array_merge($search,array('page'=>'%page%')));
 
         $pager = new Pager($page,C('pageset.admin',15),$totalCount,$pageurl);
         $pager->config(C('adminpage'));
@@ -30,13 +38,23 @@ class AlbumIndex extends Adminbase{
         $this->view->assign('pagestr',$pager->html());
 
         $rows = $m_album->findAll(array(
-                    'where' => $where,
-                    'start' => $limit['start'],
-                    'limit' => $limit['limit']
-                ));
+            'where' => $where,
+            'start' => $limit['start'],
+            'limit' => $limit['limit']
+        ));
+
+        $cateIndex = app('album')->getCateIndex();
+        //获取相册作者名字
+        foreach($rows as &$value){
+            $user = M('users')->load($value['uid']);
+            $value['nickname'] = $user?$user['nickname']:'未知';
+            $value['catename'] = isset($cateIndex[$value['cate_id']])?$cateIndex[$value['cate_id']]['name']:'未知分类';
+        }
 
         $this->view->assign('rows',$rows);
         $this->view->assign('search',$search);
+
+        $this->view->assign('cates',app('album')->getCateList(0));
         $this->view->display('index.php');
     }
 
