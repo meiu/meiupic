@@ -13,7 +13,7 @@ class AlbumIndex extends Adminbase{
 
         $m_album = M('albums');
 
-        $where = '1';
+        $where = 'deleted=0';
         if( $search['name'] ){
             if( is_numeric($search['name']) ){
                 $where .= ' and id ='.intval($search['name']);
@@ -40,7 +40,8 @@ class AlbumIndex extends Adminbase{
         $rows = $m_album->findAll(array(
             'where' => $where,
             'start' => $limit['start'],
-            'limit' => $limit['limit']
+            'limit' => $limit['limit'],
+            'order' => 'id desc'
         ));
 
         $cateIndex = app('album')->getCateIndex();
@@ -60,146 +61,93 @@ class AlbumIndex extends Adminbase{
 
     function editAct(){
         $id = intval(getGet('id'));
-        $m_user = M('users');
+        $m_album = M('albums');
 
         if(isPost()){
-            $data['username'] = safestr(trim(getPost('username')));
-            $data['nickname'] = trim(getPost('nickname'));
-            $data['email'] = trim(getPost('email'));
-            $data['level'] = intval(getPost('level'));
+            $data['name'] = safestr(trim(getPost('name')));
+            $data['desc'] = trim(getPost('desc'));
+            $data['cate_id'] = intval(getPost('cate_id'));
+            $data['up_time'] = time();
+            $data['priv_type'] = getPost('priv_type');
+            $data['priv_pass'] = getPost('priv_pass');
+            $data['enable_comment'] = intval(getPost('enable_comment'));
 
-            if(!$data['username']){
-                alert('用户名不能为空！');
+            if(!$data['name']){
+                alert('相册名不能为空！');
             }
-            if(!$data['nickname']){
-                alert('昵称不能为空！');
+            if(!$data['cate_id']){
+                alert('请选择分类！');
             }
-            if(!$data['email']){
-                alert('Email不能为空！');
-            }
-            //检查用户名是否重复
-            if(0 < $m_user->count("username=".$m_user->escape($data['username']).' and id<>'.$id) ){
-                alert('用户名重复！');
-            }
-
-
-            $userpass = getPost('userpass');
-            if($userpass && $userpass!=getPost('userpass2')){
-                alert('两次密码输入不一致！');
-            }
-            if($userpass){
-                $data['salt'] = substr(uniqid(rand()), -6);
-                $data['userpass'] = md5(md5($userpass).$data['salt']);
-            }
-            
-
-            if($m_user->update($id,$data)){
-                //更新用户相关信息
-                $fields = app('base')->getSetting('user_fields',true);
-                $infodata = array();
-                foreach($fields as $k=>$v){
-                    $infodata[$k] = trim(getPost($k));
+            if($data['priv_type'] == '1'){
+                if($data['priv_pass']==''){
+                    alert('请输入密码！');
                 }
-                $uiinfo = M('users_info')->load($id,'*','uid');
-                if($uiinfo){
-                    M('users_info')->updateW('uid='.$id,$infodata);
-                }else{
-                    $infodata['uid'] = $id;
-                    M('users_info')->insert($infodata);
-                }
+            }
 
-                alert('修改用户成功！',true,U('user','index'));
+            if($m_album->update($id,$data)){
+                alert('修改相册成功！',true,'js_reload');
             }else{
-                alert('修改用户失败！');
+                alert('修改相册失败！');
             }
         }
 
-        $info = $m_user->load($id);
-        $iinfo = M('users_info')->load($id,'*','uid');
-        if(!$iinfo) $iinfo = M('users_info')->loadDefault();
-
-        $fields = app('base')->getSetting('user_fields',true);
-
-        $this->view->assign('fields',$fields);
+        $info = $m_album->load($id);
         $this->view->assign('info',$info);
-        $this->view->assign('iinfo',$iinfo);
-        $this->view->display('index_edit.php');
+        $cates = app('album')->getCateList();
+        $this->view->decorate(null,'_mini.php');
+        $this->view->assign('cates',$cates);
+        $this->view->display('album_edit.php');
     }
 
     function addAct(){
-        $m_user = M('users');
+        global $_G;
+
+        $m_album = M('albums');
         if(isPost()){
-            $data['username'] = safestr(trim(getPost('username')));
-            $data['nickname'] = trim(getPost('nickname'));
-            $data['email'] = trim(getPost('email'));
-            $data['level'] = intval(getPost('level'));
+            $data['name'] = safestr(trim(getPost('name')));
+            $data['uid'] = $_G['user']['id'];
+            $data['desc'] = trim(getPost('desc'));
+            $data['cate_id'] = intval(getPost('cate_id'));
+            $data['create_time'] = time();
+            $data['priv_type'] = getPost('priv_type');
+            $data['priv_pass'] = getPost('priv_pass');
+            $data['enable_comment'] = intval(getPost('enable_comment'));
 
-            if(!$data['username']){
-                alert('用户名不能为空！');
+            if(!$data['name']){
+                alert('相册名不能为空！');
             }
-            if(!$data['nickname']){
-                alert('昵称不能为空！');
+            if(!$data['cate_id']){
+                alert('请选择分类！');
             }
-            if(!$data['email']){
-                alert('Email不能为空！');
-            }
-            $userpass = getPost('userpass');
-            if(!$userpass){
-                alert('请输入密码！');
-            }
-            if($userpass!=getPost('userpass2')){
-                alert('两次密码输入不一致！');
-            }
-
-            //检查用户名是否重复
-            if(0 < $m_user->count("username=".$m_user->escape($data['username'])) ){
-                alert('用户名重复！');
-            }
-
-            $data['userpass'] = md5($userpass);
-            $data['regtime'] = time();
-            $data['regip'] = getClientIp();
-
-            if($m_user->insert($data)){
-                $uid = $m_user->insertId();
-                //额外字段信息
-                $fields = app('base')->getSetting('user_fields',true);
-                $infodata = array( 'uid' => $uid);
-                foreach($fields as $k=>$v){
-                    $infodata[$k] = trim(getPost($k));
+            if($data['priv_type'] == '1'){
+                if($data['priv_pass']==''){
+                    alert('请输入密码！');
                 }
-                M('users_info')->insert($infodata);
+            }
 
-                alert('添加用户成功！',true,U('user','index'));
+            if($m_album->insert($data)){
+                alert('添加相册成功！',true,'js_reload');
             }else{
-                alert('添加用户失败！');
+                alert('添加相册失败！');
             }
         }
 
         
-        $info = $m_user->loadDefault();
-
-        $fields = app('base')->getSetting('user_fields',true);
-
-        $this->view->assign('fields',$fields);
+        $info = $m_album->loadDefault();
+        $cates = app('album')->getCateList();
+        $this->view->decorate(null,'_mini.php');
+        $this->view->assign('cates',$cates);
         $this->view->assign('info',$info);
-        $this->view->assign('iinfo',M('users_info')->loadDefault());
-        $this->view->display('index_edit.php');
+        $this->view->display('album_edit.php');
     }
 
     function delAct(){
         $id = intval(getGet('id'));
-        if($id == $_G['user']['id']){
-            alert('你不能删除自己！');
-        }
 
-        if(M('users')->delete($id)){
-            //删除额外信息
-            M('users_info')->delete($id,'uid');
-
-            alert('删除用户成功！',true,U('user','index'));
+        if(M('albums')->update($id,array('deleted'=>1))){
+            alert('移动相册到回收站成功！',true,'js_reload');
         }else{
-            alert('删除用户失败！');
+            alert('移动相册到回收站失败！');
         }
     }
 }

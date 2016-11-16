@@ -5,18 +5,21 @@ function ajaxAlert(data,time,lock){
     lock = lock||false;
 
     if(!data.ret && data.msg){
-        art.dialog.alert(data.msg);
+        window.top.art.dialog.alert(data.msg);
         return;
     }
 
     if(data.ret && data.msg){
-        art.dialog.tips(data.msg,time,lock);
+        window.top.art.dialog.tips(data.msg,time,lock);
     }
     setTimeout(function(){
         if(data.redirect && data.redirect == 'js_reload'){
-            self.location.reload();
+            window.top.location.reload();
         }else if(data.redirect){
-            self.location.href=data.redirect;
+            window.top.location.href=data.redirect;
+        }
+        if(data.winid){
+            window.top.art.dialog({id:data.winid}).close();
         }
     },time*1000);
 }
@@ -48,10 +51,36 @@ function tab(h,con){
         _box.eq(_index).show().siblings().hide();
     }).eq(0).click();
 }
-
+function setMask(id,state){
+    var oldEl = $('#'+id);
+    if(oldEl.length == 0){
+        return;
+    }
+    var val=oldEl.val();
+    var cla=oldEl.attr('class');
+    var name=oldEl.attr('name');
+    var sibling = oldEl.next();
+    var newInput = document.createElement('input');
+    
+    $(newInput).val(val);
+    $(newInput).attr('id',id);
+    $(newInput).attr('class',cla);
+    $(newInput).attr('name',name);
+    if (state == true)
+        $(newInput).attr('type','text');
+    else
+        $(newInput).attr('type','password');
+    
+    oldEl.remove();
+    sibling.before($(newInput));
+}
 function remove_line(o){
     var tr=$(o).parent().parent();
     tr.remove();
+}
+
+function opt_one(o,msg){
+    return del_one(o,msg);
 }
 
 function del_one(o,msg){
@@ -85,7 +114,7 @@ var uploadWin={
         }else{
             uploadWin.callback = null;
         }
-        art.dialog.open('/sys.php?app=base&m=upfile&type='+arg_type+'&num='+arg_num,{
+        art.dialog.open(BASE_URL+'sys.php?app=base&m=upfile&type='+arg_type+'&num='+arg_num,{
             title: 'Meiu上传组件',
             lock: true,
             background: '#000', // 背景色
@@ -137,7 +166,7 @@ function editorMultiUpload(editor){
 }
 
 function sel_relate(id,model){
-    art.dialog.open('/sys.php?app=cms&m=relate&model='+model,{
+    art.dialog.open(BASE_URL+'sys.php?app=cms&m=relate&model='+model,{
         title: '选择关联项',
         lock: true,
         background: '#000', // 背景色
@@ -152,6 +181,36 @@ function sel_relate(id,model){
         },
         cancelVal: '取消',
         cancel: true
+    });
+}
+
+function MuiShow(url,title){
+    //随机生成一个窗口id
+    var winid = "win"+Math.floor(Math.random()*10000);
+    if(url.indexOf('?') > -1){
+        url = url+'&winid='+winid;
+    }else{
+        url = url+'?winid='+winid;
+    }
+    window.top.art.dialog.open(url,{
+        id:winid,
+        title: title,
+        lock: true,
+        background: '#000', // 背景色
+        opacity: 0.3,  // 透明度
+        okVal:'确定',
+        ok: function () {
+            var iframe = this.iframe.contentWindow;
+            var formbtn = iframe.document.getElementById('dosubmit');
+            if(formbtn){
+                formbtn.click();
+            }
+            return false;
+        },
+        cancelVal: '取消',
+        cancel: function(){
+            this.close()
+        }
     });
 }
 

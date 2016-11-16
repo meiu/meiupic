@@ -19,7 +19,9 @@ class View{
     }
     //修饰 display 页面修饰
     public function decorate($view_obj,$tpl=''){
-        $this->_decorate = $view_obj;
+        if(!is_null($view_obj)){
+            $this->_decorate = $view_obj;
+        }
         $this->_decorate_tpl = $tpl;
     }
 

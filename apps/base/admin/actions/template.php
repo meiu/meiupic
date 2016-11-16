@@ -240,14 +240,15 @@ class BaseTemplate extends Adminbase{
         $m_label = M('labels');
         if(isPost()){
             $name = trim(getPost('name'));
-            $content = trim(getPost('data'));
+            $pure_txt = intval(getPost('pure_txt'));
             if(empty($name)){
                 alert('请输入标签名！');
             }
 
             $data = array(
                 'name'=>$name,
-                'data' => $content
+                'pure_txt'=>$pure_txt,
+                'data' => $pure_txt?trim(getPost('data_pure')):trim(getPost('data'))
             );
 
             if($m_label->insert($data)){
@@ -267,7 +268,7 @@ class BaseTemplate extends Adminbase{
         $id = intval(getGet('id'));
         if(isPost()){
             $name = trim(getPost('name'));
-            $content = trim(getPost('data'));
+            $pure_txt = intval(getPost('pure_txt'));
         
             if(empty($name)){
                 alert('请输入标签名！');
@@ -275,7 +276,8 @@ class BaseTemplate extends Adminbase{
 
             $data = array(
                 'name'=>$name,
-                'data' => $content
+                'pure_txt'=>$pure_txt,
+                'data' => $pure_txt?trim(getPost('data_pure')):trim(getPost('data'))
             );
 
             if($m_label->update($id,$data)){

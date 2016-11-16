@@ -10,8 +10,16 @@
                     <td><input type="text" name="name" size="20" value="<?php echo $label_info['name'];?>" /></td>
                 </tr>
                 <tr>
+                    <th>使用纯文本：</th>
+                    <td><input type="checkbox" name="pure_txt" value="1" <?php if($label_info['pure_txt']){ echo 'checked="checked"';}?>></td>
+                </tr>
+                <tr id="mtxtarea">
                     <th>内容： <span class="red">*</span></th>
                     <td><textarea id="data" name="data" class="ckeditor" rows="10" cols="90"><?php  echo $label_info['data'];?></textarea></td>
+                </tr>
+                <tr id="ptxtarea">
+                    <th>内容： <span class="red">*</span></th>
+                    <td><textarea name="data_pure" rows="10" cols="90"><?php  echo $label_info['data'];?></textarea></td>
                 </tr>
                 <tr>
                     <th></th>
@@ -19,5 +27,20 @@
                 </tr>
             </tbody>
     </table>
-    
 </form>
+<script>
+function showTxtarea(){
+    var pure=$('input[name="pure_txt"]:checked').val();
+    if(pure){
+        $('#mtxtarea').hide();
+        $('#ptxtarea').show();
+    }else{
+        $('#mtxtarea').show();
+        $('#ptxtarea').hide();
+    }
+}
+$('input[name="pure_txt"]').click(function(){
+    showTxtarea();
+});
+showTxtarea();
+</script>

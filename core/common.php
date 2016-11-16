@@ -92,6 +92,11 @@ function alert($msg='',$ret=false,$redirect='',$others = array()){
         if($redirect){
             $data['redirect'] = $redirect;
         }
+        $art_dialog_id = getGet('winid');
+        if($art_dialog_id){
+            $data['winid'] = $art_dialog_id;
+        }
+
         $data = array_merge($data,$others);
         echo json_encode($data);
         exit;
@@ -102,7 +107,7 @@ function alert($msg='',$ret=false,$redirect='',$others = array()){
             echo 'alert("'.$msg.'");';
         }
         if($redirect){
-            echo 'window.location.href="'.$redirect.'";';
+            echo 'top.window.location.href="'.$redirect.'";';
         }else{
             echo 'history.back();';
         }
