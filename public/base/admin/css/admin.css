@@ -628,3 +628,10 @@ div.applist div.title{
 select.chosen{
     min-width: 150px;
 }
+
+ul.tag-editor{
+    border:1px solid #a8acad;
+    border-radius: 4px;
+    height: 90px;
+    overflow-y:auto;
+}

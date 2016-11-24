@@ -18,8 +18,8 @@
     </script>
     <?php doAction('adm_head'); ?>
     <style>
-        html{background: #fff;}
-        body{margin:0 10px;}
+        html{background: #f7f7f7;}
+        body{margin:0;}
     </style>
 </head>
 <body>

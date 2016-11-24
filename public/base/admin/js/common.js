@@ -79,6 +79,22 @@ function remove_line(o){
     tr.remove();
 }
 
+function multi_opt(url,msg){
+    var seled = $(".id_sel:checked");
+
+    if(seled.length == 0){
+      art.dialog.alert('请先选择项目！');
+      return;
+    }
+
+    art.dialog.confirm(msg, function () {
+      var idarr = seled.serialize();
+      $.post(url,idarr,function(data){
+        ajaxAlert(data,0.5,false);
+      },'json');
+    });
+}
+
 function opt_one(o,msg){
     return del_one(o,msg);
 }

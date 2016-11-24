@@ -1,3 +1,6 @@
+<script src="<?php echo S('base','tageditor/jquery.caret.min.js');?>"></script>
+<script src="<?php echo S('base','tageditor/jquery.tag-editor.min.js');?>"></script>
+<link rel="stylesheet" href="<?php echo S('base','tageditor/jquery.tag-editor.css');?>" />
 <form id="submit_form" class="ajaxform" method="post" style="width:600px;height:400px;">
     <table class="edit_table">
         <tr>
@@ -16,19 +19,16 @@
         <tr>
         	<th>相册权限：</th>
         	<td>
-             <label><input type="radio" name="priv_type" value="0" onclick="$('#filed_password').hide();" <?php if($info['priv_type']==0) echo 'checked="checked"';?> /> 公开</label>
-             <label><input type="radio" name="priv_type" value="1" onclick="$('#filed_password').show();" <?php if($info['priv_type']==1) echo 'checked="checked"';?> /> 密码访问</label> 
-             <label><input type="radio" name="priv_type" value="2" onclick="$('#filed_password').hide();" <?php if($info['priv_type']==2) echo 'checked="checked"';?> /> 私人</label>
+             <label><input type="checkbox" name="priv_type" value="1" <?php if($info['priv_type']==1) echo 'checked="checked"';?> /> 仅自己可见</label>
             </td>
-        </tr>
-        <tr id="filed_password" <?php if($info['priv_type']!=1){echo 'style="display:none"';} ?>>
-        	<th>相册密码：</th>
-        	<td>
-        	<input id="password_ipt" type="password" name="priv_pass" value="<?php echo $info['priv_pass'];?>" /><label><input class="ml5" style="margin-left:10px;" type="checkbox" value="1" onclick="setMask('password_ipt',this.checked)" /> 显示密码</label></td>
         </tr>
         <tr>
             <th>相册描述：</th>
-            <td><textarea name="desc" rows="10" cols="50"><?php  echo $info['desc'];?></textarea></td>
+            <td><textarea name="description" rows="5" cols="55"><?php  echo $info['description'];?></textarea></td>
+        </tr>
+        <tr>
+            <th>关键字：</th>
+            <td><input id="tags" name="tags" type="text" value="<?php echo $info['tags'];?>" size="50"></td>
         </tr>
         <tr>
         	<th>是否显示评论：</th>
@@ -37,3 +37,9 @@
     </table>
     <input type="submit" id="dosubmit" style="display:none;" value="保存修改" />
 </form>
+
+<script type="text/javascript">
+$(function(){
+    $('#tags').tagEditor({ placeholder: '输入标签...' });
+});
+</script>

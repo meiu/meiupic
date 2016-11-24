@@ -3,16 +3,15 @@ defined('IN_MWEB') or die('access denied');
 
 require_once('_submenu.php');
 
-class AlbumIndex extends Adminbase{
+class AlbumAlbum extends Adminbase{
     function indexAct(){
         $page = getGet('page',1);
 
         $search['name'] = trim(getRequest('name'));
         $search['uid']  = getRequest('uid');
         $search['cate_id']  = getRequest('cate_id');
-        $search['aid']  = getRequest('aid');
 
-        $m_photo = M('album_photos');
+        $m_album = M('albums');
 
         $where = 'deleted=0';
         if( $search['name'] ){
@@ -20,7 +19,7 @@ class AlbumIndex extends Adminbase{
                 $where .= ' and id ='.intval($search['name']);
             }else{
                 $keyword = trim($search['name'],'*');
-                $where .= " and name like '%".$m_photo->escape($keyword,false)."%'";
+                $where .= " and name like '%".$m_album->escape($keyword,false)."%'";
             }
         }
         if( $search['uid'] ){
@@ -30,18 +29,15 @@ class AlbumIndex extends Adminbase{
             $catIds = app('album')->catIds(intval($search['cate_id']));
             $where .= ' and cate_id in ('.implode(',', $catIds).')';
         }
-        if( $search['aid'] ){
-            $where .= ' and album_id='.intval($search['aid']);
-        }
-        $totalCount = $m_photo->count($where);
-        $pageurl = U('album','photo',array_merge($search,array('page'=>'%page%')));
+        $totalCount = $m_album->count($where);
+        $pageurl = U('album','album',array_merge($search,array('page'=>'%page%')));
 
         $pager = new Pager($page,C('pageset.admin',15),$totalCount,$pageurl);
         $pager->config(C('adminpage'));
         $limit = $pager->getLimit();
         $this->view->assign('pagestr',$pager->html());
 
-        $rows = $m_photo->findAll(array(
+        $rows = $m_album->findAll(array(
             'where' => $where,
             'start' => $limit['start'],
             'limit' => $limit['limit'],
@@ -60,7 +56,7 @@ class AlbumIndex extends Adminbase{
         $this->view->assign('search',$search);
 
         $this->view->assign('cates',app('album')->getCateList(0));
-        $this->view->display('photo.php');
+        $this->view->display('album.php');
     }
 
     function editAct(){
@@ -69,11 +65,10 @@ class AlbumIndex extends Adminbase{
 
         if(isPost()){
             $data['name'] = safestr(trim(getPost('name')));
-            $data['desc'] = trim(getPost('desc'));
+            $data['description'] = trim(getPost('description'));
             $data['cate_id'] = intval(getPost('cate_id'));
             $data['up_time'] = time();
-            $data['priv_type'] = getPost('priv_type');
-            $data['priv_pass'] = getPost('priv_pass');
+            $data['priv_type'] = intval(getPost('priv_type'));
             $data['enable_comment'] = intval(getPost('enable_comment'));
 
             if(!$data['name']){
@@ -82,12 +77,6 @@ class AlbumIndex extends Adminbase{
             if(!$data['cate_id']){
                 alert('请选择分类！');
             }
-            if($data['priv_type'] == '1'){
-                if($data['priv_pass']==''){
-                    alert('请输入密码！');
-                }
-            }
-
             if($m_album->update($id,$data)){
                 alert('修改相册成功！',true,'js_reload');
             }else{

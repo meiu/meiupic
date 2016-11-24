@@ -1,5 +1,5 @@
 <div class="main-head">
-    <h3>相册分类列表</h3>
+    <h3>分类列表</h3>
     <a href="<?php echo U('album','cate','a=add');?>" class="i-add">添加分类</a>
 </div>
 <form id="submit_form" class="ajaxform" method="post" >
