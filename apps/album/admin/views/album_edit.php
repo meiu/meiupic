@@ -31,8 +31,8 @@
             <td><input id="tags" name="tags" type="text" value="<?php echo $info['tags'];?>" size="50"></td>
         </tr>
         <tr>
-        	<th>是否显示评论：</th>
-        	<td><label><input type="checkbox" name="enable_comment" value="1" <?php if($info['enable_comment']){ echo 'checked="checked"';} ?> /> 开启</label></td>
+        	<th>启用评论：</th>
+        	<td><label><input type="checkbox" name="enable_comment" value="1" <?php if($info['enable_comment']){ echo 'checked="checked"';} ?> /> 是</label></td>
         </tr>
     </table>
     <input type="submit" id="dosubmit" style="display:none;" value="保存修改" />
