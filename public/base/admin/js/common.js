@@ -137,6 +137,7 @@ var uploadWin={
             opacity: 0.3,  // 透明度
             okVal:'插入',
             ok: function (w) {
+                var ids = w.$('#att-ids').html();
                 var paths = w.$('#att-path').html();
                 var names = w.$('#att-name').html();
                 if(paths == ''){//如果没有选择任何文件的话，提醒
@@ -144,12 +145,13 @@ var uploadWin={
                     return false;
                 }
 
+                var idarr = ids.split('|');
                 var patharr = paths.split('|');
                 var namearr = names.split('|');
                 var ret = new Array;
                 for(var i in patharr){
                     if(patharr[i]!='')
-                        ret.push({"path":patharr[i],"name":namearr[i]});
+                        ret.push({"id":idarr[i],"path":patharr[i],"name":namearr[i]});
                 }
                 if(patharr.length > 1){
                     if(arg_num == '1'){

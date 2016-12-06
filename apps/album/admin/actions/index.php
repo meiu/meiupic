@@ -106,43 +106,41 @@ class AlbumIndex extends Adminbase{
     function addAct(){
         global $_G;
 
-        $m_album = M('albums');
+        $m_photos = M('photos');
         if(isPost()){
-            $data['name'] = safestr(trim(getPost('name')));
+            $name = safestr(trim(getPost('name')));
             $data['uid'] = $_G['user']['id'];
-            $data['desc'] = trim(getPost('desc'));
+            $data['description'] = trim(getPost('description'));
             $data['cate_id'] = intval(getPost('cate_id'));
             $data['create_time'] = time();
-            $data['priv_type'] = getPost('priv_type');
-            $data['priv_pass'] = getPost('priv_pass');
-            $data['enable_comment'] = intval(getPost('enable_comment'));
+            $data['priv_type'] = intval(getPost('priv_type'));
 
-            if(!$data['name']){
-                alert('相册名不能为空！');
-            }
-            if(!$data['cate_id']){
-                alert('请选择分类！');
-            }
-            if($data['priv_type'] == '1'){
-                if($data['priv_pass']==''){
-                    alert('请输入密码！');
-                }
-            }
-
-            if($m_album->insert($data)){
+            /*if($m_album->insert($data)){
                 alert('添加相册成功！',true,'js_reload');
             }else{
                 alert('添加相册失败！');
-            }
+            }*/
         }
 
-        
-        $info = $m_album->loadDefault();
+        $ids = trim(getGet('ids'),',');
+        //获取待上传的列表
+        if($ids){
+            $id_arr = explode(',', $ids);
+
+            //取出图片
+            $photos = M('upfiles')->findAll(array(
+                'where'=>'id in ('.implode(',', $id_arr).')',
+                'order' => 'SUBSTRING_INDEX(\''.implode(',', $id_arr).'\',id,1)'
+            ));
+        }else{
+            $photos = array();
+        }
+
         $cates = app('album')->getCateList();
         $this->view->decorate(null,'_mini.php');
+        $this->view->assign('photos',$photos);
         $this->view->assign('cates',$cates);
-        $this->view->assign('info',$info);
-        $this->view->display('album_edit.php');
+        $this->view->display('photo_add.php');
     }
 
     function trashAct(){

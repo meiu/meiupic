@@ -10,23 +10,26 @@ $(document).ready(function(){
     set_status_empty();
 }); 
 function set_status_empty(){
+    parent.window.$('#att-ids').html('');
     parent.window.$('#att-path').html('');
     parent.window.$('#att-name').html('');
 }
 function file_pick(obj){
     var src = $(obj).children("img").attr("path");
     var filename = $(obj).attr('title');
-    var fileid = $(obj).attr('fileid');
+    var fileid = $(obj).children("img").attr('fileid');
 
     if($(obj).hasClass('on')){
         $(obj).removeClass("on");
         var imgstr = parent.window.$("#att-path").html();
         var length = $("a[class='on']").children("img").length;
-        var strs = filenames = '';
+        var strs = ids = filenames = '';
         for(var i=0;i<length;i++){
+            ids += '|'+$("a[class='on']").children("img").eq(i).attr('fileid');
             strs += '|'+$("a[class='on']").children("img").eq(i).attr('path');
-            filenames += '|'+$("a[class='on']").children("img").eq(i).attr('title');
+            filenames += '|'+$("a[class='on']").eq(i).attr('title');
         }
+        parent.window.$('#att-ids').html(ids);
         parent.window.$('#att-path').html(strs);
         parent.window.$('#att-name').html(filenames);
     } else {
@@ -34,6 +37,7 @@ function file_pick(obj){
         var file_upload_limit = '<?php echo $num;?>';
         if(num > file_upload_limit) {alert('不能选择超过'+file_upload_limit+'个附件'); return false;}
         $(obj).addClass("on");
+        parent.window.$('#att-ids').append('|'+fileid);
         parent.window.$('#att-path').append('|'+src);
         parent.window.$('#att-name').append('|'+filename);
     }

@@ -99,11 +99,10 @@ class AlbumAlbum extends Adminbase{
         if(isPost()){
             $data['name'] = safestr(trim(getPost('name')));
             $data['uid'] = $_G['user']['id'];
-            $data['desc'] = trim(getPost('desc'));
+            $data['description'] = trim(getPost('description'));
             $data['cate_id'] = intval(getPost('cate_id'));
             $data['create_time'] = time();
-            $data['priv_type'] = getPost('priv_type');
-            $data['priv_pass'] = getPost('priv_pass');
+            $data['priv_type'] = intval(getPost('priv_type'));
             $data['enable_comment'] = intval(getPost('enable_comment'));
 
             if(!$data['name']){

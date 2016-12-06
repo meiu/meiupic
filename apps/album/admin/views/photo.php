@@ -4,7 +4,7 @@
     <a href="javascript:void(0)" onclick="NewPhotos()" class="i-add">添加图片</a>
 </div>
 <div class="search">
-            <form method="post" action="<?php echo U('album','photo');?>">
+            <form method="post" action="<?php echo U('album','index');?>">
             	<?php if($search['aid']): ?>
 				<input type="hidden" name="aid" value="<?php echo $search['aid'];?>" />
             	<?php else: ?>
@@ -70,8 +70,13 @@
 <?php echo $pagestr; ?>
 <script>
 	function NewPhotos(){
-		uploadWin.open('image',20,function(vReturnValue){
-	        //addEpics(vReturnValue,'#'+iptid,iputname);
+		uploadWin.open('image',100,function(vReturnValue){//每次允许100张
+            var ids = '';
+            for(var i in vReturnValue){
+                ids += vReturnValue[i].id+','
+            }
+            //保存为图片
+            MuiShow("<?php echo U('album','index','a=add');?>&ids="+ids,'添加图片');
 	    });
 	}
 </script>

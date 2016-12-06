@@ -27,17 +27,19 @@ function setIframe(target,url){
 function file_pick(obj){
     var src = $(obj).children("img").attr("path");
     var filename = $(obj).attr('title');
-    var fileid = $(obj).attr('fileid');
+    var fileid = $(obj).children("img").attr('fileid');
 
     if($(obj).hasClass('on')){
         $(obj).removeClass("on");
         var imgstr = $("#att-path").html();
         var length = $("a[class='on']").children("img").length;
-        var strs = filenames = '';
+        var strs = ids = filenames = '';
         for(var i=0;i<length;i++){
+            ids += '|'+$("a[class='on']").children("img").eq(i).attr('fileid');
             strs += '|'+$("a[class='on']").children("img").eq(i).attr('path');
             filenames += '|'+$("a[class='on']").children("img").eq(i).attr('title');
         }
+        $('#att-ids').html(ids);
         $('#att-path').html(strs);
         $('#att-name').html(filenames);
     } else {
@@ -45,20 +47,23 @@ function file_pick(obj){
         var file_upload_limit = '<?php echo $num;?>';
         if(num > file_upload_limit) {alert('不能选择超过'+file_upload_limit+'个附件'); return false;}
         $(obj).addClass("on");
+        $('#att-ids').append('|'+fileid);
         $('#att-path').append('|'+src);
         $('#att-name').append('|'+filename);
     }
 }
 
 function editorSeleted(){
+    var ids = $('#att-ids').html();
     var paths = $('#att-path').html();
     var names = $('#att-name').html();
+    var idarr = ids.split('|');
     var patharr = paths.split('|');
     var namearr = names.split('|');
     var ret = new Array;
     for(var i in patharr){
         if(patharr[i]!='')
-            ret.push({"path":patharr[i],"name":namearr[i]});
+            ret.push({"id":idarr[i],"path":patharr[i],"name":namearr[i]});
     }
     if(patharr.length > 1){
         window.opener.CKEDITOR.tools.callFunction( '<?php echo $CKEditorFuncNum;?>', '<?php echo $upload_dir;?>'+ret[0].path );
@@ -146,7 +151,7 @@ $(function() {
     initPlupload();
 });
 </script>
-
+<div id="att-ids" style="display:none;"></div>
 <div id="att-path" style="display:none;"></div>
 <div id="att-name" style="display:none;"></div>
 

@@ -5,7 +5,7 @@
     <table class="edit_table">
         <tr>
             <th>相册名：</th>
-            <td><input type="text" name="name" size="20" value="<?php echo $info['name'];?>" /></td>
+            <td><input type="text" name="name" size="40" value="<?php echo $info['name'];?>" /></td>
         </tr>
         <tr>
             <th>所属分类：</th>
