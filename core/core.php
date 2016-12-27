@@ -341,8 +341,13 @@ function U($app,$action,$param = array(),$extraparam=array(),$entry = 'default')
         }else{
             $url .= '?app='.$app.'&m='.$action;
         }
-        
+
         if(is_array($param)){
+            foreach($param as $k=>$v){
+                if($v===''){
+                    unset($param[$k]);
+                }
+            }
             $param_str = http_build_query($param);
         }else{
             $param_str = $param;

@@ -39,7 +39,7 @@
         </select></td>
         </tr>
         <tr>
-        	<th>相册权限：</th>
+        	<th>图片权限：</th>
         	<td>
              <label><input type="checkbox" name="priv_type" value="1" /> 仅自己可见</label>
             </td>

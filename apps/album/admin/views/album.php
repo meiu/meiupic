@@ -30,7 +30,7 @@
                         <tbody>
                         <tr>
                             <td>
-                                <a href="<?php echo U('album','photo','aid='.$value['id']);?>"><?php if($value['cover_path']): ?><img alt="<?php echo $value['name'];?>" src="<?php echo $value['cover_path'];?>"><?php else:?><img src="<?php echo S('base','images/nophoto.gif');?>" /><?php endif;?></a>
+                                <a href="<?php echo U('album','index','aid='.$value['id']);?>"><em><?php echo $value['photos_num'];?> 张</em><?php if($value['cover_path']): ?><img alt="<?php echo $value['name'];?>" src="<?php echo thumb($value['cover_path'],180,180,2);?>"><?php else:?><img src="<?php echo S('base','images/nophoto.gif');?>" /><?php endif;?></a>
                             </td>
                         </tr>
                         </tbody>
@@ -50,7 +50,7 @@
                     <span class="name"><a href="<?php echo U('album','photo','aid='.$value['id']);?>"><?php echo $value['name'];?></a></span>
                 </div>
                 <div class="info_col">
-                    <p class="gray"><?php echo $value['photos_num'];?>张照片 ,<a href="<?php echo U('comment','album','type=album&id='.$value['id']);?>" class="gray"><?php echo $value['comments_num'];?>评论</a> ,<a href="<?php echo U('album','index','cate_id='.$value['cate_id']);?>"><?php echo $value['catename'];?></a> </p>
+                    <p class="gray"><a href="<?php echo U('comment','album','type=album&id='.$value['id']);?>" class="gray"><?php echo $value['comments_num'];?>评论</a> ,<a href="<?php echo U('album','album','cate_id='.$value['cate_id']);?>"><?php echo $value['catename'];?></a> </p>
                     <p class="gray"><?php echo date('Y-m-d',$value['create_time']);?> By <a href="<?php echo U('album','album','uid='.$value['uid']);?>"><?php echo $value['nickname'];?></a></p>
                 </div>
             </div>

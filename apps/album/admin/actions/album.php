@@ -23,7 +23,7 @@ class AlbumAlbum extends Adminbase{
             }
         }
         if( $search['uid'] ){
-            $where .= ' and id ='.intval($search['uid']);
+            $where .= ' and uid ='.intval($search['uid']);
         }
         if( $search['cate_id'] ){
             $catIds = app('album')->catIds(intval($search['cate_id']));

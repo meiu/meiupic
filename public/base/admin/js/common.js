@@ -95,6 +95,27 @@ function multi_opt(url,msg){
     });
 }
 
+function multi_show(url,title){
+    var seled = $(".id_sel:checked");
+
+    if(seled.length == 0){
+      art.dialog.alert('请先选择项目！');
+      return;
+    }
+
+    var ids = '';
+    seled.each(function(){
+        ids += $(this).val()+',';
+    });
+    ids = ids.substring(0,ids.length-1);
+    if(url.indexOf('?')!=-1){
+        url = url+'&ids='+ids;
+    }else{
+        url = url+'?ids='+ids;
+    }
+    MuiShow(url,title);
+}
+
 function opt_one(o,msg){
     return del_one(o,msg);
 }

@@ -16,25 +16,27 @@
                      <option value="<?php echo $value['id'];?>" <?php if($search['cate_id']==$value['id']){echo 'selected="selected"';} ?>><?php echo $value['spacer'].$value['name'];?></option>
                     <?php endforeach ?>
                 </select>
+                <label>不属于任何相册：<input type="checkbox" name="notinablum" value="1" <?php if($search['notinablum']){echo 'checked';}?> /> </label>
             	<?php endif; ?>
                 图片名：
                 <input type="text" placeholder="输入图片名称" size="20" value="<?php echo $search['name'];?>" name="name">
                 用户ID:
                 <input type="text" placeholder="输入用户ID" size="10" value="<?php echo $search['uid'];?>" name="uid">
+
                 <input type="submit" value="搜索" class="submit-btn">
             </form>
         </div>
 <div class="innercol grid">
     <div class="gallary_wrap">
         <?php foreach ($rows as $key => $value): ?>
-        <div class="gallary_item album">
+        <div class="gallary_item">
             <div class="item">
                 <div class="pic_box">
                     <table>
                         <tbody>
                         <tr>
                             <td>
-                                <a href="#"><img alt="<?php echo $value['name'];?>" src="<?php echo $value['thumb'];?>"></a>
+                                <a href="#"><?php if($value['albumname']): ?><label><?php echo $value['albumname'];?></label><?php endif; ?><img alt="<?php echo $value['name'];?>" src="<?php echo thumb($value['path'],180,180,2);?>"></a>
                             </td>
                         </tr>
                         </tbody>
@@ -43,7 +45,7 @@
                 <div class="pic_ctl">
                     <ul class="btns">
                         <li><a href="<?php echo U('album','index','a=trash&id='.$value['id']);?>" onclick="return opt_one(this,'确定移动到回收站？')" title="移动到回收站"><img src="<?php echo S('base','admin/images/b-trash.png')?>" alt="删除"></a></li>
-                        <li><a href="javascript:void(0)" onclick="MuiShow('<?php echo U('album','index','a=edit&id='.$value['id']);?>','编辑相册')" title="修改"><img src="<?php echo S('base','admin/images/b-edit.png')?>" alt="修改"></a></li>
+                        <li><a href="javascript:void(0)" onclick="MuiShow('<?php echo U('album','index','a=edit&id='.$value['id']);?>','编辑图片')" title="修改"><img src="<?php echo S('base','admin/images/b-edit.png')?>" alt="修改"></a></li>
                     </ul>
                 </div>
                 <div class="clear"></div>
@@ -65,7 +67,7 @@
     </div>
 </div>
 <div class="bottom_bar">
-  操作: <label><input type="checkbox" onclick="$('.id_sel').prop('checked',this.checked);" /> 全选</label> 将选中项 <a href="javascript:void(0)" onclick="multi_opt('<?php echo U('album','index','a=trash&isajax=1');?>','您是要删除选定项么？')">移动到回收站</a>
+  操作: <label><input type="checkbox" onclick="$('.id_sel').prop('checked',this.checked);" /> 全选</label> 将选中项 <a href="javascript:void(0)" onclick="multi_opt('<?php echo U('album','index','a=trash&isajax=1');?>','您是要删除选定项么？')">移动到回收站</a> <a href="javascript:void(0)" onclick="multi_show('<?php echo U('album','index','a=move');?>','移动图片')">移动到相册</a>
 </div>
 <?php echo $pagestr; ?>
 <script>

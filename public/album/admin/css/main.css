@@ -19,7 +19,39 @@
 .grid .sel_on{
     background:#eee;
 }
-.grid .pic_box img{
+.grid .pic_box a{
+    position: relative;
+    display: inline-block;
+}
+.grid .pic_box a label{
+    display: none;
+}
+.grid .pic_box a em{
+    position: absolute;
+    left: 10px;
+    bottom: 15px;
+    font-size: 12px;
+    line-height:20px;
+    height: 20px;
+    padding:0 4px;
+    background-color: rgba(0,0,0,0.6);
+    color: #fff;
+    border-radius: 4px;
+}
+.grid .pic_box a:hover label{
+    display: block;
+    position: absolute;
+    top: 0;
+    font-size: 12px;
+    width: 100%;
+    line-height:25px;
+    height: 25px;
+    overflow: hidden;
+    background-color: rgba(0,0,0,0.6);
+    color: #fff;
+    text-indent: 4px;
+}
+.grid .album .pic_box img{
     border:1px solid #ccc;
     padding:4px;
     background:#fff;
@@ -35,7 +67,7 @@
     height:auto !important;
     height:20px;
 }
-.grid .pic_ctl .btns{
+.grid .album .pic_ctl .btns{
     padding:0 5px;
 }
 .grid .pic_ctl li{
