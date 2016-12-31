@@ -1,66 +1,4 @@
 
---
--- 表的结构 `admin_dashboard`
---
-
-CREATE TABLE IF NOT EXISTS `admin_dashboard` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) NOT NULL,
-  `image` varchar(100) NOT NULL,
-  `url` varchar(100) NOT NULL,
-  `sort` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- 表的结构 `admin_menus`
---
-
-CREATE TABLE IF NOT EXISTS `admin_menus` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `pid` int(11) NOT NULL DEFAULT '0',
-  `name` varchar(100) NOT NULL,
-  `type` varchar(50) NOT NULL,
-  `tid` int(11) NOT NULL DEFAULT '0',
-  `url` varchar(200) NOT NULL,
-  `isdefault` tinyint(1) NOT NULL DEFAULT '0',
-  `sort` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- 表的结构 `catalogs`
---
-
-CREATE TABLE IF NOT EXISTS `catalogs` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `pid` int(11) NOT NULL COMMENT '上级id',
-  `modid` int(11) NOT NULL COMMENT '模型id',
-  `dirname` varchar(50) NOT NULL DEFAULT '' COMMENT '目录/虚拟路径',
-  `cover` varchar(100) NOT NULL DEFAULT '' COMMENT '封面图片',
-  `cata_tpl` varchar(100) NOT NULL COMMENT '栏目列表模版',
-  `detail_tpl` varchar(100) NOT NULL DEFAULT '' COMMENT '详情模版',
-  `edit_tpl` varchar(100) NOT NULL DEFAULT '' COMMENT '添加/编辑模版',
-  `name` varchar(100) NOT NULL COMMENT '分类名',
-  `type` enum('list','page','index') NOT NULL DEFAULT 'list' COMMENT 'list栏目列表，page单页面，interact交互，form智能表单',
-  `memo` varchar(255) NOT NULL DEFAULT '' COMMENT '分类描述',
-  `content` text NOT NULL COMMENT '内容',
-  `status` tinyint(3) NOT NULL DEFAULT '1' COMMENT '0,隐藏 1,显示',
-  `sort` int(11) NOT NULL DEFAULT '0' COMMENT '默认排序',
-  `seo` text NOT NULL COMMENT 'SEO',
-  `priv` varchar(255) NOT NULL DEFAULT '' COMMENT '权限',
-  `list_pageset` int(11) NOT NULL DEFAULT '15' COMMENT '该分类每页条数',
-  `enable_comment` tinyint(1) NOT NULL DEFAULT '1' COMMENT '启用评论',
-  `redirect_url` varchar(255) NOT NULL DEFAULT '' COMMENT '跳转地址',
-  PRIMARY KEY (`id`),
-  KEY `pid` (`pid`),
-  KEY `modid` (`modid`),
-  KEY `dirname` (`dirname`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='结构目录表';
 
 -- --------------------------------------------------------
 
@@ -88,72 +26,7 @@ CREATE TABLE IF NOT EXISTS `comments` (
   KEY `mod` (`mod`,`rel_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='评论表';
 
--- --------------------------------------------------------
 
---
--- 表的结构 `infos`
---
-
-CREATE TABLE IF NOT EXISTS `infos` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `modid` int(11) NOT NULL COMMENT '模型id',
-  `cid` int(11) NOT NULL COMMENT '分类/栏目id',
-  `cover` varchar(100) NOT NULL COMMENT '封面图片',
-  `title` varchar(200) NOT NULL COMMENT '信息标题',
-  `keywords` VARCHAR(150) NOT NULL COMMENT '关键词/标签',
-  `path` varchar(50) NOT NULL DEFAULT '' COMMENT '路径/别名',
-  `uid` int(11) NOT NULL COMMENT '用户id(谁产生了这条数据)',
-  `author` varchar(50) NOT NULL COMMENT '作者',
-  `source` varchar(200) NOT NULL COMMENT '来源（名称,url）',
-  `addtime` int(11) NOT NULL COMMENT '信息发布的时间',
-  `hits` int(11) NOT NULL DEFAULT '0' COMMENT '点击数',
-  `comment_num` int(11) NOT NULL DEFAULT '0' COMMENT '评论数',
-  `content` text NOT NULL COMMENT '信息的主要内容',
-  `status` tinyint(3) NOT NULL DEFAULT '3' COMMENT '状态：0待审，1审核不通过，2审核通过，3发布，4暂停，5删除',
-  `redirect_url` varchar(255) NOT NULL DEFAULT '' COMMENT '跳转地址',
-  `custom_tpl` varchar(50) NOT NULL DEFAULT '' COMMENT '文章页自定义模版',
-  `rid1` int(11) NOT NULL DEFAULT '0' COMMENT '关联id1',
-  `rid2` int(11) NOT NULL DEFAULT '0' COMMENT '关联id2',
-  `rid3` int(11) NOT NULL DEFAULT '0' COMMENT '关联id3',
-  `rid4` int(11) NOT NULL DEFAULT '0' COMMENT '关联id4',
-  `p1` varchar(255) NOT NULL DEFAULT '' COMMENT '属性1',
-  `p2` varchar(255) NOT NULL DEFAULT '' COMMENT '属性2',
-  `p3` varchar(255) NOT NULL DEFAULT '' COMMENT '属性3',
-  `p4` varchar(255) NOT NULL DEFAULT '' COMMENT '属性4',
-  `p5` varchar(255) NOT NULL DEFAULT '' COMMENT '属性5',
-  `p6` varchar(255) NOT NULL DEFAULT '' COMMENT '属性6',
-  `p7` varchar(255) NOT NULL DEFAULT '' COMMENT '属性7',
-  `p8` varchar(255) NOT NULL DEFAULT '' COMMENT '属性8',
-  `p9` varchar(255) NOT NULL DEFAULT '' COMMENT '属性9',
-  `p10` varchar(255) NOT NULL DEFAULT '' COMMENT '属性10',
-  `p11` varchar(255) NOT NULL DEFAULT '' COMMENT '属性11',
-  `p12` varchar(255) NOT NULL DEFAULT '' COMMENT '属性12',
-  `p13` varchar(255) NOT NULL DEFAULT '' COMMENT '属性13',
-  `p14` varchar(255) NOT NULL DEFAULT '' COMMENT '属性14',
-  `p15` varchar(255) NOT NULL DEFAULT '' COMMENT '属性15',
-  `p16` varchar(255) NOT NULL DEFAULT '' COMMENT '属性16',
-  `p17` varchar(255) NOT NULL DEFAULT '' COMMENT '属性17',
-  `p18` varchar(255) NOT NULL DEFAULT '' COMMENT '属性18',
-  `p19` varchar(255) NOT NULL DEFAULT '' COMMENT '属性19',
-  `p20` varchar(255) NOT NULL DEFAULT '' COMMENT '属性20',
-  `t1` text NOT NULL COMMENT '大数据1',
-  `t2` text NOT NULL COMMENT '大数据2',
-  `t3` text NOT NULL COMMENT '大数据3',
-  `t4` text NOT NULL COMMENT '大数据4',
-  `seo` text NOT NULL COMMENT 'SEO',
-  `sort` int(11) NOT NULL DEFAULT '0' COMMENT '排序',
-  PRIMARY KEY (`id`),
-  KEY `cid` (`cid`),
-  KEY `modid` (`modid`),
-  KEY `uid` (`uid`),
-  KEY `rid1` (`rid1`),
-  KEY `rid2` (`rid2`),
-  KEY `rid3` (`rid3`),
-  KEY `rid4` (`rid4`),
-  KEY `path` (`path`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='信息表主表';
-
--- --------------------------------------------------------
 
 --
 -- 表的结构 `labels`
@@ -163,39 +36,11 @@ CREATE TABLE IF NOT EXISTS `labels` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL COMMENT '标签名称',
   `data` text NOT NULL COMMENT '标签定义',
+  `pure_txt` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='全局标签表';
 
--- --------------------------------------------------------
 
---
--- 表的结构 `menus`
---
-
-CREATE TABLE IF NOT EXISTS `menus` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) NOT NULL COMMENT '菜单名称',
-  `type` enum('menu','friendlink','banner') NOT NULL DEFAULT 'menu',
-  `data` text NOT NULL COMMENT '详细定义',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='菜单表';
-
--- --------------------------------------------------------
-
---
--- 表的结构 `models`
---
-
-CREATE TABLE IF NOT EXISTS `models` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) NOT NULL COMMENT '模型名称',
-  `type` enum('goods','info','interact','form') NOT NULL DEFAULT 'info' COMMENT 'form表单，info信息，interact互动，goods商品',
-  `data` text NOT NULL COMMENT '详细定义',
-  `status` tinyint(3) NOT NULL DEFAULT '0' COMMENT '0,停用 1,启用',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='模型表';
-
--- --------------------------------------------------------
 
 --
 -- 表的结构 `routes`
@@ -320,70 +165,140 @@ CREATE TABLE IF NOT EXISTS `users_point_log` (
   KEY `uid` (`uid`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='用户积分日志';
 
--- 表的结构 `ads`
+
+--
+-- 表的结构 `albums`
 --
 
-CREATE TABLE IF NOT EXISTS `ads` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) NOT NULL COMMENT '广告名称',
-  `data` text NOT NULL COMMENT '广告定义',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='广告';
+CREATE TABLE IF NOT EXISTS `albums` (
+  `id` bigint(20) unsigned NOT NULL,
+  `name` varchar(150) NOT NULL,
+  `uid` int(11) DEFAULT '0',
+  `cate_id` bigint(4) unsigned NOT NULL DEFAULT '0',
+  `cover_id` bigint(20) unsigned NOT NULL DEFAULT '0',
+  `cover_path` varchar(200) DEFAULT NULL,
+  `comments_num` int(11) unsigned NOT NULL DEFAULT '0',
+  `photos_num` int(11) unsigned NOT NULL DEFAULT '0',
+  `create_time` int(11) unsigned NOT NULL DEFAULT '0',
+  `up_time` int(11) unsigned NOT NULL DEFAULT '0',
+  `tags` varchar(255) DEFAULT NULL,
+  `priv_type` tinyint(1) NOT NULL DEFAULT '0',
+  `description` longtext,
+  `deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `enable_comment` tinyint(1) NOT NULL DEFAULT '1'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- 表的结构 `orders`
+-- 表的结构 `album_cate`
 --
 
-CREATE TABLE IF NOT EXISTS `orders` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `type` smallint(3) NOT NULL DEFAULT '0',
-  `ref_id` INT NOT NULL DEFAULT '0',
-  `content` text NOT NULL,
-  `addtime` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- 表的结构 `tags`
---
-
-CREATE TABLE IF NOT EXISTS `tags` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `cate_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `album_cate` (
+  `id` int(4) NOT NULL,
+  `pid` int(4) NOT NULL DEFAULT '0',
   `name` varchar(100) NOT NULL,
-  `created_at` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `name` (`name`),
-  KEY `cate_id` (`cate_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `dirname` varchar(50) DEFAULT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '1',
+  `sort` int(4) NOT NULL DEFAULT '0'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- 表的结构 `tag_cates`
+-- 表的结构 `album_photos`
 --
 
-CREATE TABLE IF NOT EXISTS `tag_cates` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `album_photos` (
+  `id` bigint(20) NOT NULL,
+  `cate_id` int(11) NOT NULL DEFAULT '0',
+  `album_id` int(11) NOT NULL DEFAULT '0',
+  `uid` int(11) DEFAULT '0',
   `name` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `path` varchar(255) NOT NULL,
+  `width` int(11) NOT NULL DEFAULT '0',
+  `height` int(11) NOT NULL DEFAULT '0',
+  `hits` bigint(20) NOT NULL DEFAULT '0',
+  `comments_num` int(11) NOT NULL DEFAULT '0',
+  `create_time` int(11) NOT NULL DEFAULT '0',
+  `taken_time` int(11) NOT NULL DEFAULT '0',
+  `description` longtext,
+  `exif` longtext,
+  `tags` varchar(255) DEFAULT NULL,
+  `priv_type` tinyint(4) NOT NULL DEFAULT '0',
+  `deleted` tinyint(1) NOT NULL DEFAULT '0'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- 表的结构 `tag_info`
+-- 表的结构 `album_tags`
 --
 
-CREATE TABLE IF NOT EXISTS `tag_info` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `tag_id` int(11) NOT NULL,
-  `info_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `tag_id` (`tag_id`),
-  KEY `info_id` (`info_id`)
+CREATE TABLE IF NOT EXISTS `album_tags` (
+  `id` int(11) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `album_num` int(11) NOT NULL,
+  `photo_num` int(11) NOT NULL,
+  `addtime` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `albums`
+--
+ALTER TABLE `albums`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `cover_id` (`cover_id`),
+  ADD KEY `cate_id` (`cate_id`),
+  ADD KEY `uid` (`uid`);
+
+--
+-- Indexes for table `album_cate`
+--
+ALTER TABLE `album_cate`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `par_id` (`pid`);
+
+--
+-- Indexes for table `album_photos`
+--
+ALTER TABLE `album_photos`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `cate_id` (`cate_id`),
+  ADD KEY `uid` (`uid`),
+  ADD KEY `album_id` (`album_id`);
+
+--
+-- Indexes for table `album_tags`
+--
+ALTER TABLE `album_tags`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `albums`
+--
+ALTER TABLE `albums`
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `album_cate`
+--
+ALTER TABLE `album_cate`
+  MODIFY `id` int(4) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `album_photos`
+--
+ALTER TABLE `album_photos`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `album_tags`
+--
+ALTER TABLE `album_tags`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
