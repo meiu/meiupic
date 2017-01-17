@@ -30,15 +30,6 @@
 	</div>
     <table class="edit_table">
         <tr>
-            <th>所属分类：</th>
-            <td><select name="cate_id" class="chosen">
-            <option value="">未分类</option>
-            <?php foreach ($cates as $key => $value): ?>
-                <option value="<?php echo $value['id'];?>"><?php echo $value['spacer'].$value['name'];?></option>
-            <?php endforeach ?>
-        </select></td>
-        </tr>
-        <tr>
         	<th>图片权限：</th>
         	<td>
              <label><input type="checkbox" name="priv_type" value="1" /> 仅自己可见</label>

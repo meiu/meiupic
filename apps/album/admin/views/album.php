@@ -47,7 +47,7 @@
             <div class="info">
                 <div class="title">
                     <input class="id_sel selitem" name="ids[]" type="checkbox" value="<?php echo $value['id']; ?>" />
-                    <span class="name"><a href="<?php echo U('album','photo','aid='.$value['id']);?>"><?php echo $value['name'];?></a></span>
+                    <span class="name"><a href="<?php echo U('album','index','aid='.$value['id']);?>"><?php echo $value['name'];?></a></span>
                 </div>
                 <div class="info_col">
                     <p class="gray"><a href="<?php echo U('comment','album','type=album&id='.$value['id']);?>" class="gray"><?php echo $value['comments_num'];?>评论</a> ,<a href="<?php echo U('album','album','cate_id='.$value['cate_id']);?>"><?php echo $value['catename'];?></a> </p>

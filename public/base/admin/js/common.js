@@ -95,7 +95,7 @@ function multi_opt(url,msg){
     });
 }
 
-function multi_show(url,title){
+function multi_show(url,title,width,height){
     var seled = $(".id_sel:checked");
 
     if(seled.length == 0){
@@ -113,7 +113,7 @@ function multi_show(url,title){
     }else{
         url = url+'?ids='+ids;
     }
-    MuiShow(url,title);
+    MuiShow(url,title,width,height);
 }
 
 function opt_one(o,msg){
@@ -156,7 +156,7 @@ var uploadWin={
             lock: true,
             background: '#000', // 背景色
             opacity: 0.3,  // 透明度
-            okVal:'插入',
+            okVal:'选好了',
             ok: function (w) {
                 var ids = w.$('#att-ids').html();
                 var paths = w.$('#att-path').html();
@@ -223,7 +223,7 @@ function sel_relate(id,model){
     });
 }
 
-function MuiShow(url,title){
+function MuiShow(url,title,width,height){
     //随机生成一个窗口id
     var winid = "win"+Math.floor(Math.random()*10000);
     if(url.indexOf('?') > -1){
@@ -231,13 +231,14 @@ function MuiShow(url,title){
     }else{
         url = url+'?winid='+winid;
     }
-    window.top.art.dialog.open(url,{
+    var option = {
         id:winid,
         title: title,
         lock: true,
         background: '#000', // 背景色
         opacity: 0.3,  // 透明度
         okVal:'确定',
+        fixed:true,
         ok: function () {
             var iframe = this.iframe.contentWindow;
             var formbtn = iframe.document.getElementById('dosubmit');
@@ -250,7 +251,15 @@ function MuiShow(url,title){
         cancel: function(){
             this.close()
         }
-    });
+    };
+    if(typeof(width) != 'undefined'){
+        option.width = width;
+    }
+    if(typeof(height) != 'undefined'){
+        option.height = height;
+    }
+
+    window.top.art.dialog.open(url,option);
 }
 
 //图片输入框显示缩略图

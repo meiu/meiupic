@@ -1,6 +1,8 @@
 <link rel="stylesheet" href="<?php echo S('album','admin/css/main.css');?>" />
+<script src="<?php echo S('base','lightbox/js/lightbox.min.js');?>"></script>
+<link rel="stylesheet" href="<?php echo S('base','lightbox/css/lightbox.min.css');?>" />
 <div class="main-head">
-    <h3>图片列表</h3>
+    <h3><?php if(isset($albumInfo)){ echo '《'.$albumInfo['name'].'》的'; } ?>图片列表</h3>
     <a href="javascript:void(0)" onclick="NewPhotos()" class="i-add">添加图片</a>
 </div>
 <div class="search">
@@ -17,12 +19,11 @@
                     <?php endforeach ?>
                 </select>
                 <label>不属于任何相册：<input type="checkbox" name="notinablum" value="1" <?php if($search['notinablum']){echo 'checked';}?> /> </label>
-            	<?php endif; ?>
+            	用户ID:
+                <input type="text" placeholder="输入用户ID" size="10" value="<?php echo $search['uid'];?>" name="uid">
+                <?php endif; ?>
                 图片名：
                 <input type="text" placeholder="输入图片名称" size="20" value="<?php echo $search['name'];?>" name="name">
-                用户ID:
-                <input type="text" placeholder="输入用户ID" size="10" value="<?php echo $search['uid'];?>" name="uid">
-
                 <input type="submit" value="搜索" class="submit-btn">
             </form>
         </div>
@@ -36,7 +37,7 @@
                         <tbody>
                         <tr>
                             <td>
-                                <a href="#"><?php if($value['albumname']): ?><label><?php echo $value['albumname'];?></label><?php endif; ?><img alt="<?php echo $value['name'];?>" src="<?php echo thumb($value['path'],180,180,2);?>"></a>
+                                <a href="<?php echo D($value['path']);?>" data-lightbox="images" data-title="<?php echo $value['name'];?>"><?php if($value['albumname']): ?><label><?php echo $value['albumname'];?></label><?php endif; ?><img alt="<?php echo $value['name'];?>" src="<?php echo thumb($value['path'],180,180,2);?>"></a>
                             </td>
                         </tr>
                         </tbody>
@@ -67,7 +68,7 @@
     </div>
 </div>
 <div class="bottom_bar">
-  操作: <label><input type="checkbox" onclick="$('.id_sel').prop('checked',this.checked);" /> 全选</label> 将选中项 <a href="javascript:void(0)" onclick="multi_opt('<?php echo U('album','index','a=trash&isajax=1');?>','您是要删除选定项么？')">移动到回收站</a> <a href="javascript:void(0)" onclick="multi_show('<?php echo U('album','index','a=move');?>','移动图片')">移动到相册</a>
+  操作: <label><input type="checkbox" onclick="$('.id_sel').prop('checked',this.checked);" /> 全选</label> 将选中项 <a href="javascript:void(0)" onclick="multi_opt('<?php echo U('album','index','a=trash&isajax=1');?>','您是要删除选定项么？')">移动到回收站</a> <a href="javascript:void(0)" onclick="multi_show('<?php echo U('album','index','a=move');?>','移动图片',550,500)">移动到相册</a>
 </div>
 <?php echo $pagestr; ?>
 <script>
@@ -77,8 +78,12 @@
             for(var i in vReturnValue){
                 ids += vReturnValue[i].id+','
             }
+            <?php if($search['aid']): ?>
+            MuiShow("<?php echo U('album','index','a=addtoalbum');?>&aid=<?php echo $search['aid'];?>&ids="+ids,'添加图片',910,390);
+            <?php else: ?>
             //保存为图片
-            MuiShow("<?php echo U('album','index','a=add');?>&ids="+ids,'添加图片');
+            MuiShow("<?php echo U('album','index','a=add');?>&ids="+ids,'添加图片',910,390);
+            <?php endif; ?>
 	    });
 	}
 </script>

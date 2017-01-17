@@ -9,7 +9,7 @@
         </tr>
         <tr>
             <th>所属分类：</th>
-            <td><select name="cate_id">
+            <td><select name="cate_id" class="chosen">
             <option value="">请选择分类</option>
             <?php foreach ($cates as $key => $value): ?>
                 <option value="<?php echo $value['id'];?>" <?php if($value['id'] == $info['cate_id']){ echo 'selected="selected"';} ?>><?php echo $value['spacer'].$value['name'];?></option>

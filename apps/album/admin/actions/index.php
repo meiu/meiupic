@@ -13,6 +13,11 @@ class AlbumIndex extends Adminbase{
         $search['aid']  = getRequest('aid');
         $search['notinablum'] = getRequest('notinablum');
 
+        if(isPost()){
+            redirect(U('album','index',$search));
+            return false;
+        }
+        
         $m_photo = M('album_photos');
 
         $where = 'deleted=0';
@@ -33,6 +38,8 @@ class AlbumIndex extends Adminbase{
         }
         if( $search['aid'] ){
             $where .= ' and album_id='.intval($search['aid']);
+            $albumInfo = M('albums')->load(intval($search['aid']));
+            $this->view->assign('albumInfo',$albumInfo);
         }elseif($search['notinablum']){
             $where .= ' and album_id=0';
         }
@@ -169,6 +176,80 @@ class AlbumIndex extends Adminbase{
         $this->view->display('photo_add.php');
     }
 
+    function addtoalbumAct(){
+        global $_G;
+
+        $m_photos = M('album_photos');
+        if(isPost()){
+            $album_id = intval(getGet('aid'));
+            $albumInfo = M('albums')->load($album_id);
+            if(!$albumInfo){
+                alert('相册不存在！');
+            }
+
+            $name = safestr(trim(getPost('name')));
+            $tags = trim(getPost('tags'));
+            $data['uid'] = $_G['user']['id'];
+            $data['description'] = trim(getPost('description'));
+            $data['cate_id'] = $albumInfo['cate_id'];
+            $data['album_id'] = $album_id;
+            $data['create_time'] = time();
+            $data['priv_type'] = intval(getPost('priv_type'));
+
+            $upload_setting = C('upload');
+            $dirpath = $upload_setting['dirpath'];
+
+            $photopaths = getPost('photopaths');
+            $photonames = getPost('photonames');
+            $exiflib = new exif;
+            foreach($photopaths as $k=>$path){
+                $data['path'] = $path;
+                $data['name'] = $name?$name.'('.($k+1).')':$photonames[$k];
+                $data['tags'] = $tags;
+                $data['path'] = $path;
+                $data['taken_time'] = 0;
+                $data['exif'] = '';
+
+                $imginfo = @getimagesize($dirpath.$path);
+                $data['width'] = @$imginfo[0];
+                $data['height'] = @$imginfo[1];
+                if( @$imginfo[2] == 2){//如果图片是jpg
+                    $exif = $exiflib->get_exif($dirpath.$path);
+                    if($exif){
+                        $data['exif'] = serialize($exif);
+                        $taken_time = strtotime($exif['DateTimeOriginal']);
+                        $data['taken_time'] = $taken_time;
+                    }
+                }
+                $m_photos->insert($data);
+            }
+            //重置图片数量
+            app('album')->updatePhotoNum($album_id);
+            if(!$albumInfo['cover_id']){
+                app('album')->updateCover($album_id,0);
+            }
+            alert('添加照片成功！',true,'js_reload');
+        }
+
+        $ids = trim(getGet('ids'),',');
+        //获取待上传的列表
+        if($ids){
+            $id_arr = explode(',', $ids);
+
+            //取出图片
+            $photos = M('upfiles')->findAll(array(
+                'where'=>'id in ('.implode(',', $id_arr).')',
+                'order' => 'SUBSTRING_INDEX(\''.implode(',', $id_arr).'\',id,1)'
+            ));
+        }else{
+            $photos = array();
+        }
+        $this->view->decorate(null,'_mini.php');
+        $this->view->assign('photos',$photos);
+        $this->view->display('photo_addtoalbum.php');
+    }
+
+
     function trashAct(){
         $id = intval(getGet('id'));
         $ids = getPost('ids');
@@ -188,11 +269,75 @@ class AlbumIndex extends Adminbase{
     }
 
     function moveAct(){
+        $page = getGet('page',1);
 
+        $search['a'] = trim(getRequest('a'));
+        $search['ids'] = trim(getRequest('ids'));
+        $search['name'] = trim(getRequest('name'));
+        $search['winid'] = trim(getRequest('winid'));
+        $search['cate_id']  = getRequest('cate_id');
+
+        $m_album = M('albums');
+        $where = 'deleted=0';
+        if( $search['name'] ){
+            if( is_numeric($search['name']) ){
+                $where .= ' and id ='.intval($search['name']);
+            }else{
+                $keyword = trim($search['name'],'*');
+                $where .= " and name like '%".$m_album->escape($keyword,false)."%'";
+            }
+        }
+        if( $search['cate_id'] ){
+            $catIds = app('album')->catIds(intval($search['cate_id']));
+            $where .= ' and cate_id in ('.implode(',', $catIds).')';
+        }
+        $totalCount = $m_album->count($where);
+        $pageurl = U('album','index',array_merge($search,array('page'=>'%page%')));
+       
+        $pager = new Pager($page,C('pageset.admin',15),$totalCount,$pageurl);
+        $pager->config(C('adminpage'));
+        $limit = $pager->getLimit();
+        $this->view->assign('pagestr',$pager->html());
+
+        $rows = $m_album->findAll(array(
+            'where' => $where,
+            'start' => $limit['start'],
+            'limit' => $limit['limit'],
+            'order' => 'id desc'
+        ));
 
         $cates = app('album')->getCateList();
         $this->view->assign('cates',$cates);
+        $this->view->assign('rows',$rows);
+        $this->view->assign('search',$search);
         $this->view->decorate(null,'_mini.php');
         $this->view->display('photo_move.php');
+    }
+
+    function domoveAct(){
+        $ids = trim(getRequest('ids'));
+        $album_id = intval(getRequest('album_id'));
+        if(!$album_id){
+            alert('请选择相册！');
+        }
+        $albumInfo = M('albums')->load($album_id);
+        if(!$albumInfo){
+            alert('相册不存在！');
+        }
+        //同时修改图片分类
+        $updata = array('album_id'=>$album_id,'cate_id'=>$albumInfo['cate_id']);
+        if($albumInfo['priv_type']==1){//如果相册本身是私有的，那么拉进来的图片也置为私有
+            $updata['priv_type'] == 1;
+        }
+        if( M('album_photos')->updateW('id in ('.$ids.')',$updata) ){
+            //重置图片数量
+            app('album')->updatePhotoNum($album_id);
+            if(!$albumInfo['cover_id']){
+                app('album')->updateCover($album_id,0);
+            }
+            alert('移动图片成功！',true,'js_reload');
+        }else{
+            alert('移动失败！');
+        }
     }
 }

@@ -10,6 +10,10 @@ class AlbumAlbum extends Adminbase{
         $search['name'] = trim(getRequest('name'));
         $search['uid']  = getRequest('uid');
         $search['cate_id']  = getRequest('cate_id');
+        if(isPost()){
+            redirect(U('album','album',$search));
+            return false;
+        }
 
         $m_album = M('albums');
 

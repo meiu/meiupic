@@ -119,4 +119,27 @@ class AlbumClass{
         }
         return false;
     }
+
+    //更新相册图片数量
+    public function updatePhotoNum($album_id){
+        $num = M('album_photos')->count('album_id='.intval($album_id));
+        return M('albums')->update($album_id,array('photos_num'=>$num));
+    }
+
+    //更新相册封面
+    public function updateCover($album_id,$photo_id=0){
+        if($photo_id){
+            $photoInfo = M('album_photos')->load($photo_id);
+        }else{
+            $photoInfo = M('album_photos')->findRow(array(
+                'where'=>'album_id='.intval($album_id),
+                'limit' => 1
+            ));
+        }
+        if($photoInfo){
+            return M('albums')->update($album_id,array('cover_id'=>$photoInfo['id'],'cover_path'=>$photoInfo['path']));
+        }
+
+        return false;
+    }
 }

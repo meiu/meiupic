@@ -154,7 +154,7 @@ div.body{
     font-size:14px;
 }
 .body .side-bg {
-    width: 290px;
+    width: 200px;
     border-right: 1px solid #ccc;
     display: inline-block;
     vertical-align: middle;
@@ -166,7 +166,7 @@ div.body{
 }
 .body .side {
     float: left;
-    width: 290px;
+    width: 200px;
     border-right: 1px solid #ccc;
     background-color: #f7f7f7;
     height: 100%;
@@ -190,7 +190,7 @@ div.body{
     line-height: 50px;
     height: 50px;
     color:#333;
-    padding: 0 10px 0 50px;
+    padding: 0 10px 0 30px;
     border-bottom: 1px solid #e4e4e4;
 }
 .nav-aside ul li a:hover{
@@ -215,7 +215,7 @@ div.body{
 }
 
 .body .main{
-    margin-left: 290px;
+    margin-left: 200px;
     padding: 20px;
 }
 
@@ -292,7 +292,7 @@ div.body tr.hover:hover td{
     background: #ffffee;
 }
 .edit_table th{text-align: right;width:140px;background: #f9f9f9}
-
+.search label{margin:0 10px;}
 input[type="text"],input[type="password"]{
 
     font-size: 12px;
