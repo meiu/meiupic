@@ -1,4 +1,4 @@
- <?php
+<?php
 defined('IN_MWEB') or die('access denied');
 
 require_once('_submenu.php');

@@ -50,10 +50,10 @@ class AlbumAlbum extends Adminbase{
 
         $cateIndex = app('album')->getCateIndex();
         //获取相册作者名字
-        foreach($rows as &$value){
+        foreach($rows as $k=>$value){
             $user = M('users')->load($value['uid']);
-            $value['nickname'] = $user?$user['nickname']:'未知';
-            $value['catename'] = isset($cateIndex[$value['cate_id']])?$cateIndex[$value['cate_id']]['name']:'未知分类';
+            $rows[$k]['nickname'] = $user?$user['nickname']:'未知';
+            $rows[$k]['catename'] = isset($cateIndex[$value['cate_id']])?$cateIndex[$value['cate_id']]['name']:'未知分类';
         }
 
         $this->view->assign('rows',$rows);
@@ -148,6 +148,8 @@ class AlbumAlbum extends Adminbase{
             }
         }elseif($ids){
             if(M('albums')->updateW('id in ('.implode(',', $ids).')',array('deleted'=>1))){
+                //同时将照片标示为删除状态，这种状态用2来表示
+                M('album_photos')->updateW('album_id in ('.implode(',', $ids).')',array('deleted'=>2));
                 alert('移动相册到回收站成功！',true,'js_reload');
             }else{
                 alert('移动相册到回收站失败！');

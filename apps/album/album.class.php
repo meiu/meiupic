@@ -122,7 +122,7 @@ class AlbumClass{
 
     //更新相册图片数量
     public function updatePhotoNum($album_id){
-        $num = M('album_photos')->count('album_id='.intval($album_id));
+        $num = M('album_photos')->count('album_id='.intval($album_id).' and deleted=0');
         return M('albums')->update($album_id,array('photos_num'=>$num));
     }
 
@@ -132,7 +132,7 @@ class AlbumClass{
             $photoInfo = M('album_photos')->load($photo_id);
         }else{
             $photoInfo = M('album_photos')->findRow(array(
-                'where'=>'album_id='.intval($album_id),
+                'where'=>'album_id='.intval($album_id).' and deleted=0',
                 'limit' => 1
             ));
         }
@@ -140,6 +140,18 @@ class AlbumClass{
             return M('albums')->update($album_id,array('cover_id'=>$photoInfo['id'],'cover_path'=>$photoInfo['path']));
         }
 
-        return false;
+        return true;
+    }
+    //检查相册封面
+    public function checkCover($album_id){
+        $albumInfo = M('albums')->load(intval($album_id));
+        if(!$albumInfo){
+            return false;
+        }
+        $coverInfo = M('album_photos')->load($albumInfo['cover_id']);
+        if($coverInfo && $coverInfo['deleted']==0 && $photo['album_id'] == $album_id){
+            return ture;
+        }
+        return $this->updateCover($album_id);
     }
 }

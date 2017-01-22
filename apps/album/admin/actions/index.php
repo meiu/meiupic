@@ -60,15 +60,15 @@ class AlbumIndex extends Adminbase{
 
         $cateIndex = app('album')->getCateIndex();
         //获取相册作者名字
-        foreach($rows as &$value){
+        foreach($rows as $k=>$value){
             $user = M('users')->load($value['uid']);
-            $value['nickname'] = $user?$user['nickname']:'未知';
-            $value['catename'] = isset($cateIndex[$value['cate_id']])?$cateIndex[$value['cate_id']]['name']:'未知分类';
+            $rows[$k]['nickname'] = $user?$user['nickname']:'未知';
+            $rows[$k]['catename'] = isset($cateIndex[$value['cate_id']])?$cateIndex[$value['cate_id']]['name']:'未知分类';
             if($value['album_id']){
                 $album = M('albums')->load($value['album_id']);
-                $value['albumname'] = $album?$album['name']:'';
+                $rows[$k]['albumname'] = $album?$album['name']:'';
             }else{
-                $value['albumname'] = '';
+                $rows[$k]['albumname'] = '';
             }
         }
 
@@ -255,6 +255,9 @@ class AlbumIndex extends Adminbase{
         $ids = getPost('ids');
         if($id){
             if(M('album_photos')->update($id,array('deleted'=>1))){
+                //取出图片
+
+
                 alert('移动图片到回收站成功！',true,'js_reload');
             }else{
                 alert('移动图片到回收站失败！');
