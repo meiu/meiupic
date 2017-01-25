@@ -7,8 +7,14 @@
 	}
 	div.leftphotos li{
 		width:140px;float:left;margin-bottom:10px;
-		text-align: center;
+		text-align: left;
 	}
+    div.leftphotos li div.picbox{
+        width: 130px;
+        height: 130px;
+        margin-bottom: 5px;
+        overflow: hidden;
+    }
 	div.leftphotos li input{
 		width:110px;
 	}
@@ -16,19 +22,19 @@
 		width:450px;float: left;
 	}
 </style>
-<form id="submit_form" class="ajaxform" method="post" style="width:900px;height:370px;">
-	<div  class="leftphotos">
+<form id="submit_form" action="<?php echo U('album','upload','a=saveinfo');?>" class="ajaxform" method="post" style="width:900px;height:370px;">
+	<div class="leftphotos">
 		<ul>
 			<?php foreach ($photos as $key => $value): ?>
 			<li>
-			<img src="<?php echo D($value['path']);?>" width="130" height="130">
-			<input name="photopaths[]" type="hidden" value="<?php echo $value['path'];?>">
-			<input name="photonames[]" type="text" size="16" value="<?php echo $value['name'];?>">
+			<div class="picbox"><img src="<?php echo U('album','upload','a=thumb&path='.urlencode($value['path']));?>" width="130"></div>
+			<input name="photonames[<?php echo $value['id'];?>]" type="text" size="16" value="<?php echo $value['name'];?>">
 			</li>
 			<?php endforeach ?>
 		</ul>
 	</div>
     <table class="edit_table">
+        <?php if(!$aid): ?>
         <tr>
             <th>所属分类：</th>
             <td><select name="cate_id" class="chosen">
@@ -38,6 +44,7 @@
             <?php endforeach ?>
         </select></td>
         </tr>
+        <?php endif; ?>
         <tr>
         	<th>图片权限：</th>
         	<td>

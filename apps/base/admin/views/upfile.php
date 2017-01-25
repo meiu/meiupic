@@ -159,24 +159,25 @@ $(function() {
         <div class="tab">
             <ul>
                 <li class="active"><span>上传文件</span></li>
+                <?php if($attach):?>
                 <li onclick="setIframe('#filelist','<?php echo U('base','upfile','a=filelist&type='.$type.'&num='.$num);?>');"><span>文件库</span></li>
-                <?php if($hasnotused):?>
-                <li onclick="setIframe('#notused','<?php echo U('base','upfile','a=notused&type='.$type.'&num='.$num);?>');"><span>未处理文件</span></li>
                 <?php endif;?>
             </ul>
         </div>
         <div class="tab_con">
             <div class="tab_c">
-                <form id="uploadform" action="<?php echo U('base','upfile','a=savefiles&type='.$type.'&num='.$num);?>" method="post">
+                <form id="uploadform" action="<?php echo U('base','upfile','a=savefiles&type='.$type.'&num='.$num.'&attach='.$attach);?>" method="post">
                     <div class="tips_info">
                         <p><?=$filetype['memo']?></p>
                     </div>
                     <div id="muilti_uploader"></div>
                 </form>
             </div>
+            <?php if($attach):?>
             <div class="tab_c" style="display:none;">
                 <iframe id="filelist" src="about:blank" border="0" frameborder="0" width="490" height="280"></iframe>
             </div>
+            <?php endif;?>
         </div>
         <?php if($CKEditor): ?>
         <div class="editor_buttons">

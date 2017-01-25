@@ -30,7 +30,7 @@
                         <tbody>
                         <tr>
                             <td>
-                                <a href="<?php echo U('album','index','aid='.$value['id']);?>"><em><?php echo $value['photos_num'];?> 张</em><?php if($value['cover_path']): ?><img alt="<?php echo $value['name'];?>" src="<?php echo thumb($value['cover_path'],180,180,2);?>"><?php else:?><img src="<?php echo S('base','images/nophoto.gif');?>" /><?php endif;?></a>
+                                <a href="<?php echo U('album','index','aid='.$value['id']);?>"><?php if($value['priv_type']==1): ?><span class="lock"></span><?php endif; ?><em><?php echo $value['photos_num'];?> 张</em><?php if($value['cover_path']): ?><img alt="<?php echo $value['name'];?>" src="<?php echo thumb($value['cover_path'],180,180,2);?>"><?php else:?><img src="<?php echo S('base','images/nophoto.gif');?>" /><?php endif;?></a>
                             </td>
                         </tr>
                         </tbody>
@@ -39,7 +39,7 @@
                 <div class="pic_ctl">
                     <ul class="btns">
                         <li><a href="<?php echo U('album','album','a=trash&id='.$value['id']);?>" onclick="return opt_one(this,'确定移动到回收站？')" title="移动到回收站"><img src="<?php echo S('base','admin/images/b-trash.png')?>" alt="删除"></a></li>
-                        <li><a href="javascript:void(0)" onclick="MuiShow('<?php echo U('album','album','a=edit&id='.$value['id']);?>','编辑相册')" title="修改"><img src="<?php echo S('base','admin/images/b-edit.png')?>" alt="修改"></a></li>
+                        <li><a href="<?php echo U('album','album','a=edit&id='.$value['id']);?>" onclick="return MuiShow(this,'编辑相册')" title="修改"><img src="<?php echo S('base','admin/images/b-edit.png')?>" alt="修改"></a></li>
                     </ul>
                 </div>
                 <div class="clear"></div>

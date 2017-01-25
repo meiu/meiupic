@@ -40,7 +40,7 @@ return array(
 
     'pageset' => array(
         'default' => 15,
-        'admin' => 15,
+        'admin' => 18,
         'filelist'=>10
     ),
     'adminpage' => array(

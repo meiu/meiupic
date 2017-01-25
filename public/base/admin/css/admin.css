@@ -22,13 +22,16 @@ a:active{outline:none;/*0也可以*/}
 .smallfont{
     font-size: 12px;
 }
-.notice, .alert, .important {
+.notice, .alert, .important ,.nodata{
     background: none repeat scroll 0 0 #F6F6F6;
     border: 1px solid #CCCCCC;
     border-radius: 3px 3px 3px 3px;
     color: #666666;
     margin: 5px 2px;
     padding: 5px 10px;
+}
+.nodata{
+    margin:30px 2px;
 }
 .c_y{color:#FF7D27;}
 .gray{color:#999;}
@@ -85,7 +88,6 @@ div.pages a.on{
 }
 #head{
     height:56px;
-    /*background: url(../images/hbg.png) repeat-x;*/
     background: #1a93de;
     border-bottom:2px solid #116faa;
     min-width:750px;
@@ -95,8 +97,8 @@ div.pages a.on{
 #head a.dropmenu{display: none;}
 #logo{
     height:56px;
-    /*background: url(../images/logo.png) no-repeat center;
-    */width:150px;
+    background: url(../images/logo.png) no-repeat center;
+    width:150px;
     float: left;
     text-indent:-1000px;
     margin-right: 20px;

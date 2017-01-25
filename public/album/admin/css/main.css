@@ -30,6 +30,8 @@
 .grid .pic_box a label{
     display: none;
 }
+
+
 .grid .pic_box a em{
     position: absolute;
     left: 10px;
@@ -54,6 +56,7 @@
     background-color: rgba(0,0,0,0.6);
     color: #fff;
     text-indent: 4px;
+    z-index: 11;
 }
 .grid .album .pic_box img{
     border:1px solid #ccc;
@@ -64,6 +67,16 @@
 .grid .mini .pic_box img{
     max-width: 150px;
     max-height: 150px;
+}
+.grid .pic_box a span.lock{
+    position: absolute;
+    left:10px;
+    top:10px;
+    width:16px;
+    height: 16px;
+    display: block;
+    background: url('../../../base/admin/images/i-lock.png') no-repeat;
+    z-index:10;
 }
 .grid .pic_box table{width:100%}
 .grid .pic_box table td{

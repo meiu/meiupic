@@ -143,17 +143,20 @@ function resize_img(w,h,x,y){
 }
 //上传窗口
 var uploadWin={
-    open: function(type,num,callbackFun){
+    open: function(type,num,callbackFun,attach){
         var arg_type = type || 'image';
-        var arg_num= num || '1';
+        var arg_num = num || '1';
+        var attach = attach || '1';
+
         if(typeof(callbackFun) == "function"){
             uploadWin.callback = callbackFun;
         }else{
             uploadWin.callback = null;
         }
-        art.dialog.open(BASE_URL+'sys.php?app=base&m=upfile&type='+arg_type+'&num='+arg_num,{
+        art.dialog.open(BASE_URL+'sys.php?app=base&m=upfile&type='+arg_type+'&num='+arg_num+'&attach='+attach,{
             title: 'Meiu上传组件',
             lock: true,
+            fixed: true,
             background: '#000', // 背景色
             opacity: 0.3,  // 透明度
             okVal:'选好了',
@@ -223,7 +226,13 @@ function sel_relate(id,model){
     });
 }
 
-function MuiShow(url,title,width,height){
+function MuiShow(o,title,width,height){
+    if(typeof(o) == 'string'){
+        var url = o;
+    }else{
+        var url = $(o).attr('href');
+    }
+
     //随机生成一个窗口id
     var winid = "win"+Math.floor(Math.random()*10000);
     if(url.indexOf('?') > -1){
@@ -260,6 +269,7 @@ function MuiShow(url,title,width,height){
     }
 
     window.top.art.dialog.open(url,option);
+    return false;
 }
 
 //图片输入框显示缩略图

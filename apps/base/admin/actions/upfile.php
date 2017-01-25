@@ -6,9 +6,11 @@ class BaseUpfile extends Adminbase{
     function indexAct(){
         $num = getGet('num',1);
         $type = getGet('type','image');
+        $attach = getGet('attach','1');
 
         $this->view->assign('num',$num);
         $this->view->assign('type',$type);
+        $this->view->assign('attach',$attach);
 
         $filetype = C('upfiles.'.$type);
 
@@ -17,7 +19,6 @@ class BaseUpfile extends Adminbase{
         }
 
         $this->view->assign('filetype',$filetype);
-        $this->view->assign('hasnotused',false);
 
         $this->view->decorate(false);
         $this->view->assign('CKEditor',getGet('CKEditor'));

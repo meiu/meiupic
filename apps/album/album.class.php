@@ -122,12 +122,18 @@ class AlbumClass{
 
     //更新相册图片数量
     public function updatePhotoNum($album_id){
+        if(!$album_id){
+            return false;
+        }
         $num = M('album_photos')->count('album_id='.intval($album_id).' and deleted=0');
         return M('albums')->update($album_id,array('photos_num'=>$num));
     }
 
     //更新相册封面
     public function updateCover($album_id,$photo_id=0){
+        if(!$album_id){
+            return false;
+        }
         if($photo_id){
             $photoInfo = M('album_photos')->load($photo_id);
         }else{
@@ -137,20 +143,27 @@ class AlbumClass{
             ));
         }
         if($photoInfo){
-            return M('albums')->update($album_id,array('cover_id'=>$photoInfo['id'],'cover_path'=>$photoInfo['path']));
+            M('albums')->update($album_id,array('cover_id'=>$photoInfo['id'],'cover_path'=>$photoInfo['path']));
+            return true;
+        }elseif(!$photo_id){
+            M('albums')->update($album_id,array('cover_id'=>0,'cover_path'=>''));
+            return true;
         }
 
         return true;
     }
     //检查相册封面
     public function checkCover($album_id){
+        if(!$album_id){
+            return false;
+        }
         $albumInfo = M('albums')->load(intval($album_id));
         if(!$albumInfo){
             return false;
         }
         $coverInfo = M('album_photos')->load($albumInfo['cover_id']);
-        if($coverInfo && $coverInfo['deleted']==0 && $photo['album_id'] == $album_id){
-            return ture;
+        if($coverInfo && $coverInfo['deleted']==0 && $coverInfo['album_id'] == $album_id){
+            return true;
         }
         return $this->updateCover($album_id);
     }

@@ -19,10 +19,10 @@ class AlbumAlbum extends Adminbase{
 
         $where = 'deleted=0';
         if( $search['name'] ){
-            if( is_numeric($search['name']) ){
-                $where .= ' and id ='.intval($search['name']);
+            if( preg_match('/\*\d+/', $search['name'])){
+                $where .= ' and id ='.intval(trim($search['name'],'*'));
             }else{
-                $keyword = trim($search['name'],'*');
+                $keyword = $search['name'];
                 $where .= " and name like '%".$m_album->escape($keyword,false)."%'";
             }
         }
@@ -142,6 +142,7 @@ class AlbumAlbum extends Adminbase{
         $ids = getPost('ids');
         if($id){
             if(M('albums')->update($id,array('deleted'=>1))){
+                M('album_photos')->update($id,array('deleted'=>2));
                 alert('移动相册到回收站成功！',true,'js_reload');
             }else{
                 alert('移动相册到回收站失败！');
