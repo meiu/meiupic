@@ -12,7 +12,7 @@
     <?php if(!empty($albumInfo)):?>
     <a href="<?php echo U('album','album');?>" style="margin-right:20px;">&lt;&lt;返回</a>
     <?php endif; ?>
-    <a href="javascript:void(0)" onclick="MuiShow('<?php echo U('album','upload','aid='.$search['aid']);?>','添加图片',910,390);" class="i-add">添加图片</a>
+    <a href="javascript:void(0)" onclick="MuiShow('<?php echo U('album','upload','aid='.$search['aid']);?>','添加图片',910,395);" class="i-add">添加图片</a>
 
 </div>
 <div class="search">

@@ -385,11 +385,11 @@ class ImageGd extends image{
         }
         //设定图像的混色模式
         imagealphablending($this->image, true);
-        if(function_exists('imagecopymerge') && $this->param['water_mark_opacity'] != 0){
-            @imagecopymerge($this->image, $water_im, $posX, $posY, 0, 0, $w,$h,$this->param['water_mark_opacity']);
-        }else{
+        //if(function_exists('imagecopymerge') && $this->param['water_mark_opacity'] != 0){
+        //    @imagecopymerge($this->image, $water_im, $posX, $posY, 0, 0, $w,$h,$this->param['water_mark_opacity']);
+        //}else{
             imagecopy($this->image, $water_im, $posX, $posY, 0, 0, $w,$h);//拷贝水印到目标文件
-        }
+        //}
         imagedestroy($water_im);
     }
     

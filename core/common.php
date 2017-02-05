@@ -304,7 +304,8 @@ function ST($path){
 }
 //绝对上传地址
 function D($path){
-    return C('upload.url_pre').$path;
+    $storelib = storage::instance();
+    return $storelib->getUrl($path);
 }
 //输出类别的中文名
 function echoType($value,$arr,$default=''){
@@ -475,52 +476,8 @@ function fromArr($fields,$arr){
  * @return string 路径
  */
 function thumb($path,$w=100,$h=100,$t=1,$smallpic = 'nopreview.gif'){
-    $upload_setting = C('upload');
-    $realpath = $upload_setting['dirpath'].$path;
-    $imgurl = $upload_setting['url_pre'].$path;
-
-    if(empty($path) || !file_exists($realpath)) return S('base','images/'.$smallpic);
-
-    $file_ext= fileext($path);
-
-    $newimgpath = "{$path}_{$w}_{$h}_{$t}.{$file_ext}";
-
-    $newrealpath = $upload_setting['dirpath'].$newimgpath;
-    $newimgurl   = $upload_setting['url_pre'].$newimgpath;
-
-    if(file_exists($newrealpath)){
-        return $newimgurl;
-    }
-
-    list($width_t, $height_t, $type, $attr) = getimagesize($realpath);
-    if($w>=$width_t && $h>=$height_t) return $imgurl;
-
-    $img = image::instance();
-
-    $img->load($realpath);
-    if($t == 1){
-        $img->resizeCut($w,$h);
-    }elseif($t == 2){
-        $img->resizeScale($w,$h);
-    }else{
-        $img->resize($w,$h);
-    }
-    $img->save($newrealpath);
-
-    //将缩略图记录到数据库
-    $filesize = filesize($newrealpath);
-    $insert_data = array(
-        'name' => basename($newimgpath),
-        'filetype' => 'image',
-        'ext' => $file_ext,
-        'path' => $newimgpath,
-        'size' => $filesize,
-        'isthumb' => 1,
-        'addtime' => time()
-    );
-    M('upfiles')->insert($insert_data);
-
-    return $newimgurl;
+    $storelib = storage::instance();
+    return $storelib->getThumb($path,$w,$h,$t,S('base','images/'.$smallpic));
 }
 
 /**

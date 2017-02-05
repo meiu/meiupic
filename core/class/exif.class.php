@@ -18,7 +18,7 @@ class exif{
         if ($exif===false) {
             return false;
         }
-        $exif_info = exif_read_data($file,NULL,true);
+        $exif_info = @exif_read_data($file,NULL,true);
         $exif_arr = $this->supported_exif();
         $new_exif = array();
         
@@ -77,7 +77,8 @@ class exif{
             'GPSLatitude' => 'GPS.GPSLatitude',
             'GPSLongitude' => 'GPS.GPSLongitude',
             'GPSLatitudeRef' => 'GPS.GPSLatitudeRef',
-            'GPSLongitudeRef' => 'GPS.GPSLongitudeRef'
+            'GPSLongitudeRef' => 'GPS.GPSLongitudeRef',
+            'LensModel' => 'EXIF.UndefinedTag:0xA434'
         );
     }
     function parse_exif($infos){

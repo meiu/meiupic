@@ -35,7 +35,9 @@ function initPlupload(){
         filters : [
             {title : "<?php echo $filetype['title'];?>", extensions : "<?php echo $filetype['ext'];?>"}
         ],
-        flash_swf_url : '<?php echo S("base","plupload/plupload.flash.swf");?>'
+        flash_swf_url : '<?php echo S("base","plupload/plupload.flash.swf");?>'<?php if(@$_G['settings']['album_resize_img'] && @$_G['settings']['album_pre_resize_img']):?>,
+        resize : {width : <?php echo $_G['settings']['album_resize_img_w'];?>, height : <?php echo $_G['settings']['album_resize_img_h'];?>, quality : 90}
+        <?php endif; ?>
     });
     var uploader = $('#muilti_uploader').pluploadQueue();
     var usubmited = 0;

@@ -61,7 +61,6 @@ class BaseUpfile extends Adminbase{
         ));
 
         $this->view->assign('rows',$rows);
-        $this->view->assign('file_pre',C('upload.url_pre'));
         $this->view->assign('num',$num);
         $this->view->assign('name',$name);
         $this->view->assign('date',$date);
@@ -208,51 +207,44 @@ class BaseUpfile extends Adminbase{
                 }
             }
 
-            $upload_setting = C('upload');
-
             $date = date('Ymd');
             $attachdir = $type.'/'.$date;
-            if(!is_dir($upload_setting['dirpath'].$attachdir)){
-                @mkdir($upload_setting['dirpath'].$attachdir,0755,true);
-            }
 
             $files_count = intval(getPost('muilti_uploader_count'));
-
             $uploaded_files = array();
+
+            $storagelib = storage::instance();
             for($i=0;$i<$files_count;$i++){
                 $tmpfile = $targetDir . DS . getPost("muilti_uploader_{$i}_tmpname");
                 $filename = getPost("muilti_uploader_{$i}_name");
                 $status =  getPost("muilti_uploader_{$i}_status");
                 $fileext = fileext($filename);
                 $path = $attachdir.'/'.str_replace('.','',microtime(true)).rand(10,99).'.'.$fileext;
-                $realpath = $upload_setting['dirpath'].$path;
+                $filesize = filesize($tmpfile);
+                //$realpath = $upload_setting['dirpath'].$path;
                 if($status == 'done' && file_exists($tmpfile)){
                     if(!in_array($fileext,explode(',', $filetype['ext']))){//如果不是支持的文件类别直接清除临时文件
                         @unlink($tmpfile);
                         continue;
                     }
-
-                    if(@copy($tmpfile,$realpath)){
-                        @unlink($tmpfile);
-                        @chmod($realpath,0755);
-
-                        $filesize = filesize($realpath);
-                        $insert_data = array(
-                            'name' =>$filename,
-                            'filetype' => $type,
-                            'ext' => $fileext,
-                            'path' => $path,
-                            'size' => $filesize,
-                            'isthumb' => 0,
-                            'addtime' => time()
-                        );
-                        $m_upfile->insert($insert_data);
-                        $insert_data['id'] = $m_upfile->insertId();
-                        $uploaded_files[] = $insert_data;
+                    if(!$storagelib->save($tmpfile,$path)){
+                        continue;
                     }
+
+                    $insert_data = array(
+                        'name' =>$filename,
+                        'filetype' => $type,
+                        'ext' => $fileext,
+                        'path' => $path,
+                        'size' => $filesize,
+                        'isthumb' => 0,
+                        'addtime' => time()
+                    );
+                    $m_upfile->insert($insert_data);
+                    $insert_data['id'] = $m_upfile->insertId();
+                    $uploaded_files[] = $insert_data;
                 }
             }
-            $this->view->assign('file_pre',$upload_setting['url_pre']);
             $this->view->assign('uploaded_files',$uploaded_files);
             $this->view->assign('num',getGet('num'));
             $this->view->decorate(false);

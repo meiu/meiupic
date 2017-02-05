@@ -317,9 +317,9 @@ class ImageImagick extends image{
         //{  
         //   return false;
         //}
-        if($this->param['water_mark_opacity']){
-            $water_img->setImageOpacity($this->param['water_mark_opacity']/100);
-        }
+        //if($this->param['water_mark_opacity']){
+        //    $water_img->setImageOpacity($this->param['water_mark_opacity']/100);
+        //}
         $draw = new ImagickDraw();
         switch($this->param['water_mark_pos']) {
             case 0:

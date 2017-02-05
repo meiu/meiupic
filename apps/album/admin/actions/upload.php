@@ -35,13 +35,8 @@ class AlbumUpload extends Adminbase{
             }
         }
 
-        $upload_setting = C('upload');
-
         $date = date('Ymd');
         $attachdir = 'albums/'.$date;
-        if(!is_dir($upload_setting['dirpath'].$attachdir)){
-            @mkdir($upload_setting['dirpath'].$attachdir,0755,true);
-        }
 
         $files_count = intval(getPost('muilti_uploader_count'));
         $aid = intval(getGet('aid'));
@@ -52,23 +47,20 @@ class AlbumUpload extends Adminbase{
         $m_photos = M('album_photos');
         $exiflib = new exif;
         $imagelib = image::instance();
+        $storagelib = storage::instance();
         for($i=0;$i<$files_count;$i++){
             $tmpfile = $targetDir . DS . getPost("muilti_uploader_{$i}_tmpname");
             $filename = getPost("muilti_uploader_{$i}_name");
             $status =  getPost("muilti_uploader_{$i}_status");
             $fileext = fileext($filename);
             $path = $attachdir.'/'.str_replace('.','',microtime(true)).rand(10,99).'.'.$fileext;
-            $realpath = $upload_setting['dirpath'].$path;
+            
             if($status == 'done' && file_exists($tmpfile)){
                 if(!in_array($fileext,explode(',', $filetype['ext']))){//如果不是支持的文件类别直接清除临时文件
                     @unlink($tmpfile);
                     continue;
                 }
-
-                if(@copy($tmpfile,$realpath)){
-                    @unlink($tmpfile);
-                    @chmod($realpath,0755);
-                }
+                
                 $data = array();
                 $data['uid'] = $_G['user']['id'];
 	            $data['cate_id'] =  $albumInfo?$albumInfo['cate_id']:0;
@@ -81,12 +73,14 @@ class AlbumUpload extends Adminbase{
                 $data['taken_time'] = 0;
                 $data['exif'] = '';
 
-                $imginfo = @getimagesize($realpath);
+                $imginfo = @getimagesize($tmpfile);
                 $data['width'] = @$imginfo[0];
                 $data['height'] = @$imginfo[1];
 
+                //引入一个变量一个图片只加载一次
+                $imgloaded = false;
                 if( @$imginfo[2] == 2){//如果图片是jpg
-                    $exif = $exiflib->get_exif($upload_setting['dirpath'].$path);
+                    $exif = $exiflib->get_exif($tmpfile);
                     if($exif){
                         $data['exif'] = serialize($exif);
                         $taken_time = strtotime($exif['DateTimeOriginal']);
@@ -94,27 +88,57 @@ class AlbumUpload extends Adminbase{
                         $exif['Orientation'] = isset($exif['Orientation'])?$exif['Orientation']:0;
                         //修正手机拍摄的照片旋转角度的问题
                         if($exif['Orientation']==6){
-                        	$imagelib->load($realpath);
+                        	$imagelib->load($tmpfile);
                         	$imagelib->rotate(-90);
-                        	$imagelib->save($realpath);
-                        	//交换宽高
+                        	$imgloaded = true;
+                            //交换宽高
                         	$tmp = $data['width'];
                         	$data['width'] = $data['height'];
                         	$data['height'] = $tmp;
                         }elseif($exif['Orientation']==8){
-                        	$imagelib->load($realpath);
+                        	$imagelib->load($tmpfile);
                         	$imagelib->rotate(90);
-                        	$imagelib->save($realpath);
-                        	//交换宽高
+                        	$imgloaded = true;
+                            //交换宽高
                         	$tmp = $data['width'];
                         	$data['width'] = $data['height'];
                         	$data['height'] = $tmp;
                         }elseif($exif['Orientation']==3){
-                        	$imagelib->load($realpath);
+                        	$imagelib->load($tmpfile);
                         	$imagelib->rotate(180);
-                        	$imagelib->save($realpath);
+                            $imgloaded = true;
                         }
                     }
+                }
+                if(@$_G['settings']['album_resize_img']){//开启了缩放
+                    $max_width = intval($_G['settings']['album_resize_img_w']);
+                    $max_height = intval($_G['settings']['album_resize_img_h']);
+                    if($data['width'] > $max_width || $data['height'] > $max_height){
+                        if(!$imgloaded){
+                            $imagelib->load($tmpfile);
+                        }
+                        $imagelib->resizeScale($max_width,$max_height);
+                        $imgloaded = true;
+                        $arr['width'] = $imagelib->getWidth();
+                        $arr['height'] = $imagelib->getHeight();
+                    }
+                }
+                if(@$_G['settings']['album_enable_watermark']){//开启了水印
+                    if(!$imgloaded){
+                        $imagelib->load($tmpfile);
+                    }
+                    $imagelib->waterMarkSetting(array(
+                        'water_mark_image' => $storagelib->localfile($_G['settings']['album_watermark_path']),
+                        'water_mark_pos' => $_G['settings']['album_water_mark_pos']
+                    ));
+                    $imagelib->waterMarkImg();
+                    $imgloaded = true;
+                }
+                if($imgloaded){
+                    $imagelib->save($tmpfile);
+                }
+                if(!$storagelib->save($tmpfile,$path)){
+                    continue;
                 }
                 
                 $m_photos->insert($data);
@@ -129,8 +153,6 @@ class AlbumUpload extends Adminbase{
         		app('album')->updateCover($aid);
         	}
         }
-
-        $this->view->assign('file_pre',$upload_setting['url_pre']);
         $this->view->decorate(null,'_mini.php');
 
         $cates = app('album')->getCateList();

@@ -58,8 +58,8 @@ function file_pick(obj){
         <li>
             <a href="javascript:void(0)" onclick="file_pick(this)" title="<?php echo $value['name'];?>">
             <div class="icon"></div>
-            <img <?php if($value['filetype']=='image'): ?>
-            src="<?php echo $file_pre.$value['path'];?>" width="80"
+            <img <?php if($value['filetype']=='image' || $value['filetype']=='watermark'): ?>
+            src="<?php echo D($value['path']);?>" width="80"
             <?php else: ?>
             src="<?php echo S('base','images/mime/'.$value['ext'].'.png');?>" height="60"
             <?php endif; ?>

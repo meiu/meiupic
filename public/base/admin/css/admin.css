@@ -236,7 +236,7 @@ div.toolbar{
     padding:10px;
 }
 a.i-add{
-    background: url(../images/i-add.png) no-repeat left -1px;
+    background: url(../images/i-add.png) no-repeat left 1px;
     padding-left:20px;
     font-size: 14px;
     font-weight: bold;
