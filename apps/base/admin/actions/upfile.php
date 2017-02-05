@@ -73,7 +73,7 @@ class BaseUpfile extends Adminbase{
     function _uploadProcess($fileName,$append=true,$fullPath=false){
         $fileName = preg_replace('/[^\w\._]+/', '', $fileName);
 
-        $targetDir = DATA_PATH.'cache/tmp';
+        $targetDir = C('tmp_dir');
         if (!file_exists($targetDir))
             @mkdir($targetDir);
             
@@ -191,7 +191,7 @@ class BaseUpfile extends Adminbase{
                 echo '不支持的文件类型！';exit;
             }
 
-            $targetDir =  DATA_PATH.'cache/tmp';
+            $targetDir =  C('tmp_dir');
             //清除很久之前的临时文件,发生概率10%
             if(lucker(10)){
                 if (is_dir($targetDir) && ($dir = opendir($targetDir))) {
@@ -221,7 +221,6 @@ class BaseUpfile extends Adminbase{
                 $fileext = fileext($filename);
                 $path = $attachdir.'/'.str_replace('.','',microtime(true)).rand(10,99).'.'.$fileext;
                 $filesize = filesize($tmpfile);
-                //$realpath = $upload_setting['dirpath'].$path;
                 if($status == 'done' && file_exists($tmpfile)){
                     if(!in_array($fileext,explode(',', $filetype['ext']))){//如果不是支持的文件类别直接清除临时文件
                         @unlink($tmpfile);

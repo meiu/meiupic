@@ -30,22 +30,22 @@ class Storage{
     }
 
     public function save($src,$dst,$delete_src=true){
-    	return false;
+        return false;
     }
     public function delete($file)
-	{
-		return false;
-	}
+    {
+        return false;
+    }
 
     public function localfile($path){
-		return '';
-	}
+        return '';
+    }
 
-	public function getUrl($path){
-		return '';
-	}
+    public function getUrl($path){
+        return '';
+    }
 
-	public function getThumb($path,$w,$h,$t,$placeholder){
-		return '';
-	}
+    public function getThumb($path,$w,$h,$t,$placeholder){
+        return '';
+    }
 }

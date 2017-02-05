@@ -20,7 +20,7 @@ class AlbumUpload extends Adminbase{
             echo '不支持的文件类型！';exit;
         }
 
-        $targetDir =  DATA_PATH.'cache/tmp';
+        $targetDir =  C('tmp_dir');
         //清除很久之前的临时文件,发生概率10%
         if(lucker(10)){
             if (is_dir($targetDir) && ($dir = opendir($targetDir))) {
@@ -60,7 +60,7 @@ class AlbumUpload extends Adminbase{
                     @unlink($tmpfile);
                     continue;
                 }
-                
+
                 $data = array();
                 $data['uid'] = $_G['user']['id'];
 	            $data['cate_id'] =  $albumInfo?$albumInfo['cate_id']:0;

@@ -4,6 +4,7 @@ defined('IN_MWEB') or die('access denied');
 return array(
     'base_url' => '/',
     'public_url' => '/public/',
+    'tmp_dir' => DATA_PATH.'cache/tmp',
     'database' => array(
         'adapter'  => 'mysqli',
         'host'     => '127.0.0.1',
