@@ -16,7 +16,12 @@ class StorageFile extends Storage
     }
     public function save($src,$dst,$delete_src=true){
         $realpath = $this->_setting['dirpath'].$dst;
-
+        $newdir = dirname($realpath);
+        //判断文件夹，不存在就创建
+        if(!is_dir($newdir)){
+            @mkdir($newdir,0755,true);
+        }
+        
         if(@copy($src,$realpath)){
             //删除原文件
             if($delete_src){

@@ -167,4 +167,23 @@ class AlbumClass{
         }
         return $this->updateCover($album_id);
     }
+
+    public function delPhoto($id){
+        $photoInfo = M('album_photos')->load(intval($id));
+        $storelib = storage::instance();
+        $storelib->delete($photoInfo['path']);
+        M('album_photos')->delete(intval($id));
+        return true;
+    }
+
+    public function delAlbum($id){
+        $storelib = storage::instance();
+        $photos = M('album_photos')->findAll('album_id='.intval($id));
+        M('album_photos')->deleteW('album_id='.intval($id));
+        M('albums')->delete(intval($id));
+        foreach($photos as $photo){
+            $storelib->delete($photo['path']);
+        }
+        return true;
+    }
 }

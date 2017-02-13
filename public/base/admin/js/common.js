@@ -89,6 +89,11 @@ function multi_opt(url,msg){
 
     art.dialog.confirm(msg, function () {
       var idarr = seled.serialize();
+      if(url.indexOf('?')==-1){
+        url = url+'?isajax=1';
+      }else{
+        url = url+'&isajax=1';
+      }
       $.post(url,idarr,function(data){
         ajaxAlert(data,0.5,false);
       },'json');

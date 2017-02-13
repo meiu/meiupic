@@ -7,6 +7,7 @@ $submenu = array(
     '相册列表' => 'album',
     '分类管理' => 'cate',
     '相册设置' => 'setting',
+    '回收站' => 'recyclebin',
 );
 $view->assign('submenu',$submenu);
 /*二级菜单结束*/

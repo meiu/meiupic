@@ -142,7 +142,7 @@ class AlbumAlbum extends Adminbase{
         $ids = getPost('ids');
         if($id){
             if(M('albums')->update($id,array('deleted'=>1))){
-                M('album_photos')->update($id,array('deleted'=>2));
+                M('album_photos')->updateW('album_id='.$id,array('deleted'=>2));
                 alert('移动相册到回收站成功！',true,'js_reload');
             }else{
                 alert('移动相册到回收站失败！');

@@ -96,6 +96,6 @@
     </div>
 </div>
 <div class="bottom_bar">
-  操作: <label><input type="checkbox" onclick="$('.id_sel').prop('checked',this.checked);" /> 全选</label> 将选中项 <a href="javascript:void(0)" onclick="multi_opt('<?php echo U('album','index','a=trash&isajax=1');?>','您是要删除选定项么？')">移动到回收站</a> <a href="javascript:void(0)" onclick="multi_show('<?php echo U('album','index','a=move');?>','移动图片',560,500)">移动到相册</a>
+  操作: <label><input type="checkbox" onclick="$('.id_sel').prop('checked',this.checked);" /> 全选</label> 将选中项 <a href="javascript:void(0)" onclick="multi_opt('<?php echo U('album','index','a=trash');?>','您是要删除选定项么？')">移动到回收站</a> <a href="javascript:void(0)" onclick="multi_show('<?php echo U('album','index','a=move');?>','移动图片',560,500)">移动到相册</a>
 </div>
 <?php echo $pagestr; ?>
