@@ -302,7 +302,6 @@ div.body tr.hover:hover td{
 .edit_table th{text-align: right;width:140px;background: #f9f9f9}
 .search label{margin:0 10px;}
 input[type="text"],input[type="password"]{
-
     font-size: 12px;
     line-height: normal;
     height: 24px;
@@ -327,7 +326,12 @@ input[type="text"]:focus,input[type="password"]:focus,textarea:focus{
     background: #ffffee;
     border-color:#48adee;
 }
-
+input:read-only{
+    background-color: #f7f7f7;
+}
+input:read-only:focus{
+    background-color: #f7f7f7;
+}
 input.submit-btn{
     border-radius:3px;
     border:0;

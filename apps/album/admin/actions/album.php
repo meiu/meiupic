@@ -69,11 +69,13 @@ class AlbumAlbum extends Adminbase{
 
         if(isPost()){
             $data['name'] = safestr(trim(getPost('name')));
+            $data['tags'] = trim(getPost('tags'));
             $data['description'] = trim(getPost('description'));
             $data['cate_id'] = intval(getPost('cate_id'));
             $data['up_time'] = time();
             $data['priv_type'] = intval(getPost('priv_type'));
             $data['enable_comment'] = intval(getPost('enable_comment'));
+            $data['recommended'] = intval(getPost('recommended'));
 
             if(!$data['name']){
                 alert('相册名不能为空！');
@@ -82,6 +84,11 @@ class AlbumAlbum extends Adminbase{
                 alert('请选择分类！');
             }
             if($m_album->update($id,$data)){
+                //获取相册封面
+                $info = $m_album->load($id);
+
+                app('album')->updateTags('album',$id,$data['tags'],$info['cover_path'],false);
+                
                 alert('修改相册成功！',true,'js_reload');
             }else{
                 alert('修改相册失败！');
@@ -103,12 +110,14 @@ class AlbumAlbum extends Adminbase{
         if(isPost()){
             $data['name'] = safestr(trim(getPost('name')));
             $data['uid'] = $_G['user']['id'];
+            $data['tags'] = trim(getPost('tags'));
             $data['description'] = trim(getPost('description'));
             $data['cate_id'] = intval(getPost('cate_id'));
             $data['create_time'] = time();
             $data['priv_type'] = intval(getPost('priv_type'));
             $data['enable_comment'] = intval(getPost('enable_comment'));
-
+            $data['recommended'] = intval(getPost('recommended'));
+            
             if(!$data['name']){
                 alert('相册名不能为空！');
             }
@@ -122,6 +131,8 @@ class AlbumAlbum extends Adminbase{
             }
 
             if($m_album->insert($data)){
+                $rel_id = $m_album->insertId();
+                app('album')->updateTags('album',$rel_id,$data['tags'],'',true);
                 alert('添加相册成功！',true,'js_reload');
             }else{
                 alert('添加相册失败！');

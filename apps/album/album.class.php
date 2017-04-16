@@ -186,4 +186,74 @@ class AlbumClass{
         }
         return true;
     }
+
+    //updateTags
+    public function updateTags($type,$id,$tags,$image='',$is_new=false){
+        $tags = trim(trim($tags),',');
+
+        $tag_arr = $tags?explode(',',$tags):array();
+        //去重
+        $tag_arr = array_unique($tag_arr);
+
+        $M_tag = M('album_tags');
+        $M_tag_rel = M('album_tag_rels');
+
+        //取出之前的所有的TAG
+        if($is_new){
+            $tag_ids = array();
+        }else{
+            $tag_ids = $M_tag_rel->select(array('where'=>'rel_id='.$id.' and type="'.$type.'"','fields'=>'tag_id'))->getCol();
+        }
+        //获取TAG名字
+        $oldTags = array();
+
+        $deleted = array();
+        if($tag_ids){
+            $oldTags = $M_tag->findAll('id in ('.implode(',', $tag_ids).')');
+            foreach($oldTags as $et){
+                $del_flag = true;
+                foreach($tag_arr as $k => $tag){
+                    $tag = trim($tag);
+                    if($et['name'] == $tag){
+                        $del_flag = false;
+                        unset($tag_arr[$k]);
+                    }
+                }
+                if($del_flag){
+                    $deleted[] = $et['id'];
+                }
+            }
+        }
+        //删除多余的Tags
+        if($deleted){
+            $M_tag_rel->deleteW('rel_id='.intval($id).' and type="'.$type.'" and tag_id in ('.implode(',', $deleted).')');
+        }
+        foreach($tag_arr as $k => $tag){
+            $tagInfo = $M_tag->load($tag,'*','name');
+            if($tagInfo){
+                $tag_id = $tagInfo['id'];
+                if($type == 'album'){
+                    $upArr = array('album_num'=>array('exp','album_num+1'));
+                }else{
+                    $upArr = array('photo_num'=>array('exp','photo_num+1'));
+                }
+                if(!$tagInfo['image'] && $image){
+                    $upArr['image'] = $image;
+                }
+                $M_tag->update($tag_id,$upArr);
+            }else{
+                $insertArr = array('name'=>$tag,'image'=>$image,'addtime'=>time());
+                if($type == 'album'){
+                    $insertArr['album_num'] = 1;
+                }else{
+                    $insertArr['photo_num'] = 1;
+                }
+                $M_tag->insert($insertArr);
+                $tag_id = $M_tag->insertId();
+            }
+            $M_tag_rel->insert(array('tag_id'=>$tag_id,'rel_id'=>$id,'type'=>$type));
+        }
+
+        return true;
+    }
 }

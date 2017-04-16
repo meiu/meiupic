@@ -1,6 +1,8 @@
 <script src="<?php echo S('base','tageditor/jquery.caret.min.js');?>"></script>
 <script src="<?php echo S('base','tageditor/jquery.tag-editor.min.js');?>"></script>
+<script src="<?php echo S('base','jquery-ui/jquery-ui.min.js');?>"></script>
 <link rel="stylesheet" href="<?php echo S('base','tageditor/jquery.tag-editor.css');?>" />
+<link rel="stylesheet" href="<?php echo S('base','jquery-ui/jquery-ui.min.css');?>" />
 <form id="submit_form" class="ajaxform" method="post" style="width:600px;height:400px;">
     <table class="edit_table">
         <tr>
@@ -34,12 +36,16 @@
         	<th>启用评论：</th>
         	<td><label><input type="checkbox" name="enable_comment" value="1" <?php if($info['enable_comment']){ echo 'checked="checked"';} ?> /> 是</label></td>
         </tr>
+        <tr>
+            <th>是否推荐：</th>
+            <td><label><input type="checkbox" name="recommended" value="1" <?php if($info['recommended']){ echo 'checked="checked"';} ?> /> 是</label></td>
+        </tr>
     </table>
     <input type="submit" id="dosubmit" style="display:none;" value="保存修改" />
 </form>
 
 <script type="text/javascript">
 $(function(){
-    $('#tags').tagEditor({ placeholder: '输入标签...' });
+    $('#tags').tagEditor({ placeholder: '输入标签...',autocomplete: { 'source': '<?php echo U('album','tags','a=gettags');?>', minLength: 1} });
 });
 </script>

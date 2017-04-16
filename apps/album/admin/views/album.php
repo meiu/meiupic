@@ -30,7 +30,7 @@
                         <tbody>
                         <tr>
                             <td>
-                                <a href="<?php echo U('album','index','aid='.$value['id']);?>"><?php if($value['priv_type']==1): ?><span class="lock"></span><?php endif; ?><em><?php echo $value['photos_num'];?> 张</em><?php if($value['cover_path']): ?><img alt="<?php echo $value['name'];?>" src="<?php echo thumb($value['cover_path'],180,180,2);?>"><?php else:?><img src="<?php echo S('base','images/nophoto.gif');?>" /><?php endif;?></a>
+                                <a href="<?php echo U('album','index','aid='.$value['id']);?>"><?php if($value['priv_type']==1): ?><span class="lock"></span><?php endif; ?><em><?php echo $value['photos_num'];?> 张</em><?php if($value['recommended']): ?><i>推荐</i><?php endif; ?><?php if($value['cover_path']): ?><img alt="<?php echo $value['name'];?>" src="<?php echo thumb($value['cover_path'],180,180,2);?>"><?php else:?><img src="<?php echo S('base','images/nophoto.gif');?>" /><?php endif;?></a>
                             </td>
                         </tr>
                         </tbody>

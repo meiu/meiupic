@@ -1,6 +1,8 @@
 <script src="<?php echo S('base','tageditor/jquery.caret.min.js');?>"></script>
 <script src="<?php echo S('base','tageditor/jquery.tag-editor.min.js');?>"></script>
+<script src="<?php echo S('base','jquery-ui/jquery-ui.min.js');?>"></script>
 <link rel="stylesheet" href="<?php echo S('base','tageditor/jquery.tag-editor.css');?>" />
+<link rel="stylesheet" href="<?php echo S('base','jquery-ui/jquery-ui.min.css');?>" />
 <form id="submit_form" class="ajaxform" method="post" style="width:600px;height:380px;">
     <table class="edit_table">
         <tr>
@@ -36,6 +38,6 @@
 
 <script type="text/javascript">
 $(function(){
-    $('#tags').tagEditor({ placeholder: '输入标签...' });
+    $('#tags').tagEditor({ placeholder: '输入标签...' ,autocomplete: { 'source': '<?php echo U('album','tags','a=gettags');?>', minLength: 1} });
 });
 </script>

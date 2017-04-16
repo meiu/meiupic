@@ -186,7 +186,7 @@ CREATE TABLE IF NOT EXISTS `albums` (
   `description` longtext,
   `deleted` tinyint(1) NOT NULL DEFAULT '0',
   `enable_comment` tinyint(1) NOT NULL DEFAULT '1'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -201,7 +201,7 @@ CREATE TABLE IF NOT EXISTS `album_cate` (
   `dirname` varchar(50) DEFAULT NULL,
   `status` tinyint(1) NOT NULL DEFAULT '1',
   `sort` int(4) NOT NULL DEFAULT '0'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -227,7 +227,7 @@ CREATE TABLE IF NOT EXISTS `album_photos` (
   `tags` varchar(255) DEFAULT NULL,
   `priv_type` tinyint(4) NOT NULL DEFAULT '0',
   `deleted` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -238,14 +238,52 @@ CREATE TABLE IF NOT EXISTS `album_photos` (
 CREATE TABLE IF NOT EXISTS `album_tags` (
   `id` int(11) NOT NULL,
   `name` varchar(50) NOT NULL,
+  `image` varchar(100) DEFAULT NULL,
+  `description` varchar(500) NOT NULL,
   `album_num` int(11) NOT NULL,
   `photo_num` int(11) NOT NULL,
   `addtime` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `album_tag_rels`
+--
+
+CREATE TABLE IF NOT EXISTS `album_tag_rels` (
+  `tag_id` int(11) NOT NULL,
+  `type` enum('album','photo') NOT NULL,
+  `rel_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `album_tags`
+--
+ALTER TABLE `album_tags`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`) USING BTREE;
+
+--
+-- Indexes for table `album_tag_rels`
+--
+ALTER TABLE `album_tag_rels`
+  ADD PRIMARY KEY (`tag_id`,`type`,`rel_id`),
+  ADD KEY `rel_id` (`rel_id`,`type`) USING BTREE;
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `album_tags`
+--
+ALTER TABLE `album_tags`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Indexes for table `albums`
@@ -272,11 +310,7 @@ ALTER TABLE `album_photos`
   ADD KEY `uid` (`uid`),
   ADD KEY `album_id` (`album_id`);
 
---
--- Indexes for table `album_tags`
---
-ALTER TABLE `album_tags`
-  ADD PRIMARY KEY (`id`);
+
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -297,8 +331,3 @@ ALTER TABLE `album_cate`
 --
 ALTER TABLE `album_photos`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `album_tags`
---
-ALTER TABLE `album_tags`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;

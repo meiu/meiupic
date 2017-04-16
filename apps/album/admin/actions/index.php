@@ -85,6 +85,7 @@ class AlbumIndex extends Adminbase{
 
         if(isPost()){
             $data['name'] = safestr(trim(getPost('name')));
+            $data['tags'] = trim(getPost('tags'));
             $data['description'] = trim(getPost('description'));
             $data['cate_id'] = intval(getPost('cate_id'));
             $data['priv_type'] = intval(getPost('priv_type'));
@@ -94,6 +95,9 @@ class AlbumIndex extends Adminbase{
             }
 
             if($m_photo->update($id,$data)){
+                $info = $m_photo->load($id);
+                
+                app('album')->updateTags('photo',$id,$data['tags'],$info['path'],false);
                 alert('修改图片成功！',true,'js_reload');
             }else{
                 alert('修改图片失败！');

@@ -44,6 +44,19 @@
     color: #fff;
     border-radius: 4px;
 }
+.grid .pic_box a i{
+    position: absolute;
+    right: 10px;
+    bottom: 15px;
+    font-style: normal;
+    font-size: 12px;
+    line-height:20px;
+    height: 20px;
+    padding:0 4px;
+    background-color: rgba(0,200,0,0.6);
+    color: #fff;
+    border-radius: 4px;
+}
 .grid .pic_box a:hover label{
     display: block;
     position: absolute;
