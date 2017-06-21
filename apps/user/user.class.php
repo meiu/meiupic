@@ -168,8 +168,23 @@ Class UserClass{
     }
 
     //获取用户的头像
-    public function getAvatar($uid,$email=''){
-        return $email?'https://secure.gravatar.com/avatar/'.md5($email).'?rating=G&size=48&d=mm':S('user','images/user_normal.png');
+    public function getAvatar($user,$size='small'){
+        if($user['facever']){
+            if($user['id']>100){
+                $pre = substr($user['id'], 0,3);
+            }elseif($user['id']>10){
+                $pre = substr($user['id'], 0,2);
+            }else{
+                $pre = $user['id'];
+            }
+            return D('avatar/'.$pre.'/'.$user['id'].'/'.$size.'.jpg?'.$user['facever']);
+        }else{
+            return S('user','images/avatar_'.$size.'.png');
+        }
+    }
+
+    public function getGravatar($email){
+        return 'https://secure.gravatar.com/avatar/'.md5($email).'?rating=G&size=48&d=mm';
     }
 
     //增加/减少积分

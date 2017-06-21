@@ -784,6 +784,13 @@ function layout($data,$tpl){
     return $_G['runtime']['view']->fetch('layout/'.$tpl.'.php',$data);
 }
 
+function checkLogin(){
+    global $_G;
+    if(!$_G['user']){
+        redirect(U('user','login'));
+    }
+}
+
 function hideStr($string, $bengin=0, $len = 4, $type = 0, $glue = "@") {
     if (empty($string))
         return false;

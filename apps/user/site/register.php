@@ -60,6 +60,7 @@ if(isPost() || getGet('ajax') ){
     if($uid){
         //插入额外信息
         $infodata['uid'] = $uid;
+        $infodata['addtime'] = time();
         M('users_info')->insert($infodata);
 
         list($r,$msg) = app('user')->setLogin($data['username'],$data['userpass'],0,false);

@@ -7,7 +7,9 @@ return array(
     'desc'      => '系统核心模块',
     'author'    => 'Lingter',
     'author_url'=> 'http://www.meiu.cn',
-    'issystem'  => '1',
+    'issystem'  => 1,
+    'ismy'      => 0,
+    'isspace'   => 0,
     'adminmenu' => array(
         array('name'=>'首页','app'=>'base','mod'=>'index','fixed'=>true),
         array('name'=>'模版','app'=>'base','mod'=>'template','fixed'=>true),

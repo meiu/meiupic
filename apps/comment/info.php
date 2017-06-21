@@ -7,5 +7,7 @@ return array(
     'desc'      => '评论模块，可以用于任何地方',
     'author'    => 'Lingter',
     'author_url'=> 'http://www.meiu.cn',
-    'issystem'  => '1',
+    'issystem'  => 1,
+    'ismy'      => 0,
+    'isspace'   => 0
 );

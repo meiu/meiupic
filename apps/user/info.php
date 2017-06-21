@@ -7,5 +7,7 @@ return array(
     'desc'      => '用户系统',
     'author'    => 'Lingter',
     'author_url'=> 'http://www.meiu.cn',
-    'issystem'  => '1',
+    'issystem'  => 1,
+    'ismy'      => 0,
+    'isspace'   => 0
 );

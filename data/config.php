@@ -6,7 +6,7 @@ return array(
     'public_url' => '/public/',
     'tmp_dir' => DATA_PATH.'cache/tmp',
     'database' => array(
-        'adapter'  => 'mysqli',
+        'adapter'  => 'pdomysql',
         'host'     => '127.0.0.1',
         'port'     => '3306',
         'dbuser'   => 'root',

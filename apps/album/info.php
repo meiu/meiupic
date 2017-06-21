@@ -7,5 +7,7 @@ return array(
     'desc'      => '相册',
     'author'    => 'Lingter',
     'author_url'=> 'http://www.meiu.cn',
-    'issystem'  => '1'
+    'issystem'  => 1,
+    'ismy'      => 1,
+    'isspace'   => 1
 );

@@ -18,7 +18,16 @@
         <th>Email：</th>
         <td><input type="text" name="email" size="20" value="<?php echo $info['email'];?>" /></td>
         </tr>
-
+        <tr>
+        <th>性别：</th>
+        <td>
+        <select name="gender">
+            <option value="n" <?php if($info['gender']=='n'){echo 'selected="selected"';} ?>>不详</option>
+            <option value="f" <?php if($info['gender']=='f'){echo 'selected="selected"';} ?>>女</option>
+            <option value="m" <?php if($info['gender']=='m'){echo 'selected="selected"';} ?>>男</option>
+        </select>
+        </td>
+        </tr>
         <tr>
         <th>登录密码：</th>
         <td><input type="password" name="userpass" size="20" value="" /> (不修改可留空)</td>

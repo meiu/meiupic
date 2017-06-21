@@ -273,7 +273,13 @@ class ImageGd extends image{
      * @param int $height 指定高度
      */
     public function resize($width,$height) {
-        if($this->true_color){
+        if($this->true_color && $this->image_type == IMAGETYPE_PNG){
+            $newim = imagecreatetruecolor($width, $height);
+            $alpha = imagecolorallocatealpha($newim, 0, 0, 0, 127);
+            imagefill($newim, 0, 0, $alpha);
+            imagecopyresampled($newim, $this->image, 0, 0, 0, 0, $width, $height, $this->getWidth(), $this->getHeight());
+            imagesavealpha($newim, true);
+        }elseif($this->true_color && $this->image_type == IMAGETYPE_JPEG){
             $newim = imagecreatetruecolor($width, $height);
             imagecopyresampled($newim, $this->image, 0, 0, 0, 0, $width, $height, $this->getWidth(), $this->getHeight());
         }else{
@@ -291,12 +297,19 @@ class ImageGd extends image{
      * @param int $height 指定高度
      */
     public function cut($width,$height,$left = 0,$top = 0){
-        if($this->true_color){
+        if($this->true_color && $this->image_type == IMAGETYPE_PNG){
             $new_image = imagecreatetruecolor($width, $height);
+            $alpha = imagecolorallocatealpha($new_image, 0, 0, 0, 127);
+            imagefill($new_image, 0, 0, $alpha);
+            imagecopy($new_image, $this->image, 0, 0, $left, $top, $width, $height);
+            imagesavealpha($new_image, true);
+        }elseif($this->true_color && $this->image_type == IMAGETYPE_JPEG){
+            $new_image = imagecreatetruecolor($width, $height);
+            imagecopy($new_image, $this->image, 0, 0, $left, $top, $width, $height);
         }else{
             $new_image = imagecreate($width, $height);
+            imagecopy($new_image, $this->image, 0, 0, $left, $top, $width, $height);
         }
-        imagecopy($new_image, $this->image, 0, 0, $left, $top, $width, $height);
         imagedestroy($this->image);
         $this->image = $new_image;
     }
@@ -385,9 +398,9 @@ class ImageGd extends image{
         }
         //设定图像的混色模式
         imagealphablending($this->image, true);
-        //if(function_exists('imagecopymerge') && $this->param['water_mark_opacity'] != 0){
-        //    @imagecopymerge($this->image, $water_im, $posX, $posY, 0, 0, $w,$h,$this->param['water_mark_opacity']);
-        //}else{
+        /*if(function_exists('imagecopymerge') && $this->param['water_mark_opacity'] != 0){
+            @imagecopymerge($this->image, $water_im, $posX, $posY, 0, 0, $w,$h,$this->param['water_mark_opacity']);
+        }else{*/
             imagecopy($this->image, $water_im, $posX, $posY, 0, 0, $w,$h);//拷贝水印到目标文件
         //}
         imagedestroy($water_im);

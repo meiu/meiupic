@@ -49,7 +49,7 @@ class UserIndex extends Adminbase{
             $data['nickname'] = trim(getPost('nickname'));
             $data['email'] = trim(getPost('email'));
             $data['level'] = intval(getPost('level'));
-
+            $data['gender'] = getPost('gender');
             if(!$data['username']){
                 alert('用户名不能为空！');
             }
@@ -115,6 +115,7 @@ class UserIndex extends Adminbase{
             $data['nickname'] = trim(getPost('nickname'));
             $data['email'] = trim(getPost('email'));
             $data['level'] = intval(getPost('level'));
+            $data['gender'] = getPost('gender');
 
             if(!$data['username']){
                 alert('用户名不能为空！');
@@ -138,7 +139,8 @@ class UserIndex extends Adminbase{
                 alert('用户名重复！');
             }
 
-            $data['userpass'] = md5($userpass);
+            $data['salt'] = substr(uniqid(rand()), -6);
+            $data['userpass'] = md5(md5($userpass).$data['salt']);
             $data['regtime'] = time();
             $data['regip'] = getClientIp();
 
@@ -146,7 +148,7 @@ class UserIndex extends Adminbase{
                 $uid = $m_user->insertId();
                 //额外字段信息
                 $fields = app('base')->getSetting('user_fields',true);
-                $infodata = array( 'uid' => $uid);
+                $infodata = array( 'uid' => $uid,'addtime'=>time());
                 foreach($fields as $k=>$v){
                     $infodata[$k] = trim(getPost($k));
                 }
@@ -171,7 +173,7 @@ class UserIndex extends Adminbase{
 
     function delAct(){
         $id = intval(getGet('id'));
-        if($id == $_G['user']['id']){
+        if($id == $this->_G['user']['id']){
             alert('你不能删除自己！');
         }
 
