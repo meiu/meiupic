@@ -140,7 +140,7 @@ class BaseUpfile extends Adminbase{
         $chunks = getRequest('chunks',0);
         $filename = getRequest('name','');
 
-        $this->_uploadProcess($filename,$chunk!=0);
+        $status = $this->_uploadProcess($filename,$chunk!=0);
         
         switch($status){
             case 100:

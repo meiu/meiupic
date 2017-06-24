@@ -7,7 +7,7 @@
     <script src="<?php echo S('base','js/jquery.min.js');?>"></script>
     <script src="<?php echo S('base','js/jquery.form.js');?>"></script>
     <script src="<?php echo S('base','admin/js/common.js');?>"></script>
-    <script src="<?php echo S('base','dialog/jquery.artDialog.js?skin=blue');?>"></script>
+    <script src="<?php echo S('base','dialog/jquery.artDialog.js?skin=modernblue');?>"></script>
     <script src="<?php echo S('base','dialog/plugins/iframeTools.js');?>"></script>
     <script src="<?php echo S('base','js/jquery.dragsort.min.js');?>"></script>
     <script src="<?php echo S('base','chosen/chosen.jquery.min.js');?>"></script>

@@ -11,7 +11,7 @@ img{border:none;}
 }
 #filemanager div.tab{padding-left:10px;}
 #muilti_uploader{
-    height:280px;
+    height:310px;
     overflow-y:auto;
 }
 .filelist ul,.filelist li{padding:0;margin:0;list-style: none;}

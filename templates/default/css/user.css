@@ -280,6 +280,8 @@ a:hover{text-decoration: none;}
     outline: 0;
     font-size: 13px;
     border: solid 2px #e0e0e0;
+    border-radius: 0;
+    -webkit-appearance:none;
 }
 .content .line-wrap .submit-btn {
     letter-spacing: 4px;

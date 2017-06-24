@@ -9,10 +9,14 @@
     <script src="<?php echo S('base','js/jquery.form.js');?>"></script>
     <script src="<?php echo S('base','dialog/jquery.artDialog.js?skin=modern');?>"></script>
     <script src="<?php echo S('base','dialog/plugins/iframeTools.js');?>"></script>
-    <link rel="stylesheet" href="<?=ST('css/user.css')?>" type="text/css" />
-    <link rel="stylesheet" href="<?=S('base','webuploader/webuploader.css')?>" type="text/css" />
-    <script src="<?php echo S('base','webuploader/webuploader.min.js');?>"></script>
+    <script src="<?php echo S('base','jquery-ui/jquery-ui.min.js');?>"></script>
+    <link rel="stylesheet" href="<?php echo S('base','jquery-ui/jquery-ui.min.css');?>" />
+    <link rel="stylesheet" href="<?php echo S('base','plupload/jquery.ui.plupload/css/jquery.ui.plupload.css'); ?>" type="text/css" />
+    <script type="text/javascript" src="<?php echo S('base','plupload/plupload.full.min.js'); ?>"></script>
+    <script type="text/javascript" src="<?php echo S('base','plupload/jquery.ui.plupload/jquery.ui.plupload.min.js"'); ?>"></script>
+    <script type="text/javascript" src="<?php echo S('base','plupload/i18n/zh_CN.js'); ?>"></script>
     <script src="<?php echo S('user','js/my.js');?>"></script>
+    <link rel="stylesheet" href="<?=ST('css/user.css')?>" type="text/css" />
 </head>
 <body>
 <div class="my-header">

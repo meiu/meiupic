@@ -5,9 +5,13 @@
 <link rel="stylesheet" href="<?php echo S('base','admin/css/admin.css'); ?>" type="text/css" media="all" />
 <link rel="stylesheet" href="<?php echo S('base','admin/css/upload.css'); ?>" type="text/css" media="all" />
 <script src="<?php echo S('base','js/jquery.min.js');?>"></script>
-<script type="text/javascript" src="<?php echo S('base','plupload/plupload.full.js'); ?>"></script>
-<script type="text/javascript" src="<?php echo S('base','plupload/jquery.plupload.queue/jquery.plupload.queue.js'); ?>"></script>
-<link rel="stylesheet" href="<?php echo S('base','plupload/jquery.plupload.queue/css/jquery.plupload.queue.css'); ?>" type="text/css" />
+<script src="<?php echo S('base','jquery-ui/jquery-ui.min.js');?>"></script>
+<link rel="stylesheet" href="<?php echo S('base','jquery-ui/jquery-ui.min.css');?>" />
+<link rel="stylesheet" href="<?php echo S('base','plupload/jquery.ui.plupload/css/jquery.ui.plupload.css'); ?>" type="text/css" />
+<script type="text/javascript" src="<?php echo S('base','plupload/plupload.full.min.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo S('base','plupload/jquery.ui.plupload/jquery.ui.plupload.min.js"'); ?>"></script>
+<script type="text/javascript" src="<?php echo S('base','plupload/i18n/zh_CN.js'); ?>"></script>
+
 <script type="text/javascript">
 function tab(h,con){
     var _tab=$(h);
@@ -83,71 +87,46 @@ var sel_uploads = new Array();
 var file_limit = <?php echo $num;?>;
 
 function initPlupload(){
-    $("#muilti_uploader").pluploadQueue({
-        runtimes : 'html5,flash',
+    $("#muilti_uploader").plupload({
+        runtimes : 'html5,flash,silverlight,html4',
         url : "<?php echo U('base','upfile','a=uploadprocess');?>",
-        max_file_size : "<?php echo $filetype['max'];?>",
         chunk_size : '1mb',
-        unique_names : true,
-        filters : [
-            {title : "<?php echo $filetype['title'];?>", extensions : "<?php echo $filetype['ext'];?>"}
-        ],
-        <?php /*if($num): ?>
-        init : {
-              FilesAdded: function(up, files) {
-                plupload.each(files, function(file) {
-                  if (up.files.length > file_limit) {
-                    up.removeFile(file);
-                  }
-                });
-                if (up.files.length >= file_limit) {
-                  $('#muilti_uploader_browse').hide();
-                }
-              },
-              FilesRemoved: function(up, files) {
-                if (up.files.length < file_limit) {
-                  $('#muilti_uploader_browse').fadeIn('slow');
-                }
-              }
-            },
-            <?php if($num==1): ?>
-            multi_selection: false,
-            <?php endif; ?>
-        <?php endif;*/ ?>
-        flash_swf_url : '<?php echo S("base","plupload/plupload.flash.swf");?>'
+        filters : {
+            max_file_size : '<?php echo $filetype['max'];?>',
+            mime_types: [
+                {title : "<?php echo $filetype['title'];?>", extensions : "<?php echo $filetype['ext'];?>"}
+            ]
+        },
+        unique_names:true,
+        rename: true,
+        sortable: true,
+        dragdrop: true,
+        <?php if(stripos($filetype['ext'], 'png')!==false || stripos($filetype['ext'], 'jpg')!==false): ?>
+        views: {
+            list: true,
+            thumbs: true,
+            active: 'thumbs'
+        },
+        <?php else: ?>
+        views: {
+            list: true,
+            thumbs: false,
+            active: 'list'
+        },
+        <?php endif; ?>
+        flash_swf_url : '<?php echo S("base","plupload/Moxie.swf");?>',
+        silverlight_xap_url : '<?php echo S("base","plupload/Moxie.xap");?>'
     });
-    var uploader = $('#muilti_uploader').pluploadQueue();
-    var usubmited = 0;
-    if(uploader){
-        uploader.bind('StateChanged', function() {
-            if (uploader.files.length === (uploader.total.uploaded + uploader.total.failed) && !usubmited) {
-                usubmited = 1;
-                $.post($('#uploadform').attr('action'),$('#uploadform').serializeArray(),function(data){
-                    $('#muilti_uploader').html(data);
-                });
-            }
+    
+    $('#muilti_uploader').on('complete', function() {
+        $.post($('#uploadform').attr('action'),$('#uploadform').serializeArray(),function(data){
+            $('#muilti_uploader').html(data);
         });
-    }
+    });
 }
 
 
 $(function() {
-    plupload.addI18n({
-        'Filename' : '文件名',
-        'Status' : '状态',
-        'Size' : '大小',
-        'Add files' : '添加文件',
-        'Stop current upload' : '停止上传',
-        'Start uploading queue' : '开始上传',
-        'Start upload' : '开始上传',
-        'Uploaded %d/%d files':'已上传 %d/%d 文件',
-        'Drag files here.' : '拖拽文件至此处.',
-        'File extension error.': '文件类型错误.',
-        'File size error.': '文件大小错误.',
-        'Error: Invalid file extension: ':'错误的文件类型：',
-        'Error: File too large: ':'文件太大：'
-    });
-    
     initPlupload();
 });
 </script>

@@ -69,6 +69,17 @@
 
 
 
+<!-- Button -->
+<h2 class="demoHeaders">Button</h2>
+<button id="button">A button element</button>
+<form style="margin-top: 1em;">
+	<div id="radioset">
+		<input type="radio" id="radio1" name="radio"><label for="radio1">Choice 1</label>
+		<input type="radio" id="radio2" name="radio" checked="checked"><label for="radio2">Choice 2</label>
+		<input type="radio" id="radio3" name="radio"><label for="radio3">Choice 3</label>
+	</div>
+</form>
+
 
 
 
@@ -257,6 +268,10 @@
 
 
 
+<!-- Progressbar -->
+<h2 class="demoHeaders">Progressbar</h2>
+<div id="progressbar"></div>
+
 
 
 
@@ -336,6 +351,8 @@ $( "#autocomplete" ).autocomplete({
 
 
 
+$( "#button" ).button();
+$( "#radioset" ).buttonset();
 
 
 
@@ -345,6 +362,11 @@ $( "#autocomplete" ).autocomplete({
 
 
 
+
+
+$( "#progressbar" ).progressbar({
+	value: 20
+});
 
 
 

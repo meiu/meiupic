@@ -6,9 +6,12 @@
 <script src="<?php echo S('base','js/jquery.min.js');?>"></script>
 <script src="<?php echo S('base','dialog/jquery.artDialog.js?skin=blue');?>"></script>
 <script src="<?php echo S('base','dialog/plugins/iframeTools.js');?>"></script>
-<script type="text/javascript" src="<?php echo S('base','plupload/plupload.full.js'); ?>"></script>
-<script type="text/javascript" src="<?php echo S('base','plupload/jquery.plupload.queue/jquery.plupload.queue.js'); ?>"></script>
-<link rel="stylesheet" href="<?php echo S('base','plupload/jquery.plupload.queue/css/jquery.plupload.queue.css'); ?>" type="text/css" />
+<script src="<?php echo S('base','jquery-ui/jquery-ui.min.js');?>"></script>
+<link rel="stylesheet" href="<?php echo S('base','jquery-ui/jquery-ui.min.css');?>" />
+<link rel="stylesheet" href="<?php echo S('base','plupload/jquery.ui.plupload/css/jquery.ui.plupload.css'); ?>" type="text/css" />
+<script type="text/javascript" src="<?php echo S('base','plupload/plupload.full.min.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo S('base','plupload/jquery.ui.plupload/jquery.ui.plupload.min.js"'); ?>"></script>
+<script type="text/javascript" src="<?php echo S('base','plupload/i18n/zh_CN.js'); ?>"></script>
 <style>
 	html{background: #fff}
 	#filemanager{background: #fff;height: 390px;}
@@ -17,8 +20,8 @@
 	    font-size:12px;
 	    color:green;
 	}
-	.plupload_scroll .plupload_filelist{
-		height: 275px;
+	.plupload_container{
+		height: 345px;
 	}
 </style>
 </head>
@@ -26,50 +29,39 @@
 <body>
 <script type="text/javascript">
 function initPlupload(){
-    $("#muilti_uploader").pluploadQueue({
-        runtimes : 'html5,flash',
+    $("#muilti_uploader").plupload({
+        runtimes : 'html5,flash,silverlight,html4',
         url : "<?php echo U('base','upfile','a=uploadprocess');?>",
-        max_file_size : "<?php echo $filetype['max'];?>",
         chunk_size : '1mb',
-        unique_names : true,
-        filters : [
-            {title : "<?php echo $filetype['title'];?>", extensions : "<?php echo $filetype['ext'];?>"}
-        ],
-        flash_swf_url : '<?php echo S("base","plupload/plupload.flash.swf");?>'<?php if(@$_G['settings']['album_resize_img'] && @$_G['settings']['album_pre_resize_img']):?>,
+        filters : {
+            max_file_size : '<?php echo $filetype['max'];?>',
+            mime_types: [
+                {title : "<?php echo $filetype['title'];?>", extensions : "<?php echo $filetype['ext'];?>"}
+            ]
+        },
+        unique_names:true,
+        rename: true,
+        sortable: true,
+        dragdrop: true,
+        views: {
+            list: true,
+            thumbs: true,
+            active: 'thumbs'
+        },
+        flash_swf_url : '<?php echo S("base","plupload/Moxie.swf");?>',
+        silverlight_xap_url : '<?php echo S("base","plupload/Moxie.xap");?>'<?php if(@$_G['settings']['album_resize_img'] && @$_G['settings']['album_pre_resize_img']):?>,
         resize : {width : <?php echo $_G['settings']['album_resize_img_w'];?>, height : <?php echo $_G['settings']['album_resize_img_h'];?>, quality : 90}
         <?php endif; ?>
     });
-    var uploader = $('#muilti_uploader').pluploadQueue();
-    var usubmited = 0;
-    if(uploader){
-        uploader.bind('StateChanged', function() {
-            if (uploader.files.length === (uploader.total.uploaded + uploader.total.failed) && !usubmited) {
-                usubmited = 1;
-                art.dialog.tips('图片处理中...',100,true);
-                $('#uploadform').submit();
-            }
-        });
-    }
+    
+    $('#muilti_uploader').on('complete', function() {
+        art.dialog.tips('图片处理中...',100,true);
+        $('#uploadform').submit();
+    });
 }
 
 
 $(function() {
-    plupload.addI18n({
-        'Filename' : '文件名',
-        'Status' : '状态',
-        'Size' : '大小',
-        'Add files' : '添加文件',
-        'Stop current upload' : '停止上传',
-        'Start uploading queue' : '开始上传',
-        'Start upload' : '开始上传',
-        'Uploaded %d/%d files':'已上传 %d/%d 文件',
-        'Drag files here.' : '拖拽文件至此处.',
-        'File extension error.': '文件类型错误.',
-        'File size error.': '文件大小错误.',
-        'Error: Invalid file extension: ':'错误的文件类型：',
-        'Error: File too large: ':'文件太大：'
-    });
-    
     initPlupload();
 });
 </script>

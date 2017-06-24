@@ -64,6 +64,43 @@
     </div>
 </div>
 <script>
+var uploader = new plupload.Uploader({
+    runtimes : 'html5,flash,silverlight,html4',
+    browse_button : 'avatarPicker',
+    url : "<?=U('my','saveavatar')?>",
+    flash_swf_url : '<?php echo S("base","plupload/Moxie.swf");?>',
+    silverlight_xap_url : '<?php echo S("base","plupload/Moxie.xap");?>',
+    resize : { width : 300, height : 300, quality : 90 },
+    filters : {
+        max_file_size : '10mb',
+        mime_types: [
+            {title : "Image files", extensions : "jpg,gif,png"}
+        ]
+    },
+
+    init: {
+        FilesAdded: function(up, files) {
+            uploader.start();
+        },
+        UploadProgress: function(up, file) {
+            $('#avatarPicker label').html('上传：'+file.percent +'%');
+        },
+        Error: function(up, err) {
+            $('#avatarPicker label').html('更换头像');
+            art.dialog.tips('上传失败！',1,true);
+        },
+        UploadComplete: function(up, files) {
+            $('#avatarPicker label').html('更换头像');
+            art.dialog.tips('上传成功！',1,true);
+            setTimeout(function(){
+                window.location.reload();
+            },1000);
+        },
+    }
+});
+
+uploader.init();
+/*
 var uploader = WebUploader.create({
     auto: true,
     swf:"<?=S('base','webuploader/Uploader.swf')?>",
@@ -96,6 +133,6 @@ uploader.on( 'uploadAccept', function( file, response ) {
 uploader.on( 'uploadError', function( file ) {
    $('#avatarPicker label').html('更换头像');
     art.dialog.tips('上传失败！',1,true);
-});
+});*/
 </script>
 <?php $this->display('my/foot.php'); ?>
