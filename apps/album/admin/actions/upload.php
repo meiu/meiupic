@@ -158,6 +158,7 @@ class AlbumUpload extends Adminbase{
         $cates = app('album')->getCateList();
         $this->view->assign('photos',$uploaded_photos);
         $this->view->assign('aid',$aid);
+        $this->view->assign('albumInfo',$albumInfo);
         $this->view->assign('cates',$cates);
         $this->view->display('photo_add.php');
 	}
@@ -180,6 +181,9 @@ class AlbumUpload extends Adminbase{
             $data['tags'] = $tags;
 
             $m_photos->update($id,$data);
+
+            $info = $m_photos->load($id);
+            app('album')->updateTags('photo',$id,$data['tags'],$info['path'],true);
         }
 
         alert('保存成功！',true,'js_reload');

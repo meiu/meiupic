@@ -31,7 +31,7 @@
                         <li><a href="<?=U('user','login','a=logout')?>">退出</a></li>
                     </ul>
                 </li>
-                <li><a href="<?=U('album','post')?>" class="publish-btn">发布</a></li>
+                <li><a href="<?=U('album','post')?>" class="publish-btn">上传</a></li>
             </ul>
             <?php else: ?>
             <a href="<?=U('user','login')?>">登录</a> <a href="<?=U('user','register')?>">注册</a>

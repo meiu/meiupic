@@ -32,7 +32,9 @@ class AlbumIndex extends Adminbase{
         if( $search['uid'] ){
             $where .= ' and uid ='.intval($search['uid']);
         }
-        if( $search['cate_id'] ){
+        if( $search['cate_id']==='0' ){
+             $where .= ' and cate_id=0';
+        }elseif($search['cate_id']){
             $catIds = app('album')->catIds(intval($search['cate_id']));
             $where .= ' and cate_id in ('.implode(',', $catIds).')';
         }
@@ -223,6 +225,8 @@ class AlbumIndex extends Adminbase{
         if($albumInfo['deleted']!=0){
             alert('相册在回收站中，无法操作！');
         }
+        //TODO: 需要判断图片和相册是否是同一个用户
+
         //同时修改图片分类
         $updata = array('album_id'=>$album_id,'cate_id'=>$albumInfo['cate_id']);
         if($albumInfo['priv_type']==1){//如果相册本身是私有的，那么拉进来的图片也置为私有

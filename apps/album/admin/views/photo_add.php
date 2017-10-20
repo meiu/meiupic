@@ -1,6 +1,8 @@
 <script src="<?php echo S('base','tageditor/jquery.caret.min.js');?>"></script>
 <script src="<?php echo S('base','tageditor/jquery.tag-editor.min.js');?>"></script>
+<script src="<?php echo S('base','jquery-ui/jquery-ui.min.js');?>"></script>
 <link rel="stylesheet" href="<?php echo S('base','tageditor/jquery.tag-editor.css');?>" />
+<link rel="stylesheet" href="<?php echo S('base','jquery-ui/jquery-ui.min.css');?>" />
 <style>
 	div.leftphotos{
 		width:440px;float:left;height:360px;overflow-y:auto;margin: 10px 0 0;
@@ -48,7 +50,7 @@
         <tr>
         	<th>图片权限：</th>
         	<td>
-             <label><input type="checkbox" name="priv_type" value="1" /> 仅自己可见</label>
+             <label><input type="checkbox" name="priv_type" value="1" <?php if($albumInfo['priv_type']){echo 'checked="checked"';} ?>/> 仅自己可见</label>
             </td>
         </tr>
         <tr>
@@ -69,6 +71,6 @@
 
 <script type="text/javascript">
 $(function(){
-    $('#tags').tagEditor({ placeholder: '输入标签...' });
+    $('#tags').tagEditor({ placeholder: '输入标签...',autocomplete: { 'source': '<?php echo U('album','tags','a=gettags');?>', minLength: 1}  });
 });
 </script>

@@ -83,10 +83,13 @@ class AlbumAlbum extends Adminbase{
             if(!$data['cate_id']){
                 alert('请选择分类！');
             }
+
+            $info = $m_album->load($id);
             if($m_album->update($id,$data)){
                 //获取相册封面
-                $info = $m_album->load($id);
-
+                if($info['priv_type']!=$data['priv_type']){//更新所有图片的权限
+                    M('album_photos')->updateW('album_id='.$id,array('priv_type'=>$data['priv_type']));
+                }
                 app('album')->updateTags('album',$id,$data['tags'],$info['cover_path'],false);
                 
                 alert('修改相册成功！',true,'js_reload');
@@ -113,7 +116,7 @@ class AlbumAlbum extends Adminbase{
             $data['tags'] = trim(getPost('tags'));
             $data['description'] = trim(getPost('description'));
             $data['cate_id'] = intval(getPost('cate_id'));
-            $data['create_time'] = time();
+            $data['create_time'] = $data['up_time'] = time();
             $data['priv_type'] = intval(getPost('priv_type'));
             $data['enable_comment'] = intval(getPost('enable_comment'));
             $data['recommended'] = intval(getPost('recommended'));

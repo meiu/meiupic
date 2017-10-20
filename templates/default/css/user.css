@@ -5,6 +5,7 @@ input[type="text"],input[type="email"],input[type="password"],textarea{outline: 
 ul,li{margin:0;padding:0;list-style: none;}
 ::selection{background-color:#38485a;color:#fff;text-shadow:0 1px 0 rgba(0,0,0,0.3)}
 *::-moz-selection {background-color: #38485A;color: #FFFFFF;text-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);}
+form{margin:0;padding:0;}
 /*引用样式*/
 blockquote {
     border-color: #CCCCCC;
@@ -112,7 +113,8 @@ a:hover{text-decoration: none;}
     position: relative;
     float: left;
     margin-right: 15px;    
-    padding: 17px 0;
+    padding: 15px 0;
+    height: 30px;
 }
 .head-user ul.main-list .user-info{
     position: relative;
@@ -244,18 +246,18 @@ a:hover{text-decoration: none;}
     top: -999px;
 }
 
-.content .line-wrap {
+.line-wrap {
     padding-top: 20px;
     padding-bottom: 20px;
 }
-.content .line-wrap .title {
+.line-wrap .title {
     margin: 0;
     height: 45px;
     font-size: 32px;
     font-weight: 500;
     color: #222;
 }
-.content .line-wrap .label {
+.line-wrap .label {
     height: 22px;
     line-height: 22px;
     font-size: 16px;
@@ -263,27 +265,41 @@ a:hover{text-decoration: none;}
     font-weight: 500;
     color: #222;
 }
-.content .line-wrap .input-wrap {
+.line-wrap .input-wrap {
     margin: 12px 0 0;
 }
-.content .line-wrap .nomal-input {
+.line-wrap .nomal-textarea {
     width: 460px;
-    height: 20px;
-    padding: 10px;
+    height: 60px;
+    padding: 10px 15px 10px 10px;
     outline: 0;
     font-size: 13px;
     border: solid 2px #e0e0e0;
 }
-.content .line-wrap select {
+.line-wrap .nomal-input {
     width: 460px;
-    padding: 10px;
+    height: 20px;
+    padding: 10px 15px 10px 10px;
+    outline: 0;
+    font-size: 13px;
+    border: solid 2px #e0e0e0;
+}
+.line-wrap select {
+    width: 460px;
+    padding: 10px 15px 10px 10px;
     outline: 0;
     font-size: 13px;
     border: solid 2px #e0e0e0;
     border-radius: 0;
+    box-sizing:content-box;
+    -moz-box-sizing:content-box;
+    -webkit-box-sizing:content-box;
+    appearance:none;
+    -moz-appearance:none;
     -webkit-appearance:none;
+    background: url(../images/arrow.png) no-repeat right center;
 }
-.content .line-wrap .submit-btn {
+.line-wrap .submit-btn {
     letter-spacing: 4px;
     text-indent: 4px;
     width: 100px;
@@ -297,14 +313,4 @@ a:hover{text-decoration: none;}
     background-color: #5fb336;
     cursor: pointer;
     margin-top: -12px;
-}
-
-.change-btn .webuploader-pick {
-    background: #fff;
-    padding: 0;
-    color: #5fb336;
-    line-height: 28px;
-    text-align: center;
-    border-radius: none;
-    overflow: inherit;
 }
