@@ -3,6 +3,7 @@
 <script src="<?php echo S('base','tageditor/jquery.tag-editor.min.js');?>"></script>
 <link rel="stylesheet" href="<?php echo S('base','tageditor/jquery.tag-editor.css');?>" />
 <script type="text/javascript" src="<?php echo S('base','plupload/plupload.full.min.js'); ?>"></script>
+<script src="<?php echo S('base','js/jquery.dragsort.min.js');?>"></script>
 <link rel="stylesheet" href="<?=ST('css/album.css')?>" type="text/css" />
 <div class="post_content">
    <form class="form-basic ajaxform" method="post">
@@ -83,7 +84,7 @@ var uploader = new plupload.Uploader({
     filters : {
         max_file_size : '20mb',
         mime_types: [
-            {title : "Image files", extensions : "jpg,gif,png"}
+            {title : "Image files", extensions : "jpeg,jpg,gif,png"}
         ]
     },
     <?php if(@$_G['settings']['album_resize_img'] && @$_G['settings']['album_pre_resize_img']):?>
@@ -127,29 +128,18 @@ var uploader = new plupload.Uploader({
     }
 });
 
-document.addEventListener( "dragleave", function(e) {
-     e.preventDefault();
-}, false);
-document.addEventListener( "drop", function(e) {
-     e.preventDefault();
-}, false);
-document.addEventListener( "dragenter", function(e) {
-     e.preventDefault();
-}, false);
-document.addEventListener( "dragover", function(e) {
-     e.preventDefault();
-}, false);
-
-var box = document.getElementById('muilti_uploader'); //drop区域的DOM元素
-box.addEventListener('dragover',function(){
-    $(box).addClass('drophere');
-},false);
-box.addEventListener( "dragleave", function(e) {
-    $(box).removeClass('drophere');
-}, false);
-box.addEventListener("drop", function (e) {
-    $(box).removeClass('drophere');
-    var fileList = e.dataTransfer.files; //获取文件对象
+$(document).bind('dragleave drop dragenter dragover',function(e){
+    e.preventDefault();
+});
+$('#muilti_uploader').bind('dragover',function(){
+    $(this).addClass('drophere');
+});
+$('#muilti_uploader').bind('dragleave',function(){
+    $(this).removeClass('drophere');
+});
+$('#muilti_uploader').bind("drop", function (e) {
+    $(this).removeClass('drophere');
+    var fileList = e.originalEvent.dataTransfer.files; //获取文件对象
     //检测是否是拖拽文件到页面的操作
     if (fileList.length == 0) {
         return false;
@@ -157,13 +147,14 @@ box.addEventListener("drop", function (e) {
     for(var i = 0; i < fileList.length; i++){
         uploader.addFile(fileList[i]);
     }
-}, false);
+});
 
 $(function(){
     uploader.init();
     $('.photo-list').on('click','a.icon-close',function(){
         $(this).closest('li').remove();
     });
+    $(".photo-list").dragsort({ dragSelector: "li.photo-item",itemSelector:"li.photo-item",placeHolderTemplate: '<li class="photo-item"></li>' });
     $('#tags').tagEditor({ placeholder: '输入标签...' });
 });
 </script>

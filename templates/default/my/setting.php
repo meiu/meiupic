@@ -100,39 +100,5 @@ var uploader = new plupload.Uploader({
 });
 
 uploader.init();
-/*
-var uploader = WebUploader.create({
-    auto: true,
-    swf:"<?=S('base','webuploader/Uploader.swf')?>",
-    server: "<?=U('my','saveavatar')?>",
-    pick: '#avatarPicker',
-    accept: {
-        title: 'Images',
-        extensions: 'gif,jpg,jpeg,png',
-        mimeTypes: 'image/*'
-    }
-});
-uploader.on( 'uploadProgress', function( file, percentage ) {
-    $('#avatarPicker label').html('上传：'+percentage+'%');
-});
-uploader.on( 'uploadSuccess', function( file ) {
-    $('#avatarPicker label').html('更换头像');
-    art.dialog.tips('上传成功！',1,true);
-    setTimeout(function(){
-        window.location.reload();
-    },1000);
-});
-uploader.on( 'uploadAccept', function( file, response ) {
-    if ( response.error ) {
-        console.log(response.error);
-        return false;
-    }else{
-        return true;
-    }
-});
-uploader.on( 'uploadError', function( file ) {
-   $('#avatarPicker label').html('更换头像');
-    art.dialog.tips('上传失败！',1,true);
-});*/
 </script>
 <?php $this->display('my/foot.php'); ?>

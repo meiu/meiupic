@@ -398,106 +398,18 @@ class ImageGd extends image{
         }
         //设定图像的混色模式
         imagealphablending($this->image, true);
-        /*if(function_exists('imagecopymerge') && $this->param['water_mark_opacity'] != 0){
-            @imagecopymerge($this->image, $water_im, $posX, $posY, 0, 0, $w,$h,$this->param['water_mark_opacity']);
-        }else{*/
-            imagecopy($this->image, $water_im, $posX, $posY, 0, 0, $w,$h);//拷贝水印到目标文件
-        //}
-        imagedestroy($water_im);
-    }
-    
-    public function waterMarkFont(){
-        if($this->param['water_mark_color']){
-            $color = $this->param['water_mark_color'];
-        }else{
-            $color = '#000000';
-        }
-        $r = hexdec( substr( $color, 1, 2 ) );
-        $g = hexdec( substr( $color, 3, 2 ) );
-        $b = hexdec( substr( $color, 5, 2 ) );
-        
-        if($this->param['water_mark_opacity']>0 && $this->param['water_mark_opacity']<100){
-            $fontcolor = imagecolorallocatealpha( $this->image, $r, $g, $b ,$this->param['water_mark_opacity']);
-        }else{
-            $fontcolor = imagecolorallocate( $this->image, $r, $g, $b );
-        }
-        
-        $box = ImageTTFBBox(
-            $this->param['water_mark_fontsize'],
-            $this->param['water_mark_angle'],
-            $this->param['water_mark_font'],
-            $this->param['water_mark_string']);
-        $ground_w = $this->getWidth();
-        $ground_h = $this->getHeight();
-        $h = max($box[1], $box[3]) - min($box[5], $box[7]);
-        $w = max($box[2], $box[4]) - min($box[0], $box[6]);
-        $ax = min($box[0], $box[6]) * -1;
-        $ay = min($box[5], $box[7]) * -1;
-        switch($this->param['water_mark_pos'])
-        {
-            case 0://随机
-            $posX = rand(5,($ground_w - $w - 5));
-            $posY = rand(5,($ground_h - $h - 5));
-            break;
-            case 1://1为顶端居左
-            $posX = 5;
-            $posY = 5;
-            break;
-            case 2://2为顶端居中
-            $posX = ($ground_w - $w) / 2;
-            $posY = 5;
-            break;
-            case 3://3为顶端居右
-            $posX = $ground_w - $w -5;
-            $posY = 5;
-            break;
-            case 4://4为中部居左
-            $posX = 5;
-            $posY = ($ground_h - $h) / 2;
-            break;
-            case 5://5为中部居中
-            $posX = ($ground_w - $w) / 2;
-            $posY = ($ground_h - $h) / 2;
-            break;
-            case 6://6为中部居右
-            $posX = $ground_w - $w - 5;
-            $posY = ($ground_h - $h) / 2;
-            break;
-            case 7://7为底端居左
-            $posX = 5;
-            $posY = $ground_h - $h - 5;
-            break;
-            case 8://8为底端居中
-            $posX = ($ground_w - $w) / 2;
-            $posY = $ground_h - $h - 5;
-            break;
-            case 9://9为底端居右
-            $posX = $ground_w - $w - 5;
-            $posY = $ground_h - $h - 5;
-            break;
-            default://随机
-            $posX = rand(5,($ground_w - $w - 5));
-            $posY = rand(5,($ground_h - $h - 5));
-            break;
-        }
 
-        imagettftext($this->image,
-             $this->param['water_mark_fontsize'],
-             $this->param['water_mark_angle'],
-             $posX + $ax,
-             $posY + $ay,
-             $fontcolor,
-             $this->param['water_mark_font'],
-             $this->param['water_mark_string']);
-    }
-    
-    public function waterMark(){
-        //读取水印文件
-        if($this->param['water_mark_type'] == 'image'){
-            $this->waterMarkImg();
-        }elseif($this->param['water_mark_type'] == 'font'){
-            $this->watermarkFont();
+        if($this->true_color && $this->image_type == IMAGETYPE_PNG){
+            $new_image = imagecreatetruecolor($ground_w, $ground_h);
+            $alpha = imagecolorallocatealpha($new_image, 0, 0, 0, 127);
+            imagefill($new_image, 0, 0, $alpha);
+            imagecopy($new_image, $this->image, 0,0,0,0, $ground_w, $ground_h);
+            imagecopy($new_image, $water_im,  $posX, $posY, 0, 0, $w,$h);
+            imagesavealpha($new_image, true);
+            $this->image = $new_image;
+        }else{
+            imagecopy($this->image, $water_im, $posX, $posY, 0, 0, $w,$h);//拷贝水印到目标文件
         }
-        return false;
+        imagedestroy($water_im);
     }
 }

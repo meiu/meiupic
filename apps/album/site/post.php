@@ -28,8 +28,7 @@ if(isPost()){
 
     $pic_ids = getPost('pic_ids');
 
-    //创建相册
-    //M('album_photos')->updateW(,array('cate_id'=>￥cate));
+    //创建相册 
     $data['name'] = $title;
     $data['uid'] = $_G['user']['id'];
     $data['tags'] = $tags;
@@ -39,23 +38,35 @@ if(isPost()){
     $data['priv_type'] = $priv_type;
     
     if(!$data['name']){
-        alert('相册名不能为空！');
+        alert('标题不能为空！');
     }
     if(!$data['cate_id']){
         alert('请选择分类！');
     }
-    if($data['priv_type'] == '1'){
-        if($data['priv_pass']==''){
-            alert('请输入密码！');
-        }
-    }
 
+    $m_album =  M('albums');
+    $m_photos =  M('album_photos');
     if($m_album->insert($data)){
-        $rel_id = $m_album->insertId();
-        app('album')->updateTags('album',$rel_id,$data['tags'],'',true);
-        alert('添加相册成功！',true,'js_reload');
+        $album_id = $m_album->insertId();
+        
+        //保存图片信息
+        $m_photos->updateW('id in ('.implode(',', $pic_ids).')',array('cate_id'=>$cate_id,'album_id'=>$album_id,'priv_type'=>$priv_type));
+        app('album')->updatePhotoNum($album_id);
+        app('album')->updateCover($album_id);
+
+        if($data['tags']){
+            //保存图片tag
+            foreach ($pic_ids as $picid) {
+                $info = $m_photos->load($picid);
+                app('album')->updateTags('photo',$picid,$data['tags'],$info['path'],true);
+            }
+
+            app('album')->updateTags('album',$album_id,$data['tags'],'',true);
+        }
+
+        alert('保存成功！',true,U('album','my'));
     }else{
-        alert('添加相册失败！');
+        alert('保存失败！');
     }
 }else{
     $cates = app('album')->getCateList();
