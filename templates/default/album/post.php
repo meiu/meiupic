@@ -76,6 +76,7 @@ var uploader = new plupload.Uploader({
     runtimes : 'html5,flash,silverlight,html4',
     browse_button : 'pickfiles',
     container: $('li.upload-item').get(0),
+    drop_element:'muilti_uploader',
     url : '<?=U("album","uploadprocess")?>',
     flash_swf_url : '<?php echo S("base","plupload/Moxie.swf");?>',
     silverlight_xap_url : '<?php echo S("base","plupload/Moxie.xap");?>',
@@ -127,10 +128,6 @@ var uploader = new plupload.Uploader({
         }
     }
 });
-
-$(document).bind('dragleave drop dragenter dragover',function(e){
-    e.preventDefault();
-});
 $('#muilti_uploader').bind('dragover',function(){
     $(this).addClass('drophere');
 });
@@ -139,14 +136,6 @@ $('#muilti_uploader').bind('dragleave',function(){
 });
 $('#muilti_uploader').bind("drop", function (e) {
     $(this).removeClass('drophere');
-    var fileList = e.originalEvent.dataTransfer.files; //获取文件对象
-    //检测是否是拖拽文件到页面的操作
-    if (fileList.length == 0) {
-        return false;
-    }
-    for(var i = 0; i < fileList.length; i++){
-        uploader.addFile(fileList[i]);
-    }
 });
 
 $(function(){
