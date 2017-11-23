@@ -4,22 +4,6 @@ defined('IN_MWEB') or die('access denied');
 checkLogin();
 
 if(isPost()){
-    /*
-    pic_ids[]:162
-    pic_ids[]:163
-    pic_ids[]:164
-    pic_ids[]:165
-    pic_ids[]:166
-    pic_ids[]:167
-    pic_ids[]:168
-    pic_ids[]:169
-    pic_ids[]:170
-    title:gdfgdfgfdg
-    cate_id:2
-    priv_type:1
-    description:fhfghfghfghfgh
-    tags:ss
-    */
     $title = getPost('title');
     $cate_id = intval(getPost('cate_id'));
     $priv_type = intval(getPost('priv_type'));
@@ -50,7 +34,7 @@ if(isPost()){
         $album_id = $m_album->insertId();
         
         //保存图片信息
-        $m_photos->updateW('id in ('.implode(',', $pic_ids).')',array('cate_id'=>$cate_id,'album_id'=>$album_id,'priv_type'=>$priv_type));
+        $m_photos->updateW('id in ('.implode(',', $pic_ids).')',array('name'=>$title,'cate_id'=>$cate_id,'album_id'=>$album_id,'priv_type'=>$priv_type));
         app('album')->updatePhotoNum($album_id);
         app('album')->updateCover($album_id);
 

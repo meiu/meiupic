@@ -31,6 +31,26 @@ a:hover{text-decoration: none;}
 .left { float: left; }
 .f-red{color:red;}
 .f-green{color:green;}
+
+div.pages{
+    text-align: center;
+    padding:15px 0;
+}
+div.pages a{
+    padding:2px 4px;
+    margin:0 4px;
+}
+div.pages a:hover{
+    background: #eee;
+    text-decoration: none;
+}
+div.pages a i{
+    font-style: normal;
+}
+div.pages a.on{
+    background: #5fb336;
+    color:#fff;
+}
 .my-header{
     position: relative;
     min-width: 100%;
@@ -137,7 +157,9 @@ a:hover{text-decoration: none;}
 }
 
 #footer{
-    margin:40px auto;
+    background: #222222;
+    margin:40px auto 0;
+    padding: 20px 0;
     text-align: center;
     color: #888;
 }
@@ -313,4 +335,121 @@ a:hover{text-decoration: none;}
     background-color: #5fb336;
     cursor: pointer;
     margin-top: -12px;
+}
+
+.list-body{
+    padding: 20px 40px;
+    min-height: 800px;
+}
+.content-gallery{
+    min-height: 200px;
+}
+.content-gallery a.photo_link{
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+.content-gallery .photo_thumbnail .top-button{
+    opacity: 0;
+    position: absolute;
+    z-index: 101;
+    width: 100%;
+    min-height: 45px;
+    top:0;
+    background: -webkit-gradient(linear,left bottom,left top,from(rgba(0,0,0,0)),to(rgba(0,0,0,.6)));
+    background: -webkit-linear-gradient(bottom,rgba(0,0,0,0) 0,rgba(0,0,0,.6) 100%);
+    background: -moz-linear-gradient(bottom,rgba(0,0,0,0) 0,rgba(0,0,0,.6) 100%);
+    background: linear-gradient(to top,rgba(0,0,0,0) 0,rgba(0,0,0,.6) 100%);
+    -webkit-transition: all .2s;
+    -moz-transition: all .2s;
+    transition: all .2s;
+}
+
+.content-gallery .photo_thumbnail .info{
+    opacity: 0;
+    position: absolute;
+    z-index: 101;
+    width: 100%;
+    min-height: 45px;
+    bottom:0;
+    background: -webkit-gradient(linear,left top,left bottom,from(rgba(0,0,0,0)),to(rgba(0,0,0,.6)));
+    background: -webkit-linear-gradient(top,rgba(0,0,0,0) 0,rgba(0,0,0,.6) 100%);
+    background: -moz-linear-gradient(top,rgba(0,0,0,0) 0,rgba(0,0,0,.6) 100%);
+    background: linear-gradient(to bottom,rgba(0,0,0,0) 0,rgba(0,0,0,.6) 100%);
+    -webkit-transition: all .2s;
+    -moz-transition: all .2s;
+    transition: all .2s;
+}
+.content-gallery .photo_thumbnail:hover .info,.content-gallery .photo_thumbnail:hover .top-button{
+    opacity: 1;
+}
+.content-gallery .photo_thumbnail .info span.photo-title{
+    position: relative;
+    max-width: calc(100% - 40px);
+    max-width: -webkit-calc(100% - 40px);
+    max-width: -moz-calc(100% - 40px);
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 10px;
+    color:#fff;
+    top:18px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.content-gallery .photo_thumbnail .info span.photo-title:hover{
+    background-color: rgba(255,255,255,0.2);
+    border-radius: 3px;
+}
+.content-gallery .photo_thumbnail .info a.addto{
+    width: 24px;
+    height: 24px;
+    background: url(../images/gallery-btns.png) no-repeat center -60px;
+    position: absolute;
+    top:18px;
+    right: 10px;
+}
+.content-gallery .photo_thumbnail .top-button .privtype{
+    width: 24px;
+    height: 24px;
+    background: url(../images/gallery-btns.png) no-repeat center 2px;
+    position: absolute;
+    top:0px;
+    right: 10px;
+}
+.content-gallery .photo_thumbnail .top-button .privtype,.content-gallery .photo_thumbnail .info a.addto,.content-gallery .photo_thumbnail .info span.photo-title{
+    -webkit-transition: all .2s;
+    -moz-transition: all .2s;
+    transition: all .2s;
+}
+.content-gallery .photo_thumbnail:hover .info span.photo-title,.content-gallery .photo_thumbnail:hover .info a.addto,.content-gallery .photo_thumbnail:hover .top-button .privtype{
+    top:11px;
+}
+
+.content-gallery .photo_thumbnail .info a.addto:hover{
+    background-color: rgba(255,255,255,0.4);
+    border-radius: 3px;
+}
+.content-gallery .photo_thumbnail .top-button .privtype:hover{
+    background-color: rgba(255,255,255,0.4);
+    border-radius: 3px;
+}
+.content-gallery .photo_thumbnail .top-button .privtype.open{
+    background-position: center -30px
+}
+.loadingbar{
+    color:#aaa;
+    text-align: center;
+    padding: 20px;
+}
+.loadingbar label{
+    padding-right: 60px;
+    background: url(../images/dotloading.gif) no-repeat right center;
+}
+.loadingbar label.nomore{
+    padding: 0;
+    display: inline-block;
+    width: 128px;
+    height: 37px;
+    background: url(../images/nomore.png) no-repeat center;
 }

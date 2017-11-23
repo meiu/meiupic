@@ -784,10 +784,24 @@ function layout($data,$tpl){
     return $_G['runtime']['view']->fetch('layout/'.$tpl.'.php',$data);
 }
 
+function get_current_url(){
+    $current_url='http://';
+    if(isset($_SERVER['HTTPS'])&&$_SERVER['HTTPS']=='on'){
+        $current_url='https://';
+    }
+    if($_SERVER['SERVER_PORT']!='80'){
+        $current_url.=$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'].$_SERVER['REQUEST_URI'];
+    }else{
+        $current_url.=$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
+    }
+    return $current_url;
+}
+
 function checkLogin(){
     global $_G;
     if(!$_G['user']){
-        redirect(U('user','login'));
+        $url = U('user','login');
+        redirect($url.(strpos($url, '?')!==false?'&':'?').'redirect='.urlencode(get_current_url()));
     }
 }
 

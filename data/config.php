@@ -62,7 +62,7 @@ return array(
             'current'=>'<a class="on"><em><i>%page%</i></em></a>',
             'page'=>'<a href="%link%"><em><i>%page%</i></em></a>',
             'prev'=>'<a href="%link%"><em><i>上一页</i></em></a>',
-            'next'=>'<a href="%link%"><em><i>下一页</i></em></a>',
+            'next'=>'<a href="%link%" class="next-page"><em><i>下一页</i></em></a>',
             'first'=> '<a href="%link%"><em><i>%page%</i></em></a><span>...</span>',
             'last'=> '<span>...</span><a href="%link%"><em><i>%page%</i></em></a>',
     ),
