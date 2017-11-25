@@ -28,10 +28,15 @@ function ajax_load_data() {
                     try{
                         if (data.status != undefined && data.status == 'ok') {
                             $('.listCont').append(data.html);
-                            $("#grid-gallery").justifiedGallery('norewind').on('jg.complete', function (e) {
+                            if($("#grid-gallery").length > 0){
+                                $("#grid-gallery").justifiedGallery('norewind').on('jg.complete', function (e) {
+                                    $('.loadingbar').hide();
+                                    isLoading = false;
+                                });
+                            }else{
                                 $('.loadingbar').hide();
                                 isLoading = false;
-                            });
+                            }
                             $('.pageset').html(data.pagehtml);
                         }
                     }catch (ex){

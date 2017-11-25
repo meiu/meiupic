@@ -33,10 +33,10 @@ $smalltmpfile = $tmpfile.'.small.jpg';
 $img = image::instance();
 $img->load($tmpfile);
 $img->resizeCut(200,200);
-$img->save($tmpfile,'jpg');
+$img->save($tmpfile);
 
 $img->resizeCut(48,48);
-$img->save($smalltmpfile,'jpg');
+$img->save($smalltmpfile);
 
 $image = 
 $storagelib = storage::instance();

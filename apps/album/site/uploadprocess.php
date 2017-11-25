@@ -152,7 +152,11 @@ if($chunk+1 == $chunks){
     $data['create_time'] = time();
     $data['priv_type'] = 1;
     $data['path'] = $path;
-    $data['name'] = $data['create_time'];//默认名称直接改为时间戳
+    if (isset($_FILES['file']) && isset($_FILES['file']['tmp_name'])){
+        $data['name'] = htmlspecialchars($_FILES['file']['name']);
+    }else{
+        $data['name'] = $data['create_time'];//默认名称直接改为时间戳
+    }
     $data['tags'] = '';
     $data['taken_time'] = 0;
     $data['exif'] = '';

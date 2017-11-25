@@ -453,3 +453,70 @@ div.pages a.on{
     height: 37px;
     background: url(../images/nomore.png) no-repeat center;
 }
+.justified-gallery>.spinner{
+    display: none;
+}
+.content-album .photo_thumbnail {
+    position: relative;
+    width: 360px;
+    margin: 0 25px 50px 25px;
+    display: inline-block;
+    vertical-align: top;
+    background-color: #fff;
+}
+.content-album .photo_thumbnail:hover{
+    -webkit-box-shadow:0 1px 15px rgba(0,0,0,.08);
+    box-shadow:0 1px 15px rgba(0,0,0,.08)
+}
+.content-album .photo_thumbnail a.album_link{
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 100;
+}
+.content-album .photo_thumbnail .top{
+    width:360px;
+    height: 240px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-color: #b9c1c7;
+    border-radius: 3px 3px 0 0;
+}
+.content-album .photo_thumbnail .bottom{
+    position: relative;
+    width: 100%;
+    padding-top: 15px;
+    height: 75px;
+    text-align: center;
+    border: 1px solid #eeeff2;
+    border-top: none;
+    border-radius: 0 0 3px 3px;
+}
+.content-album .photo_thumbnail .bottom a.name{
+    font-size: 20px;
+    line-height: 1.4em;
+    text-align: center;
+    position: relative;
+    z-index: 150;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 65%;
+    display: inline-block;
+}
+.content-album .photo_thumbnail .bottom a:hover {
+    color: #5fb336;
+}
+.content-album .photo_thumbnail .bottom span.desc{
+    color: #b9c1c7;
+    font-size: 14px;
+    display: block;
+    margin: 0 auto 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 95%;
+    text-overflow: ellipsis;
+}
