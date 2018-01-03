@@ -23,7 +23,6 @@ body {
     padding: 0;
     font-size: 14px;
     background-color: #f9f9f9;
-    min-width: 800px;
 }
 a{text-decoration: none;color: #525558;}
 a:hover{text-decoration: none;}
@@ -31,6 +30,20 @@ a:hover{text-decoration: none;}
 .left { float: left; }
 .f-red{color:red;}
 .f-green{color:green;}
+.normal-btn {
+    letter-spacing: 2px;
+    text-indent: 4px;
+    padding: 0 15px;
+    height: 30px;
+    border: 0;
+    text-align: center;
+    outline: 0;
+    color: #fff;
+    font-size: 14px;
+    line-height: 28px;
+    background-color: #5fb336;
+    cursor: pointer;
+}
 
 div.pages{
     text-align: center;
@@ -58,7 +71,7 @@ div.pages a.on{
     margin: 0 auto;
     background-color: #000;
     font-weight: 500;
-    z-index: 2;
+    z-index: 4;
     color:#fff;
 }
 .my-header .inner{
@@ -162,11 +175,15 @@ div.pages a.on{
     padding: 20px 0;
     text-align: center;
     color: #888;
+    line-height: 2;
+}
+#footer a{
+    color:#aaa;
 }
 .sub-list{
     position: absolute;
     top: 59px;
-    z-index: 1;
+    z-index: 3;
     left: -20px;
     width: 120px;
     margin-top: 1px;
@@ -340,6 +357,9 @@ div.pages a.on{
 .list-body{
     padding: 20px 40px;
     min-height: 800px;
+}
+.justified-gallery{
+    z-index: 1;
 }
 .content-gallery{
     min-height: 200px;
@@ -519,4 +539,120 @@ div.pages a.on{
     overflow: hidden;
     width: 95%;
     text-overflow: ellipsis;
+}
+
+.gallery_private_icon {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-image: url(../images/gallery-btns.png);
+    background-position: 0 -90px;
+    background-repeat: no-repeat;
+    position: absolute;
+    margin: 3px 0 0 3px;
+}
+
+.container .head-title {
+    margin: 20px 40px;
+    height: 45px;
+}
+.container .head-title label {
+    font-size: 32px;
+    font-weight: 500;
+    color: #222;
+}
+.container .head-title .album-account {
+    line-height: 22px;
+    font-size: 16px;
+    font-weight: 400;
+    color: #85888a;
+    margin-left: 20px;
+}
+.container .head-title .right{
+    float: right;
+}
+.container .head-title .delete-album {
+    cursor: pointer;
+    width: 64px;
+    line-height: 22px;
+    font-size: 16px;
+    font-weight: 400;
+    color: #e60a05;
+    margin-left: 20px;
+    margin-top: 4px;
+}
+
+
+.mini-container .content {
+    position: relative;
+    margin: 0 auto;
+    padding: 0 0 20px;
+    width: 100%;
+    background-color: #fff;
+}
+.mini-container .content .tag-editor {
+    border: solid 2px #e0e0e0;
+    width: 460px;
+}
+.mini-container .content .line-wrap .nomal-input,.mini-container .content .line-wrap select,.mini-container .content .line-wrap .nomal-textarea{
+    width: 455px;
+    padding:5px;
+}
+.mini-container .content .line-wrap{
+    padding: 10px 0;
+}
+.mini-search .nomal-input{
+    width: 300px;
+    padding:4px;
+}
+
+.innercol .gallary_item{
+    width:120px;
+    height: 120px;
+    overflow: hidden;
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+
+    cursor: pointer;
+}
+.innercol .gallary_item em{
+    font-style: normal;
+    padding: 0 4px;
+    background-color: rgba(0,0,0,0.6);
+    color: #fff;
+    border-radius: 4px;
+    position: absolute;
+    left:2px;
+    top:2px;
+}
+.innercol .gallary_item .title{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    display: none;
+}
+.innercol .gallary_item:hover .title{
+    display: block;
+    font-size: 12px;
+    width: 100%;
+    line-height: 25px;
+    height: 25px;
+    overflow: hidden;
+    background-color: rgba(0,0,0,0.6);
+    color: #fff;
+    text-indent: 4px;
+    z-index: 11;
+}
+.innercol .gallary_item .id_sel{
+    display: none;
+}
+.innercol .gallary_item:hover .check,.innercol .checked .check{
+    position: absolute;
+    left:40px;
+    top:35px;
+    width: 32px;
+    height: 32px; 
+    background: url(../images/check.png) no-repeat center;
 }

@@ -158,6 +158,17 @@
         <label><input type="radio" name="setting[enable_route]" value="0" <?php if(!$settings_info['enable_route']){ echo 'checked="checked"';} ?> /> 关闭</label>
     </td>
   </tr>
+  <tr>
+    <td>
+    agreement_content
+    </td>
+    <td>
+      用户协议
+    </td>
+    <td>
+      <textarea cols="50" rows="3" name="setting[agreement_content]"><?php echo arrval($settings_info,'agreement_content');?></textarea>
+    </td>
+  </tr>
 </tbody>
 </table>
 

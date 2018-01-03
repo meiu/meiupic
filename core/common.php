@@ -744,8 +744,9 @@ function uploadFile($name,$type,$multi=false,& $error){
     }
 }
 /*显示相关信息*/
-function showInfo($message,$link,$autoredirect=2){
+function showInfo($message,$link,$title='提示信息',$autoredirect=3){
     global $_G;
+    $_G['runtime']['view']->assign('title',$title);
     $_G['runtime']['view']->assign('message',$message);
     $_G['runtime']['view']->assign('link',$link);
     $_G['runtime']['view']->assign('autoredirect',$autoredirect);
@@ -758,7 +759,6 @@ function show404(){
 
     header('HTTP/1.1 404 Not Found');
     header("status: 404 Not Found"); 
-
     $_G['runtime']['view']->display('common/404.php');
     exit;
 }

@@ -32,7 +32,8 @@ class UserIndex extends Adminbase{
         $rows = $m_user->findAll(array(
                     'where' => $where,
                     'start' => $limit['start'],
-                    'limit' => $limit['limit']
+                    'limit' => $limit['limit'],
+                    'order' => 'id desc'
                 ));
 
         $this->view->assign('rows',$rows);

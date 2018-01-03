@@ -32,7 +32,13 @@ if($setting['open_comment']){
     ));
     foreach ($rows as $key => $value) {
         $rows[$key]['addtime'] = date('c',$value['addtime']);
-        $rows[$key]['avatar'] = app('user')->getAvatar($value['uid'],$value['email']);
+        
+        if($value['uid']){
+            $uinfo = M('users')->load($value['uid']);
+            $rows[$key]['avatar'] = app('user')->getAvatar($uinfo,'small');
+        }else{
+            $rows[$key]['avatar'] = app('user')->getGravatar($value['email']);
+        }
         //读取上级
         if($value['parent_id']){
             $prow = $m_comment->load($value['parent_id']);
@@ -47,13 +53,13 @@ if($setting['open_comment']){
             'id' => $_G['user']['id'],
             'nickname' => $_G['user']['nickname'],
             'email' => $_G['user']['email'],
-            'avatar' => app('user')->getAvatar($_G['user']['id'],$_G['user']['email'])
+            'avatar' => app('user')->getAvatar($_G['user'])
         );
     }else{
         $user = array(
             'id' => -1,
             'nickname' => '游客',
-            'avatar' => app('user')->getAvatar(0)
+            'avatar' => app('user')->getGravatar('')
         );
     }
 

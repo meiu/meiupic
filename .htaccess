@@ -3,5 +3,6 @@ RewriteEngine On
 Options +FollowSymLinks
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ index.php?q=$1&%{QUERY_STRING} [L]
+RewriteCond %{REQUEST_URI} ^/(.*)$
+RewriteRule ^ index.php?q=%1&%{QUERY_STRING} [QSA,L]
 </IfModule>

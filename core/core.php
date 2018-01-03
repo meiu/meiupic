@@ -7,6 +7,8 @@ define('DS', DIRECTORY_SEPARATOR);
 define('ROOT_DIR', dirname(dirname(__FILE__)).DS);
 define('CORE_PATH',ROOT_DIR.'core'.DS);
 define('DATA_PATH',ROOT_DIR.'data'.DS);
+define('SOFT_NAME','MeiuPic');
+define('SOFT_VERSION','3.0');
 
 define('CURRENT_TIME',isset($_SERVER['REQUEST_TIME'])?$_SERVER['REQUEST_TIME']:time());
 

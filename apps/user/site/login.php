@@ -7,9 +7,8 @@ $act = getGet('a');
 if($act == 'logout'){
     list($ret,$msg) = app('user')->setLogout();
     
-    $view->assign('redirect',getGet('redirect'));
-    $view->assign('msg',$msg);
-    $view->display('user/logout.php');
+    $redirect = getGet('redirect');
+    showInfo('您正在退出登录，请稍后...',$redirect?$redirect:U('base','index'),'退出登录',1);
 }else{
     if(isPost()){
         $username = safestr(getPost('username'));

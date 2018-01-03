@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>后台登录</title>
+    <title><?php echo SOFT_NAME.' '.SOFT_VERSION; ?>后台登录</title>
     <link rel="stylesheet" href="<?php echo S('user','admin/css/login.css');?>" />
 </head>
 <body>

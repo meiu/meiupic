@@ -15,7 +15,7 @@ class Captcha{
             'length'   => 4, //验证码个数
             'fontsize' => 28,//字体大小
             'disturb'  => 160,//干扰象素
-            'horizontal_disturb'  => false //水平方向干扰
+            'horizontal_disturb'  => true //水平方向干扰
         );
 
     public function __construct($config=null){

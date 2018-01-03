@@ -4,7 +4,7 @@ defined('IN_MWEB') or die('access denied');
 
 $user_setting = getSetting('user_setting',true);
 if(!$user_setting['enable_register']){
-    showInfo('当前网站关闭了注册！','javascript:history.back();',3);
+    showInfo('当前网站关闭了注册！','javascript:history.back();');
 }
 
 if(isPost() || getGet('ajax') ){
@@ -23,6 +23,9 @@ if(isPost() || getGet('ajax') ){
     $infodata['extra7'] = safestr(getPost('extra7'));
     $infodata['extra8'] = safestr(getPost('extra8'));
 
+    if(empty(getPost('agree'))){
+        alert('你未同意用户协议!',false,'',array('field'=>'agree'));
+    }
     if(empty($data['username'])){
         alert('请输入用户名!',false,'',array('field'=>'username'));
     }

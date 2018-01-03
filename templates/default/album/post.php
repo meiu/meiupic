@@ -82,6 +82,7 @@ var uploader = new plupload.Uploader({
     silverlight_xap_url : '<?php echo S("base","plupload/Moxie.xap");?>',
     chunk_size : '1mb',
     unique_names:true,
+    send_file_name:true,
     filters : {
         max_file_size : '20mb',
         mime_types: [

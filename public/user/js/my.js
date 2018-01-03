@@ -32,6 +32,60 @@ function setForm(){
     });
 }
 
+function opt_one(o,msg){
+    art.dialog.confirm(msg, function () {
+        $.post($(o).attr('href'),{isajax:1},function(data){
+            ajaxAlert(data,1,true);
+        },'json');
+    });
+    return false;
+}
+function MuiShow(o,title,width,height){
+    if(typeof(o) == 'string'){
+        var url = o;
+    }else{
+        var url = $(o).attr('href');
+    }
+
+    //随机生成一个窗口id
+    var winid = "win"+Math.floor(Math.random()*10000);
+    if(url.indexOf('?') > -1){
+        url = url+'&winid='+winid;
+    }else{
+        url = url+'?winid='+winid;
+    }
+    var option = {
+        id:winid,
+        title: title,
+        lock: true,
+        background: '#000', // 背景色
+        opacity: 0.3,  // 透明度
+        okVal:'确定',
+        fixed:true,
+        ok: function () {
+            var iframe = this.iframe.contentWindow;
+            var formbtn = iframe.document.getElementById('dosubmit');
+            if(formbtn){
+                formbtn.click();
+            }
+            return false;
+        },
+        cancelVal: '取消',
+        cancel: function(){
+            this.close()
+        }
+    };
+    if(typeof(width) != 'undefined'){
+        option.width = width;
+    }
+    if(typeof(height) != 'undefined'){
+        option.height = height;
+    }
+
+    window.top.art.dialog.open(url,option);
+    return false;
+}
+
 $(function(){
     $('.sub-list-trigger').hover(function(){
         $(this).find('.sub-list').css('opacity',1).show();

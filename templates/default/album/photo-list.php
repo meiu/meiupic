@@ -7,7 +7,7 @@
         <a href="javascript:void(0)" class="privtype <?php if($value['priv_type']==1){echo 'lock';}else{echo 'open';} ?>"></a>
     </div>
     <div class="info">
-        <a href="javascript:void(0)" class="addto"></a>
+        <a href="javascript:void(0)" class="addto" onclick="MuiShow('<?php echo U('album','photo_move','id='.$value['id']); ?>','移动图片至相册',500,500)"></a>
         <span class="photo-title"><?php echo $value['name'];?></span>
     </div>
 </div>

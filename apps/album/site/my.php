@@ -3,14 +3,22 @@ defined('IN_MWEB') or die('access denied');
 
 checkLogin();
 
+$aid = intval(getGet('aid'));
 $page = getGet('page',1);
 $m_photo = M('album_photos');
 
 $where = 'deleted=0';
 $where .= ' and uid ='.intval($_G['user']['id']);
-
+$urlparam = array('page'=>'%page%');
+if($aid){
+    $where .= ' and album_id = '.$aid;
+    //获取相册信息
+    $albumInfo = M('albums')->load($aid);
+    $view->assign('albumInfo',$albumInfo);
+    $urlparam['aid'] = $aid;
+}
 $totalCount = $m_photo->count($where);
-$pageurl = U('album','my',array('page'=>'%page%'));
+$pageurl = U('album','my',$urlparam);
 
 $pager = new Pager($page,C('pageset.default',15),$totalCount,$pageurl);
 $pager->config(C('page'));

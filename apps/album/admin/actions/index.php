@@ -247,9 +247,10 @@ class AlbumIndex extends Adminbase{
                 //重置封面
                 if($aid != $album_id){
                     app('album')->updateCover($aid);
-                }elseif(!$albumInfo['cover_id']){
-                    app('album')->updateCover($aid);
                 }
+            }
+            if(!$albumInfo['cover_id']){
+                app('album')->updateCover($albumInfo['id']);
             }
 
             alert('移动图片成功！',true,'js_reload');
