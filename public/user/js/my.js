@@ -1,4 +1,4 @@
-function ajaxAlert(data,time,lock){
+function ajaxAlert(data,time,lock,callback){
     time = time||1;
     lock = lock||false;
 
@@ -9,6 +9,9 @@ function ajaxAlert(data,time,lock){
 
     if(data.ret && data.msg){
         window.top.art.dialog.tips(data.msg,time,lock);
+    }
+    if(typeof(callback) == 'function'){
+        callback();
     }
     setTimeout(function(){
         if(data.redirect && data.redirect == 'js_reload'){
@@ -32,12 +35,19 @@ function setForm(){
     });
 }
 
-function opt_one(o,msg){
-    art.dialog.confirm(msg, function () {
+function opt_one(o,msg,callback){
+    if(msg){
+        art.dialog.confirm(msg, function () {
+            $.post($(o).attr('href'),{isajax:1},function(data){
+                ajaxAlert(data,1,true,callback);
+            },'json');
+        });
+    }else{
         $.post($(o).attr('href'),{isajax:1},function(data){
-            ajaxAlert(data,1,true);
+                ajaxAlert(data,1,true,callback);
         },'json');
-    });
+    }
+    
     return false;
 }
 function MuiShow(o,title,width,height){

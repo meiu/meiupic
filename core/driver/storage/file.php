@@ -84,4 +84,13 @@ class StorageFile extends Storage
 
         return $newimgurl;
     }
+
+    public function download($path){
+        $filepath = $this->_setting['dirpath'].$path;
+        $filename = basename($path);
+        header("Content-Type: application/force-download");
+        header('Content-Disposition: attachment; filename="'.$filename.'"');
+
+        readfile($filepath);
+    }
 }

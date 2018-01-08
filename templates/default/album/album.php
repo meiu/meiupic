@@ -4,7 +4,7 @@
     <div class="list-body">
         <div class="content-album">
             <div class="listCont">
-                <?php $this->display('album/album-list.php'); ?>
+                <?php $this->display('album/album_list.php'); ?>
             </div>
             <div class="pageset" style="display:none"><?php echo $pagestr; ?></div> 
         </div>

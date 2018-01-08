@@ -9,35 +9,20 @@
   array (
     'default' => 
     array (
+      'album' => '',
       'common' => '文件头尾等',
-      'content' => 'CMS内容模版',
       'css' => 'CSS样式',
       'default.php' => '首页页面',
-      'default_mobile.php' => '手机首页',
       'images' => '图片',
-      'js' => 'js文件',
-      'layout' => '常用布局',
+      'my' => '用户中心',
       'preview.jpg' => '缩略图',
       'user' => '用户相关',
     ),
-    'default/content' => 
+    'default/user' => 
     array (
-      'custom' => '定制的详情页',
-      'default_detail.php' => '详情页',
-      'default_edit.php' => '编辑页',
-      'default_index.php' => '栏目主页',
-      'default_list.php' => '列表页',
-      'page.php' => '单页面',
-      'pictures_detail.php' => '图片详情页',
-      'pictures_list.php' => '图片列表页',
-    ),
-    'default/layout' => 
-    array (
-      'breadcrumb.php' => '面包屑',
-      'cate_list.php' => '分类列表',
-      'info_detail.php' => '信息详情',
-      'info_list.php' => '信息列表',
-      'menu_list.php' => '菜单列表',
+      'login.php' => '登录页',
+      'login_foot.php' => '登录和注册统一页脚',
+      'register.php' => '注册页',
     ),
   ),
 );

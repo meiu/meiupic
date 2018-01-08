@@ -5,13 +5,14 @@ checkLogin();
 
 $id = intval(getGet('id'));
 
-$m_album = M('albums');
-$info = $m_album->load($id);
+
+$m_photo = M('album_photos');
+$info = $m_photo->load($id);
 if($info['uid']!=$_G['user']['id']){
     alert('非法操作，没有权限！');
 }
-if(app('album')->delAlbum($id)){
-    alert('删除相册成功！',true,U('album','album'));
+if(app('album')->delPhoto($id)){
+    alert('删除图片成功！',true,'js_reload');
 }else{
-    alert('删除相册失败！');
+    alert('删除图片失败！');
 }

@@ -228,4 +228,9 @@ class StorageQiniu extends Storage
     public function getThumb($path,$w,$h,$t,$placeholder){
         return $this->_setting['url_pre'].$path."?imageView/$t/w/$w/h/$h";
     }
+
+    //TODO: 生成带凭据的图片地址
+    public function download($path){
+        
+    }
 }

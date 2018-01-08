@@ -1,4 +1,11 @@
 /*依赖jquery，如果没有请自行载入*/
+function show_comment_alert(msg){
+    if(window.top.art){
+        window.top.art.dialog.tips(msg,1,false);
+    }else{
+        alert(msg);
+    }
+}
 $(function(){
     //表及id
     var ele = $('.mc-thread');
@@ -15,10 +22,10 @@ $(function(){
         $.post(options.add_url,$(this).serializeArray(),function(data){
             if(data.ret){
                 //重新加载当前数据;
-                alert(data.msg);
+                show_comment_alert(data.msg);
                 getList();
             }else{
-                alert(data.msg);
+                show_comment_alert(data.msg);
             }
         },'json');
         return false;
@@ -52,7 +59,7 @@ $(function(){
             if(data.ret){
                 apprise_num.text('('+data.msg+')');
             }else{
-                alert(data.msg);
+                show_comment_alert(data.msg);
             }
         },'json');
         clicked_appraise=true;
@@ -69,7 +76,7 @@ $(function(){
             if(data.ret){
                 apprise_num.text('('+data.msg+')');
             }else{
-                alert(data.msg);
+                show_comment_alert(data.msg);
             }
         },'json');
         clicked_appraise=true;
@@ -155,12 +162,12 @@ $(function(){
             +'<p>'+d.List[i].content+'</p>'
             +'<div class="mc-comment-footer">'
             +b.timeHtml(d.List[i].addtime)
-            +(d.options.allow_reply?'<a href="#" class="mc-post-reply"><span class="mc-icon mc-icon-reply"></span>回复</a>':'');
+            +(d.options.allow_reply?'<a href="javascript:void(0)" class="mc-post-reply"><span class="mc-icon mc-icon-reply"></span>回复</a>':'');
             if(d.options.allow_support){
-                listhtml += '<a href="#" class="mc-post-good"><span class="mc-icon mc-icon-good"></span>赞<em>'+(d.List[i].support>0?'('+d.List[i].support+')':'')+'</em></a>';
+                listhtml += '<a href="javascript:void(0)" class="mc-post-good"><span class="mc-icon mc-icon-good"></span>赞<em>'+(d.List[i].support>0?'('+d.List[i].support+')':'')+'</em></a>';
             }
             if(d.options.allow_object){
-                listhtml += '<a href="#" class="mc-post-bad"><span class="mc-icon mc-icon-bad"></span>反对<em>'+(d.List[i].object>0?'('+d.List[i].object+')':'')+'</em></a>';
+                listhtml += '<a href="javascript:void(0)" class="mc-post-bad"><span class="mc-icon mc-icon-bad"></span>反对<em>'+(d.List[i].object>0?'('+d.List[i].object+')':'')+'</em></a>';
             }
             listhtml += '</div></div>'
             +'</li>';
@@ -172,7 +179,7 @@ $(function(){
         }
         
 
-        ele.html('<div class="mc-comments-counts"><strong>'+d.totalCount+'</strong> 条评论</div><div class="mc-replybox">'+postform.replace('{$par_id}','')+'</div>'+commentsHtml+'<div class="mc-comment-pages">'+d.pagerHtml+'</div>');
+        ele.html('<!--<div class="mc-comments-counts"><strong>'+d.totalCount+'</strong> 条评论</div>--><div class="mc-replybox">'+postform.replace('{$par_id}','')+'</div>'+commentsHtml+'<div class="mc-comment-pages">'+d.pagerHtml+'</div>');
     }
 
     //初始化评论表单模版

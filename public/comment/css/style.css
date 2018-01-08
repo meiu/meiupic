@@ -194,12 +194,12 @@
     height: 20px;
     line-height: 20px;
     margin: 0 4px;
-    padding: 0 5px;
+    padding: 0 1px;
 }
 .mc-comment-pages .pages span{color:#999;}
 .mc-comment-pages .pages em,.mc-comment-pages .pages i{font-style: normal;}
-.mc-comment-pages .pages a.on{color:#333;border: 1px solid #E6E6E6;}
-.mc-comment-pages .pages a:hover{background: #eee;text-decoration: none;}
+.mc-comment-pages .pages a.on{color:#333;border: none;background: none;}
+.mc-comment-pages .pages a:hover{background: none;color:#555;text-decoration: none;}
 
 .mc-comment-loading{
     position: absolute;

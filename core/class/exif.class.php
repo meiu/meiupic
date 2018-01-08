@@ -88,8 +88,8 @@ class exif{
 
         $ExposureProgram  =  array("未定义", "手动", "标准程序", "光圈先决", "快门先决", "景深先决", "运动模式", "肖像模式", "风景模式");
   
-        $Orientation = array("", lang('top_left'), lang('top_right'), lang('bottom_right'), lang('bottom_left'), lang('left_top'), lang('right_top'), lang('right_bottom'), lang('left_bottom'));
-        $ResolutionUnit = array("", "", lang('in-ch'),lang('cm'));
+        $Orientation = array("", '上/左', '上/右','下/右', '下/左', '左/上', '右/上', '右/下', '左/下');
+        $ResolutionUnit = array("", "", 'in-ch','cm');
         $MeteringMode_arr  =  array(
 		    "0"    =>  "未知",
 		    "1"    =>  "平均",
@@ -117,26 +117,26 @@ class exif{
         $Flash_arr = array(
             0x00 => '关',
             0x01 => '开',
-            0x05 => lang('open1'),
-            0x07 => lang('open2'),
-            0x09 => lang('open3'),
-            0x0D => lang('open4'),
-            0x0F => lang('open5'),
-            0x10 => lang('open6'),
-            0x18 => lang('close1'),
-            0x19 => lang('open7'),
-            0x1D => lang('open8'),
-            0x1F => lang('open9'),
-            0x20 => lang('no_flash'),
-            0x41 => lang('open10'),
-            0x45 => lang('open11'),
-            0x47 => lang('open12'),
-            0x49 => lang('open13'),
-            0x4D => lang('open14'),
-            0x4F => lang('open15'),
-            0x59 => lang('open16'),
-            0x5D => lang('open17'),
-            0x5F => lang('open18')
+            0x05 => '打开(不探测返回光线)',
+            0x07 => '打开(探测返回光线)',
+            0x09 => '打开(强制)',
+            0x0D => '打开(强制/不探测返回光线)',
+            0x0F => '打开(强制/探测返回光线)',
+            0x10 => '关闭(强制)',
+            0x18 => '关闭(自动)',
+            0x19 => '打开(自动)',
+            0x1D => '打开(自动/不探测返回光线)',
+            0x1F => '打开(自动/探测返回光线)',
+            0x20 => '无闪光灯',
+            0x41 => '打开(防红眼)',
+            0x45 => '打开(防红眼/不探测返回光线)',
+            0x47 => '打开(防红眼/探测返回光线)',
+            0x49 => '打开(强制/防红眼)',
+            0x4D => '打开(强制/防红眼/不探测返回光线)',
+            0x4F => '打开(强制/防红眼/探测返回光线)',
+            0x59 => '打开(自动/防红眼)',
+            0x5D => '打开(自动/防红眼/不探测返回光线)',
+            0x5F => '打开(自动/防红眼/探测返回光线)'
         );
         if(is_array($infos)){
         $new_img_info = array();
@@ -149,10 +149,10 @@ class exif{
                     $new_img_info[$k] = isset($Flash_arr[$info])?$Flash_arr[$info]:'未知';
                     break;
                 case 'FileSize':
-                    $new_img_info[$k] = bytes2u($info);
+                    $new_img_info[$k] = $this->bytes2u($info);
                     break;
                 case 'FocalLength':
-                    $new_img_info[$k] = $info.'mm';
+                    $new_img_info[$k] = $this->getNumber($info).'mm';
                     break;
                 case 'FocalLengthIn35mmFilm':
                     $new_img_info[$k] = $info.'mm';
@@ -176,7 +176,7 @@ class exif{
                     $new_img_info[$k] = $info.$ResolutionUnit[$infos["ResolutionUnit"]];
                     break;
                 case 'MaxApertureValue':
-                    $new_img_info[$k] = 'F'.$info;
+                    $new_img_info[$k] = $this->getNumber($info);
                     break;
                 case 'MeteringMode':
                     $new_img_info[$k] = isset($MeteringMode_arr[$info])?$MeteringMode_arr[$info]:'未知';
@@ -190,6 +190,10 @@ class exif{
                 case 'ExposureMode':
                     $new_img_info[$k] = $info?'手动':'自动';
                     break;
+                case 'FNumber':
+                    $new_img_info[$k] = $this->getNumber($info);
+                    break;
+                    
                 case 'ExposureProgram':
                     $new_img_info[$k] = isset($ExposureProgram[$info])?$ExposureProgram[$info]:'未知';
                     break;
@@ -214,6 +218,42 @@ class exif{
         }
         unset($new_img_info['ResolutionUnit']);
         return $new_img_info;
+    }
+    function bytes2u($size){
+        $result = '';
+        if($size < 1024)
+        {
+          $result = round($size, 2).' B';
+        }
+        elseif($size < 1024*1024)
+        {
+          $result = round($size/1024, 2).' KB';
+        }
+        elseif($size < 1024*1024*1024)
+        {
+          $result = round($size/1024/1024, 2).' MB';
+        }
+        elseif($size < 1024*1024*1024*1024)
+        {
+          $result = round($size/1024/1024/1024, 2).' GB';
+        }
+        else
+        {
+          $result = round($size/1024/1024/1024/1024, 2).' TB';
+        }
+        return $result;
+    }
+    function getNumber($str){
+        if(is_numeric($str)){
+            return $str;
+        }elseif(strpos($str,'/')!== false){
+            $arr = explode('/', $str);
+            $result = $arr[0]/$arr[1];
+            if(is_float($result)){
+                return sprintf('%.1f',$result);
+            }
+            return $result;
+        }
     }
 
     function getGps($exifCoord) 

@@ -32,6 +32,10 @@ if($photoInfo['uid']!=$_G['user']['id']){
     alert('非法操作，该图片不属于您！');
 }
 
+if($photoInfo['album_id'] == $album_id){
+    alert('操作成功，图片位置未发生变化！');
+}
+
 $aids = array($photoInfo['album_id'],$album_id);
 
 if( M('album_photos')->update($id,$updata) ){

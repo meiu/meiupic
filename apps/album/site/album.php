@@ -26,10 +26,10 @@ $rows = $m_album->findAll(array(
 $view->assign('rows',$rows);
 
 if(isAjax()){
-    echo json_encode(array('status'=>'ok','page'=>$page,'html'=>$view->fetch('album/album-list.php'),'pagehtml'=>$pager->html()));
+    echo json_encode(array('status'=>'ok','page'=>$page,'html'=>$view->fetch('album/album_list.php'),'pagehtml'=>$pager->html()));
     exit;
 }else{
-    $site_title = '用户中心 - '.getSetting('site_title');
+    $site_title = '相册列表 - 用户中心 - '.getSetting('site_title');
     $view->assign('site_title',$site_title);
     $view->display('album/album.php');
 }

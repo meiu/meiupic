@@ -48,4 +48,8 @@ class Storage{
     public function getThumb($path,$w,$h,$t,$placeholder){
         return '';
     }
+
+    public function download($path){
+        return '';
+    }
 }

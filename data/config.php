@@ -74,5 +74,4 @@ return array(
         'video' => array('title' => '请选择视频','ext' => 'flv,rmvb,wmv,avi','max' => '100m','memo' => '请选择小于100M的视频，支持flv,rmvb,wmv,avi'),
         'attach' => array('title' => '请选择附件','ext' => 'zip,rar,7z,doc,xls,ppt,docx,xlsx,pptx','max' => '10m','memo' => '请选择小于10M的附件')
     ), 
-    'types' => include('define_types.php'),
 );
