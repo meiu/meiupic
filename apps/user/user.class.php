@@ -107,6 +107,12 @@ Class UserClass{
             $field = 'email';
             return array($ret,$msg,$field);
         }
+        if(0 < $m_user->count("mobile=".$m_user->escape($data['mobile'])) ){
+            $ret = false;
+            $msg = '该手机号已经被注册了！';
+            $field = 'mobile';
+            return array($ret,$msg,$field);
+        }
 
         $data['salt'] = substr(uniqid(rand()), -6); 
         $data['userpass'] = md5($data['userpass'].$data['salt']);
@@ -115,7 +121,7 @@ Class UserClass{
         $data['regip'] = getClientIp();
 
         $data['level'] = app('base')->getSetting('default_user_level');
-
+        
         $ret = $m_user->insert($data);
         if($ret){
             $uid = $m_user->insertId();

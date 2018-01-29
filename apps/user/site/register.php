@@ -12,6 +12,7 @@ if(isPost() || getGet('ajax') ){
     $data['username'] = safestr(trim(getPost('username')));
     $data['userpass'] = getPost('userpass');
     $data['email'] = safestr(trim(getPost('email')));
+    $data['mobile'] = safestr(trim(getPost('mobile')));
     $data['nickname'] = safestr(trim(getPost('nickname')));
 
     $infodata['extra1'] = safestr(getPost('extra1'));
@@ -41,7 +42,12 @@ if(isPost() || getGet('ajax') ){
     if(!isEmail($data['email'])){
         alert('Email格式不正确!',false,'',array('field'=>'email'));
     }
-    
+    if(empty($data['mobile'])){
+        alert('请输入手机号码!',false,'',array('field'=>'mobile'));
+    }
+    if(!isMobile($data['mobile'])){
+        alert('手机号码格式不正确!',false,'',array('field'=>'mobile'));
+    }
     if(empty($data['nickname'])){
         alert('请输入昵称!',false,'',array('field'=>'nickname'));
     }

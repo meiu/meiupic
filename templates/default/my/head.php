@@ -19,6 +19,12 @@
     <script src="<?php echo S('user','js/my.js');?>"></script>
     <link rel="stylesheet" href="<?=ST('css/user.css')?>" type="text/css" />
     <link rel="stylesheet" href="<?=S('album','css/justifiedGallery.min.css')?>" type="text/css" />
+    <script type="text/javascript" src="<?php echo ST('js/main.js'); ?>"></script>
+    <script type="text/javascript" src="<?php echo ST('js/screenfull.js'); ?>"></script>
+    <script>
+        var site_title= '<?php echo getSetting('site_title');?>';
+    </script>
+    <?php  echo x_comment_helper::initJS(); ?>
 </head>
 <body>
 <div class="my-header">
@@ -46,7 +52,6 @@
             $applist = app('my')->getAppMenus();
             ?>
             <ul class="main-list">
-                <li <?php if ('my'==$_G['uri']['app']){echo 'class="active"';}?>><a href="<?php echo U('my','index'); ?>">我的</a></li>
                 <?php foreach ($applist as $key => $value): 
                     if($value['ismy']):
                     ?>

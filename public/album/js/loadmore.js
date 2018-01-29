@@ -7,7 +7,7 @@ $(function(){
 });
 
 var isLoading = false;
-function ajax_load_data() {
+function ajax_load_data(callback) {
     if (!isLoading) {
         var next_p = $('.pageset').find('.next-page');
         if (next_p.length > 0) {
@@ -28,6 +28,9 @@ function ajax_load_data() {
                     try{
                         if (data.status != undefined && data.status == 'ok') {
                             $('.listCont').append(data.html);
+                            if(typeof(callback) == 'function'){
+                                callback();
+                            }
                             if($("#grid-gallery").length > 0){
                                 $("#grid-gallery").justifiedGallery('norewind').on('jg.complete', function (e) {
                                     $('.loadingbar').hide();

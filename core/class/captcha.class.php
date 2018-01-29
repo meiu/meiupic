@@ -2,8 +2,7 @@
 defined('IN_MWEB') || exit('Access denied!');
 
 class Captcha{
-    const CAPTCHA_VAR ='MYPHP_CAPTCHA_VALUE';
-    const TTL_VAR     ='MYPHP_CAPTCHA_TTL_VALUE';
+    const CAPTCHA_VAR ='MEIU_CAPTCHA_VALUE';
     private $verify_code='';
     private $_config=array(
             'seed'     => "345679aABbCcDdEeFGHhJj345KLMNPRsTVWXYz679",//验证码种子
@@ -26,12 +25,18 @@ class Captcha{
         }
     }
 
-    public function check($code){
+    public function check($code,$id='default'){
         $code = strtoupper($code);
-        $value = isset($_SESSION[self::CAPTCHA_VAR])?$_SESSION[self::CAPTCHA_VAR]:'';
-        $ttl = isset($_SESSION[self::TTL_VAR])?$_SESSION[self::TTL_VAR]:0;
 
-        if(time() - $ttl > $this->_config['ttl'] ){
+        if(isset($_SESSION[self::CAPTCHA_VAR.':'.$id])){
+            $value = $_SESSION[self::CAPTCHA_VAR.':'.$id]['code'];
+            $time = $_SESSION[self::CAPTCHA_VAR.':'.$id]['time'];
+        }else{
+            $value = '';
+            $time = 0;
+        }
+
+        if(time() - $time > $this->_config['ttl'] ){
             return false;
         }
         if($value != $code){
@@ -40,12 +45,11 @@ class Captcha{
         return true;
     }
 
-    public function clear(){
-        $_SESSION[self::CAPTCHA_VAR] = '';
-        $_SESSION[self::TTL_VAR] = 0;
+    public function clear($id='default'){
+        $_SESSION[self::CAPTCHA_VAR.':'.$id] = null;
     }
 
-    private function generate(){
+    private function generate($id='default'){
         $str = $this->_config['seed'];
 
         $str_len = strlen($str);
@@ -56,12 +60,14 @@ class Captcha{
         }
         $this->verify_code = strtoupper($this->verify_code);
 
-        $_SESSION[self::CAPTCHA_VAR] = $this->verify_code;
-        $_SESSION[self::TTL_VAR] = time();
+        $_SESSION[self::CAPTCHA_VAR.':'.$id] = array(
+            'code' => $this->verify_code,
+            'time'  => time()
+        );
     }
 
-    public function display(){
-        $this->generate();
+    public function display($id='default'){
+        $this->generate($id);
         
         $im_x = $this->_config['width'];
         $im_y = $this->_config['height'];

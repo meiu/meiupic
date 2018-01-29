@@ -6,7 +6,7 @@ function show_comment_alert(msg){
         alert(msg);
     }
 }
-$(function(){
+var commentInit = function(){
     //表及id
     var ele = $('.mc-thread');
     var mod=ele.attr('data-thread-mod');
@@ -233,4 +233,4 @@ $(function(){
     
     //初次加载列表
     getList();
-});
+}

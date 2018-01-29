@@ -30,9 +30,28 @@ if($photoInfo['uid'] != $_G['user']['id']){
     
 }
 
+//查看上一张和下一张(当前用户或其他用户开放的图片)
+if($photoInfo['uid'] == $_G['user']['id']){
+    $where = 'uid = '.$_G['user']['id'];
+}else{
+    $where = 'priv_type = 0';
+}
+$prevInfo = $m_photo->findRow(array(
+    'where' => $where.' and id>'.$id,
+    'order' => 'id asc',
+    'limit' => 1
+));
+$nextInfo = $m_photo->findRow(array(
+    'where' => $where.' and id<'.$id,
+    'order' => 'id desc',
+    'limit' => 1
+));
+$view->assign('prevInfo',$prevInfo);
+$view->assign('nextInfo',$nextInfo);
+
 $view->assign('photoInfo',$photoInfo);
 $view->assign('authorInfo',$authorInfo);
 $view->assign('cateIndex',app('album')->getCateIndex());
-$site_title = '用户中心 - '.getSetting('site_title');
+$site_title = $photoInfo['name'].' - '.getSetting('site_title');
 $view->assign('site_title',$site_title);
 $view->display('album/photo_view.php');

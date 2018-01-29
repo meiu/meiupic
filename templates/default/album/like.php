@@ -18,17 +18,12 @@
     </div>
     <div class="loadingbar" style="display:none;"><label>努力加载中</label></div>
 </div>
-<div id="comments">
-<?php 
-if(isset($albumInfo) && $albumInfo){
-    echo x_comment_helper::comment('album',$albumInfo['id']);
-}
-?>
-</div>
+<script type="text/javascript" src="<?php echo ST('js/theater.js'); ?>"></script>
 <script>
 $("#grid-gallery").justifiedGallery({'rowHeight':300,'margins':10}).on('jg.complete', function (e) {
     $('#grid-gallery').css('opacity',1);
 });
+theater.init('div.container');
 </script>
 <script type="text/javascript" src="<?php echo S('album','js/loadmore.js'); ?>"></script>
 <?php $this->display('my/foot.php'); ?>

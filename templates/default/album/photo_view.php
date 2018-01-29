@@ -1,14 +1,23 @@
-<?php $this->display('my/head.php'); ?>
-<div class="main-container clearfix">
+<?php if(!isAjax()): ?><?php $this->display('my/mini_head.php'); ?>
+<style>
+    html, body{height: 100%;}
+</style>
+<div class="viewphoto">
+<?php endif; ?>
     <div class="photo-container">
+        <a href="javascript:void(0)" class="fullscreen" title="全屏展示"></a>
+        <a href="javascript:void(0)" class="close"></a>
+        <a class="icon-like" title="喜欢" href="<?php echo $photoInfo['uid']!=$_G['user']['id']?U('album','photo_like','id='.$photoInfo['id']):'javascript:void(0)'; ?>"><?php echo $photoInfo['like_num']; ?></a>
         <div class="photo-view">
         <img class="photo" src="<?php echo thumb($photoInfo['path'],1200,1200,2);?>" alt="<?php echo $photoInfo['name']; ?>">
         </div>
+        <a href="<?php echo $prevInfo?U('album','view','id='.$prevInfo['id']):'javascript:void(0)'; ?>" class="btn-prev"></a>
+        <a href="<?php echo $nextInfo?U('album','view','id='.$nextInfo['id']):'javascript:void(0)'; ?>" class="btn-next"></a>
     </div>
     <div class="sidebar-region">
         <div class="sidebar-actions">
-            <a class="icon-like" title="喜欢" href="<?php echo U('album','photo_like','id='.$photoInfo['id']); ?>" onclick="return opt_one(this,false,function(){var o=$('.icon-like');o.text(parseInt(o.text())+1);})"><?php echo $photoInfo['like_num']; ?></a>
-            <a class="icon-comment" title="评论" href="javascript:void(0)"><?php echo $photoInfo['comments_num']; ?></a>
+            <a class="icon-like" title="喜欢" href="<?php echo $photoInfo['uid']!=$_G['user']['id']?U('album','photo_like','id='.$photoInfo['id']):'javascript:void(0)'; ?>"><?php echo $photoInfo['like_num']; ?></a>
+            <a class="icon-comment" title="评论"><?php echo $photoInfo['comments_num']; ?></a>
             <a class="icon-read" title="浏览数"><?php echo $photoInfo['hits']; ?></a>
         </div>
         <div class="sidebar-author">
@@ -75,28 +84,31 @@
             <div class="owner_buttons">
                 <a class="light_button edit-photo" href="javascript:void(0)" onclick="MuiShow('<?php echo U('album','photo_edit','id='.$photoInfo['id']); ?>','编辑图片',500,500)">编辑</a>
                 <a class="light_button edit-photo" href="<?php echo U('album','photo_del','id='.$photoInfo['id']); ?>" onclick="return opt_one(this,'确定删除该图片？')">删除</a>
-                <a class="light_button set-as-cover" href="<?php echo U('album','download','id='.$photoInfo['id']); ?>">下载原图</a>
+                <a class="light_button" target="_blank" href="<?php echo U('album','download','id='.$photoInfo['id']); ?>">下载原图</a>
             </div>
         </div>
         <?php endif; ?>
         <div class="sidebar-comment">
             <?php 
-                echo x_comment_helper::comment('album_photo',$photoInfo['id']);
+                echo x_comment_helper::comment('album_photo',$photoInfo['id'],!isAjax());
             ?>
         </div>
     </div>
+<?php if(!isAjax()): ?>
 </div>
 <script>
-$('.icon-comment').click(function(){
-    var txtarea=$('.mc-comment-textarea textarea');
-    $("div.sidebar-region").scrollTop(txtarea.offset().y);
-    txtarea.focus();
+$('div.photo-container a.close').click(function(){
+    location.href = '<?php echo U('album','my','aid='.$photoInfo['album_id']); ?>';
 });
-function resizePhotoArea(){
-    $('.main-container').height($(window).height()-61);
-}
-resizePhotoArea();
-$(window).resize(resizePhotoArea);
+
+photo_detail_click();
+
+window.addEventListener("popstate", function() {
+    var currentState = window.history.state;
+    if(currentState){
+        window.location.href = currentState.url;
+    }
+});
 </script>
-</body>
-</html>
+<?php $this->display('my/mini_foot.php'); ?>
+<?php endif; ?>

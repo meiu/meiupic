@@ -1,6 +1,6 @@
 <?php foreach ($rows as $key => $value): ?>
 <div class="photo_thumbnail">
-    <a href="<?php echo U('album','view','id='.$value['id']);?>" class="photo_link">
+    <a href="<?php echo U('album','view','id='.$value['id']);?>" title="<?=$value['name']?>" class="photo_link">
         <img src="<?php echo thumb($value['path'],600,600,2);?>" width="<?=$value['width']?>" height="<?=$value['height']?>" />
     </a>
     <div class="top-button">

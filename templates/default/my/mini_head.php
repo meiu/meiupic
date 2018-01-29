@@ -11,7 +11,13 @@
     <script src="<?php echo S('base','dialog/plugins/iframeTools.js');?>"></script>
     <script src="<?php echo S('base','jquery-ui/jquery-ui.min.js');?>"></script>
     <script src="<?php echo S('user','js/my.js');?>"></script>
+    <script type="text/javascript" src="<?php echo ST('js/main.js'); ?>"></script>
+    <script type="text/javascript" src="<?php echo ST('js/screenfull.js'); ?>"></script>
     <link rel="stylesheet" href="<?=ST('css/user.css')?>" type="text/css" />
+    <script>
+        var site_title= '<?php echo getSetting('site_title');?>';
+    </script>
+    <?php  echo x_comment_helper::initJS(); ?>
     <style>
         html,body{background: #fff;}
     </style>

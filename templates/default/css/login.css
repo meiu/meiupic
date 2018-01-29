@@ -131,15 +131,41 @@ a{color: #5fb336;}
 .register-box ul li.error p {background: none repeat scroll 0 0 #fff480;border: 1px solid #ebebeb;border-radius: 5px 5px 5px 5px;color: #666;height: 40px;line-height: 40px;padding-left: 12px;text-align: left;}
 .register-box ul li.error p .i-no{margin-right: 10px;position: relative;top:4px;}
 
+.mobile_captcha{
+    position: absolute;
+    top:5px;
+    left:320px;
+
+    border: none;
+    background-color: #5fb336;
+    color: #fff;
+    border-radius: 6px;
+    width: 120px;
+    height: 28px;
+    padding: 0 10px;
+    line-height: 28px;
+    font-size: 12px;
+}
+.mobile_captcha:disabled{ 
+    background-color: #dddddd;
+}
 /* iphone横屏幕 */
-@media (max-width:321px){
-    .login-box{width: 270px !important;}
-    .register-box{width: 270px !important;}
-    .regiter-agreement{width: 240px;margin:10px 0 0;}
+@media (max-width:700px){
+    .register-box{width: 670px !important;}
+    .login-box{width: 670px !important;}
 }
 
 /* iphone竖屏幕 */
-@media (max-width:640px){
+@media (max-width:414px){
+    .login-box{width: 350px !important;}
+    .register-box{width: 350px !important;}
+    .regiter-agreement{width: 240px;margin:10px 0 0;}
+
+    .mobile_captcha{
+        position:static;
+        display: block;
+        margin-top: 15px;
+    }
     /*登录界面*/
     #wrapper{padding: 20px;}
     .login-wrap{width: auto;}
@@ -152,4 +178,8 @@ a{color: #5fb336;}
     /*注册界面*/
     .register-box .mod-body{width:100%;padding:10px;}
     .register-box, .register-box ul li{width: auto;}
+}
+@media (max-width:320px){
+    .register-box{width: 270px !important;}
+    .login-box{width: 270px !important;}
 }

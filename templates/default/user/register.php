@@ -31,6 +31,12 @@
                     <input type="text" required="" value="" placeholder="Email" name="email" class="form-control" />
                 </li>
                 <li>
+                    <input type="text" id="mobile" required="" value="" placeholder="手机号" name="mobile" class="form-control" /> <input class="mobile_captcha" type="button" value="获取验证码" orgi="<?php echo U('base','captcha','type=sms');?>" smsurl="<?php echo U('sms','send_code');?>" />
+                </li>
+                <li>
+                    <input type="text" required="" value="" placeholder="手机验证码" name="mobile_code" class="form-control" />
+                </li>
+                <li>
                     <input type="text" required="" placeholder="常用昵称或真名" name="nickname" class="form-control" />
                 </li>
                 <?php foreach ($fields as $key => $value): 
@@ -69,6 +75,7 @@
             </form>
     </div>
 </div>
+<script type="text/javascript" src="<?php echo S('sms','js/sms.js') ?>"></script>
 <script type="text/javascript">
 function doRegister(f){
     $('.error_message').hide();
@@ -101,6 +108,9 @@ $(function(){
         $('.captcha_show img').attr('src',osrc+(osrc.indexOf('?')>=0?'&':'?')+'t='+Math.random() );
         return false;
     });
+
+    //获取验证码
+    showMobileCaptcha('.mobile_captcha','#mobile');
 });
 </script>
 <?php $this->display('user/login_foot.php'); ?>
