@@ -48,6 +48,7 @@ class UserIndex extends Adminbase{
         if(isPost()){
             $data['username'] = safestr(trim(getPost('username')));
             $data['nickname'] = trim(getPost('nickname'));
+            $data['mobile'] = trim(getPost('mobile'));
             $data['email'] = trim(getPost('email'));
             $data['level'] = intval(getPost('level'));
             $data['gender'] = getPost('gender');
@@ -60,10 +61,23 @@ class UserIndex extends Adminbase{
             if(!$data['email']){
                 alert('Email不能为空！');
             }
+            if(!isEmail($data['email'])){
+                alert('Email格式错误！');
+            }
+            if(!isMobile($data['mobile'])){
+                alert('手机号格式错误！');
+            }
             //检查用户名是否重复
             if(0 < $m_user->count("username=".$m_user->escape($data['username']).' and id<>'.$id) ){
                 alert('用户名重复！');
             }
+            if(0 < $m_user->count("email=".$m_user->escape($data['email']).' and id<>'.$id) ){
+                alert('Email重复！');
+            }
+            if(0 < $m_user->count("mobile=".$m_user->escape($data['mobile']).' and id<>'.$id) ){
+                alert('手机号重复！');
+            }
+
 
 
             $userpass = getPost('userpass');
@@ -115,6 +129,7 @@ class UserIndex extends Adminbase{
             $data['username'] = safestr(trim(getPost('username')));
             $data['nickname'] = trim(getPost('nickname'));
             $data['email'] = trim(getPost('email'));
+            $data['mobile'] = trim(getPost('mobile'));
             $data['level'] = intval(getPost('level'));
             $data['gender'] = getPost('gender');
 
@@ -127,6 +142,12 @@ class UserIndex extends Adminbase{
             if(!$data['email']){
                 alert('Email不能为空！');
             }
+            if(!isEmail($data['email'])){
+                alert('Email格式错误！');
+            }
+            if(!isMobile($data['mobile'])){
+                alert('手机号格式错误！');
+            }
             $userpass = getPost('userpass');
             if(!$userpass){
                 alert('请输入密码！');
@@ -138,6 +159,12 @@ class UserIndex extends Adminbase{
             //检查用户名是否重复
             if(0 < $m_user->count("username=".$m_user->escape($data['username'])) ){
                 alert('用户名重复！');
+            }
+            if(0 < $m_user->count("email=".$m_user->escape($data['email'])) ){
+                alert('Email重复！');
+            }
+            if(0 < $m_user->count("mobile=".$m_user->escape($data['mobile'])) ){
+                alert('手机号重复！');
             }
 
             $data['salt'] = substr(uniqid(rand()), -6);

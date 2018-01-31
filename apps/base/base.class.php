@@ -187,7 +187,7 @@ Class BaseClass{
     }
     
     //获取全局标签
-    public static function getLabel($name){
+    public function getLabel($name){
         $cache = Cache::instance();
         $label = $cache->get('label_'.$name);
         if($label===false){
@@ -199,5 +199,47 @@ Class BaseClass{
             return '';
         }
         return $label['data'];
+    }
+
+    public function sendMail($email,$subject,$content){
+        $setting = app('base')->getSetting('mail_setting',true);
+
+        $init = array(
+            'protocol' => $setting['protocol'],
+            'smtp_host' => $setting['smtp_host'],
+            'smtp_user' => $setting['smtp_username'],
+            'smtp_pass' => $setting['smtp_password'],
+            'smtp_port' => $setting['smtp_port'],
+            'smtp_crypto' => $setting['smtp_crypto']
+        );
+        $email_obj = new email($init);
+        $email_obj->set_mailtype('html');
+
+        $email_obj->from($setting['send_email'], $setting['send_name']);
+        $email_obj->to($email);
+        $email_obj->subject($subject);
+        $email_obj->message($content);
+
+        if($email_obj->send()){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public function parseMail($tpl,$data){
+        $tpl_path = CORE_PATH.'mail_tpls'.DS.$tpl;
+        $tpl_content = file_get_contents($tpl_path);
+
+        $title = '';
+        //取出title
+        if(preg_match('/<title>(.+?)<\/title>/i', $tpl_content,$matches)){
+            $title = $matches[1];
+        }
+        //开始替换
+        $title = str_replace(array('#昵称#','#手机号#','#用户名#','#验证码#','#链接1#','#链接2#'), array(@$data['nickname'],@$data['mobile'],@$data['username'],@$data['code'],@$data['link1'],@$data['link2']), $title);
+        $content = str_replace(array('#昵称#','#手机号#','#用户名#','#验证码#','#链接1#','#链接2#'), array(@$data['nickname'],@$data['mobile'],@$data['username'],@$data['code'],@$data['link1'],@$data['link2']), $tpl_content);
+
+        return array('title'=>$title,'content'=>$content);
     }
 }

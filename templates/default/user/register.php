@@ -81,11 +81,14 @@ function doRegister(f){
     $('.error_message').hide();
     $.post($(f).attr('action'),$(f).serializeArray(),function(data){
         if(data.ret){
-            window.location.href=data.redirect;
+            $('.error_message').removeClass('alert-danger').html(data.msg).show();
+            $(f).find('input.btn-xl').attr('disabled','disabled');
+            setTimeout(function(){
+                window.location.href=data.redirect;
+            },1500);
         }else{
             if(data.field){
                 $('.error_message').html(data.msg).show();
-                //$('input[name="'+data.field+'"]').addClass('input-error').after('<span class="text-error">'+data.msg+'</span>');
             }else{
                 alert(data.msg);
             }

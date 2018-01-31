@@ -779,6 +779,11 @@ function make_link_kw($matches){
     }
 }
 
+//获取全局标签
+function label($name){
+    return app('base')->getLabel($name);
+}
+
 function layout($data,$tpl){
     global $_G;
     return $_G['runtime']['view']->fetch('layout/'.$tpl.'.php',$data);

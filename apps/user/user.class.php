@@ -33,7 +33,13 @@ Class UserClass{
     //设置用户登录
     public function setLogin($username,$userpass,$expire_time=0,$is_admin = false){
         $m_user = M('users');
-        $user_info = $m_user->findRow("username=".$m_user->escape($username));
+        if(isEmail($username)){
+            $user_info = $m_user->findRow("email=".$m_user->escape($username));   
+        }elseif(isMobile($username)){
+            $user_info = $m_user->findRow("mobile=".$m_user->escape($username)); 
+        }else{
+            $user_info = $m_user->findRow("username=".$m_user->escape($username)); 
+        }
 
         if(!$user_info){
             return array(false,'用户名不存在！','username');
@@ -220,5 +226,37 @@ Class UserClass{
             return $this->changePoints($uid,$r['points'],$r['ac'],$r['name']);
         }
         return false;
+    }
+
+    public function newCode($uid,$code,$type){
+        $m = M('users_codes');
+        $row = $m->findRow("uid=".intval($uid)." AND code_type=".$m->escape($type)." AND add_time>".(CURRENT_TIME-60));
+        if($row){
+            return false;
+        }
+
+        return $m->insert(array(
+            'uid' => $uid,
+            'expire_time' => CURRENT_TIME+60*15,
+            'code' => $code,
+            'code_type' => $type,
+            'add_time' => CURRENT_TIME,
+            'add_ip' => getClientIp()
+        ));
+    }
+
+    public function getCode($code,$type,$uid = 0){
+        $m = M('users_codes');
+
+        $row = $m->findRow(array(
+            'where'=>'code='.$m->escape($code).' AND code_type='.$m->escape($type).' AND expire_time>'.CURRENT_TIME.( $uid?' AND uid='.$uid:'' ),
+            'order' => 'id desc'
+            )
+        );
+        return $row;
+    }
+
+    public function activeCode($rowid){
+        return M('users_codes')->update($rowid,array('active_time'=>CURRENT_TIME,'active_ip'=>getClientIp()));
     }
 }

@@ -4,6 +4,7 @@ defined('IN_MWEB') or die('access denied');
 class BaseSetting extends Adminbase{
     protected $_submenu = array(
         '基本' => array('index'),
+        '邮件配置'=> array('mail'),
         '自定义路由' => array('route','routeadd','routeedit'),
         '后台菜单' => array('menu'),
         '插件扩展' => array('plugin','pluginset'),
@@ -306,5 +307,18 @@ class BaseSetting extends Adminbase{
             }
 
         }
+    }
+
+    function mailAct(){
+        if(isPost()){
+            $setting = getPost('setting');
+            if(app('base')->setSetting('mail_setting',$setting)){
+                alert('设置成功！',true);
+            }else{
+                alert('设置失败！');
+            }
+        }
+        $this->view->assign('setting', app('base')->getSetting('mail_setting',true)); 
+        $this->view->display('setting_mail.php');
     }
 }

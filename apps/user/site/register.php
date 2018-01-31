@@ -62,6 +62,10 @@ if(isPost() || getGet('ajax') ){
             alert('验证码输入错误!',false,'',array('field'=>'captcha'));
         }
     }
+    $mobile_code = getPost('mobile_code');
+    if(!app('sms')->checkCode($data['mobile'],$mobile_code)){
+        alert('手机验证码输入错误！',false,'',array('field'=>'mobile_code'));
+    }
 
     $data['userpass'] = md5($data['userpass']);
     

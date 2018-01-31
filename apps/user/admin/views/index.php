@@ -12,7 +12,7 @@
 <table cellspacing="0">
   <tbody>
   <tr class="th">
-    <th>编号</th><th>登录名</th><th>昵称</th><th>Email</th><th>性别</th><th>积分</th><th>注册时间</th><th>注册ip</th><th>最后登录</th><th>最后登录ip</th><th>权限</th><th>操作</th>
+    <th>编号</th><th>登录名</th><th>昵称</th><th>Email</th><th>手机</th><th>性别</th><th>积分</th><th>注册时间</th><th>注册ip</th><th>最后登录</th><th>最后登录ip</th><th>权限</th><th>操作</th>
   </tr>
   <?php
   foreach ($rows as $key => $value): ?>
@@ -28,6 +28,9 @@
     </td>
     <td>
       <?php echo $value['email']; ?>
+    </td>
+    <td>
+      <?php echo $value['mobile']; ?>
     </td>
     <td>
       <?php if($value['gender']=='n'){echo '不详';}elseif($value['gender']=='f'){echo '女';}else{echo '男';} ?>

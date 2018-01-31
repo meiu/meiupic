@@ -1,6 +1,10 @@
 <div class="main-head">
-    <h3>风格列表</h3>
+    <h3>标签列表</h3>
     <a href="<?php echo U('base','template','a=labeladd');?>" class="i-add">新增标签</a>
+</div>
+
+<div class="notice">
+  TIPS:您可以在模版中使用以下方式调用 <span class="c_y">&lt;?php echo label('名称'); ?&gt;</span>
 </div>
 <table cellspacing="0">
   <tbody>

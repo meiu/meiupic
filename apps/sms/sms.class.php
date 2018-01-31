@@ -20,7 +20,7 @@ Class SmsClass{
         }
     }
 
-    public function sendByDingdong($mobile,$content,$apikey,$type=1){
+    private function sendByDingdong($mobile,$content,$apikey,$type=1){
         $data = array(
             'apikey'=>$apikey,
             'mobile'=> $mobile,
@@ -43,7 +43,7 @@ Class SmsClass{
         return false;
     }
 
-    public function sendByYunpian($mobile,$content,$apikey,$type=1){
+    private function sendByYunpian($mobile,$content,$apikey,$type=1){
         $data = array(
             'apikey'=>$apikey,
             'mobile'=> $mobile,
@@ -77,7 +77,7 @@ Class SmsClass{
         ));
     }
 
-    public function httpPost($url, $post = null){
+    private function httpPost($url, $post = null){
         $context = array(); 
         if (is_array($post)){ 
             ksort($post); 
@@ -88,5 +88,57 @@ Class SmsClass{
             );
         }
         return file_get_contents($url, false, stream_context_create($context)); 
+    }
+
+    public function sendCode($mobile,$code,& $msg){
+        $m = M('sms_codes');
+        $row = $m->findRow("mobile=".$m->escape($mobile));
+
+        if($row){
+            if(time() - $row['lasttime']<60){
+                $msg = '操作过于频繁，请稍后再次操作!';
+                return false;
+            }
+            if($row['send_count']>=10){
+                $msg = '您今日操作过于频繁!';
+                return false;
+            }
+        }
+
+        if($row){
+            //如果不是今日send_cound置1，否则加一
+            if(date('Y-m-d',$row['lasttime'])==date('Y-m-d')){
+                $send_count = $row['send_count']+1;
+            }else{
+                $send_count = 1;
+            }
+            $m->updateW("mobile=".$m->escape($mobile),array('code'=>$code,'lasttime'=>time(),'send_count'=>$send_count));
+        }else{
+            $m->insert(array("mobile"=>$mobile,'code'=>$code,'lasttime'=>time(),'send_count'=>1));
+        }
+
+        if($this->sendSMS($mobile,$code,1)){
+            $msg = '发送成功!';
+            return true;
+        }else{
+            $msg = '发送失败!';
+            return false;
+        }
+    }
+
+    public function checkCode($mobile,$code){
+        $m = M('sms_codes');
+        $row = $m->findRow('mobile='.$m->escape($mobile));
+
+        if(!$row){
+            return false;
+        }
+        if($row['lasttime']-CURRENT_TIME > 60*15){
+            return false;
+        }
+        if($row['code'] != $code){
+            return false;
+        }
+        return true;
     }
 }

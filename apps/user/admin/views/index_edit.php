@@ -19,6 +19,10 @@
         <td><input type="text" name="email" size="20" value="<?php echo $info['email'];?>" /></td>
         </tr>
         <tr>
+        <th>手机：</th>
+        <td><input type="text" name="mobile" size="20" value="<?php echo $info['mobile'];?>" /></td>
+        </tr>
+        <tr>
         <th>性别：</th>
         <td>
         <select name="gender">

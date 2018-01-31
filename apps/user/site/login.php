@@ -17,7 +17,7 @@ if($act == 'logout'){
         $redirect = getPost('redirect');
 
         if(empty($username)){
-            alert('请输入用户名!',false,'',array('field'=>'username'));
+            alert('请输入用户名/邮箱/手机号码!',false,'',array('field'=>'username'));
         }
         if(empty($userpass)){
             alert('请输入密码!',false,'',array('field'=>'userpass'));

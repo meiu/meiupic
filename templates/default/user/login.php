@@ -19,7 +19,7 @@
                 <form id="login_form" method="post" onsubmit="return doLogin(this)" action=""<?php echo U('user','login','a=dologin');?>">
                     <ul>
                         <li>
-                            <input type="text" class="form-control" placeholder="用户名" name="username" />
+                            <input type="text" class="form-control" placeholder="用户名/邮箱/手机号码" name="username" />
                         </li>
                         <li>
                             <input type="password" class="form-control" placeholder="密码" name="userpass" />
