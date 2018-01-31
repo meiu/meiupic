@@ -72,6 +72,20 @@ $chunk = getRequest('chunk',0);
 $chunks = getRequest('chunks',0);
 $filename = getRequest('name','');
 
+if( 
+    (@$_G['settings']['album_email_notactive_cannotpost'] && !$_G['user']['email_actived'] ) ||
+    (@$_G['settings']['album_mobile_notactive_cannotpost'] && !$_G['user']['mobile_actived']) 
+){
+    $return = array(
+        'jsonrpc'=>'2.0',
+        'error'=>array(
+            'code'=>105,
+            'message'=>'不允许上传.'
+        ),
+        'id'=>'id');
+    echo json_encode($return);
+    exit;
+}
 $status = pluploadProcess($filename,$chunk!=0);
 
 switch($status){
@@ -135,13 +149,15 @@ if($chunk+1 == $chunks){
     $filetype = C('upfiles.image');
     if($filetype && !in_array($fileext,explode(',', $filetype['ext']))){//如果不是支持的文件类别直接清除临时文件
         @unlink($tmpfile);
-        return array(
+        $return = array(
         'jsonrpc'=>'2.0',
         'error'=>array(
             'code'=>103,
             'message'=>'不支持的格式.'
         ),
         'id'=>'id');
+        echo json_encode($return);
+        exit;
     }
 
     //保存图片并返回图片
@@ -226,13 +242,15 @@ if($chunk+1 == $chunks){
         $imagelib->save($tmpfile);
     }
     if(!$storagelib->save($tmpfile,$path)){
-        return array(
+        $return = array(
         'jsonrpc'=>'2.0',
         'error'=>array(
             'code'=>104,
             'message'=>'保存失败.'
         ),
         'id'=>'id');
+        echo json_encode($return);
+        exit;
     }
     
     $m_photos->insert($data);

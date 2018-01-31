@@ -36,6 +36,15 @@
   </tr>
   <tr>
     <td>
+      注册启用手机验证码
+    </td>
+    <td>
+        <label><input type="radio" name="setting[enable_mobile_captcha]" value="1" <?php if($setting['enable_mobile_captcha']){ echo 'checked="checked"';} ?> /> 开启</label>
+        <label><input type="radio" name="setting[enable_mobile_captcha]" value="0" <?php if(!$setting['enable_mobile_captcha']){ echo 'checked="checked"';} ?> /> 关闭</label>
+    </td>
+  </tr>
+  <tr>
+    <td>
       后台启用验证码
     </td>
     <td>

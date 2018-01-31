@@ -203,7 +203,9 @@ Class BaseClass{
 
     public function sendMail($email,$subject,$content){
         $setting = app('base')->getSetting('mail_setting',true);
-
+        if($setting['protocol'] == 'none'){
+            return false;
+        }
         $init = array(
             'protocol' => $setting['protocol'],
             'smtp_host' => $setting['smtp_host'],

@@ -16,6 +16,9 @@
         <h1>注册新用户</h1>
     </div>
     <div class="mod-body">
+            <?php 
+            $user_setting = getSetting('user_setting',true);
+            ?>
             <form class="session-form" action="<?php echo U('user','register');?>" method="post" onsubmit="return doRegister(this);">
                 <ul>
                 <li class="alert alert-danger error_message" style="display: none;">
@@ -31,11 +34,18 @@
                     <input type="text" required="" value="" placeholder="Email" name="email" class="form-control" />
                 </li>
                 <li>
-                    <input type="text" id="mobile" required="" value="" placeholder="手机号" name="mobile" class="form-control" /> <input class="mobile_captcha" type="button" value="获取验证码" orgi="<?php echo U('base','captcha','type=sms');?>" smsurl="<?php echo U('sms','send_code');?>" />
+                    <input type="text" id="mobile" required="" value="" placeholder="手机号" name="mobile" class="form-control" />
+                <?php 
+                if($user_setting['enable_mobile_captcha']):
+                ?><input class="mobile_captcha" type="button" value="获取验证码" orgi="<?php echo U('base','captcha','type=sms');?>" smsurl="<?php echo U('sms','send_code');?>" /><?php endif; ?>
                 </li>
+                <?php 
+                if($user_setting['enable_mobile_captcha']):
+                ?>
                 <li>
                     <input type="text" required="" value="" placeholder="手机验证码" name="mobile_code" class="form-control" />
                 </li>
+                <?php endif; ?>
                 <li>
                     <input type="text" required="" placeholder="常用昵称或真名" name="nickname" class="form-control" />
                 </li>
@@ -47,7 +57,6 @@
                 </li>
                 <?php endforeach ?>
                 <?php 
-                $user_setting = getSetting('user_setting',true);
                 if($user_setting['enable_reg_captcha']):
                 ?>
                 <li class="captcha clearfix">

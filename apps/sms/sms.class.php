@@ -127,6 +127,9 @@ Class SmsClass{
     }
 
     public function checkCode($mobile,$code){
+        if(!$code){
+            return false;
+        }
         $m = M('sms_codes');
         $row = $m->findRow('mobile='.$m->escape($mobile));
 

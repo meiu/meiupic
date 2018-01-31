@@ -91,9 +91,9 @@ div.pages a.on{
 }
 .my-header a.head-logo{
     float: left;
-    margin: 17px 40px 0 0;
-    height: 25px;
-    width: 160px;
+    margin: 14px 40px 0 0;
+    height: 35px;
+    width: 180px;
     text-align: right;
     color:#aaa;
     font-size: 12px;
@@ -256,6 +256,10 @@ div.pages a.on{
     width: 940px;
     background-color: #fff;
 }
+
+.content a{
+    color:#5fb336;
+}
 .content .avatar-wrap {
     position: absolute;
     right: 40px;
@@ -290,7 +294,13 @@ div.pages a.on{
     position: absolute;
     top: -999px;
 }
-
+.content .smallbtn{
+    border:1px solid #5fb336;
+    color:#5fb336;
+    border-radius:4px;
+    padding:4px 10px;
+    background: #fff;
+}
 .line-wrap {
     padding-top: 20px;
     padding-bottom: 20px;
@@ -328,6 +338,9 @@ div.pages a.on{
     outline: 0;
     font-size: 13px;
     border: solid 2px #e0e0e0;
+}
+.line-wrap .readonly{
+    background: #eee;
 }
 .line-wrap select {
     width: 460px;

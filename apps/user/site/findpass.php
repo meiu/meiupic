@@ -89,7 +89,7 @@ if($act == 'step2'){
         $_SESSION['FINDPASS_USER'] = $username;
         $msg = '';
         if(isEmail($username)){
-            $data = app('base')->parseMail('sendcode.html',array('username'=>$userinfo['userinfo'],'nickname'=>$userinfo['nickname'],'code'=>$code));
+            $data = app('base')->parseMail('sendcode.html',array('username'=>$userinfo['username'],'nickname'=>$userinfo['nickname'],'code'=>$code));
 
             if( app('base')->sendMail($username,$data['title'],$data['content']) ){
                 alert('发送成功！',true,U('user','findpass','a=step2'));

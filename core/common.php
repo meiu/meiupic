@@ -861,6 +861,14 @@ function hideStr($string, $bengin=0, $len = 4, $type = 0, $glue = "@") {
     return $string;
 }
 
+function createRandStr($length,$chars='abcdefghijklmnopqrstuvwxyz0123456789'){
+    $str = '';
+    for ( $i = 0; $i < $length; $i++ )  
+    {  
+        $str .= $chars[ mt_rand(0, strlen($chars) - 1) ];  
+    }
+    return $str;  
+}
 if (!function_exists('array_column'))
 {
     function array_column($input, $column_key=null, $index_key=null)

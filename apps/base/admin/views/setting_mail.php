@@ -9,7 +9,7 @@
   </tr>
   <tr>
     <td>发送方式：</td>
-    <td><label><input type="radio" name="setting[protocol]" value="none" <?php if(!isset($setting['protocol'])||$setting['protocol']=='none'){echo 'checked="checked"';} ?> /> 未启用</label> <label><input type="radio" name="setting[protocol]" value="mail" <?php if(isset($setting['protocol'])&&$setting['protocol']=='mail'){echo 'checked="checked"';} ?> /> mail</label> <label><input type="radio" name="setting[protocol]" value="sendmail" <?php if(isset($setting['protocol'])&&$setting['protocol']=='sendmail'){echo 'checked="checked"';} ?> /> Sendmail</label> <label><input type="radio" name="setting[protocol]" value="smtp" <?php if(isset($setting['protocol'])&&$setting['protocol']=='smtp'){echo 'checked="checked"';} ?> /> Smtp</label></td>
+    <td><label><input type="radio" name="setting[protocol]" value="none" <?php if(!isset($setting['protocol'])||$setting['protocol']=='none'){echo 'checked="checked"';} ?> /> 未启用</label> <label><input type="radio" name="setting[protocol]" value="mail" <?php if(isset($setting['protocol'])&&$setting['protocol']=='mail'){echo 'checked="checked"';} ?> /> Mail</label> <label><input type="radio" name="setting[protocol]" value="sendmail" <?php if(isset($setting['protocol'])&&$setting['protocol']=='sendmail'){echo 'checked="checked"';} ?> /> Sendmail</label> <label><input type="radio" name="setting[protocol]" value="smtp" <?php if(isset($setting['protocol'])&&$setting['protocol']=='smtp'){echo 'checked="checked"';} ?> /> Smtp</label></td>
   </tr>
   
   <tr>

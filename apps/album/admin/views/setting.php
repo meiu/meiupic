@@ -9,6 +9,24 @@
   </tr>
   <tr>
     <td>
+    Email未激活不允许上传
+    </td>
+    <td>
+      <label><input type="radio" name="setting[album_email_notactive_cannotpost]" value="1" <?php if(@$settings_info['album_email_notactive_cannotpost']){ echo 'checked="checked"';} ?>  /> 开启</label>
+      <label><input type="radio" name="setting[album_email_notactive_cannotpost]" value="0" <?php if(!@$settings_info['album_email_notactive_cannotpost']){ echo 'checked="checked"';} ?>  /> 关闭</label>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    手机号码未绑定不允许上传
+    </td>
+    <td>
+      <label><input type="radio" name="setting[album_mobile_notactive_cannotpost]" value="1" <?php if(@$settings_info['album_mobile_notactive_cannotpost']){ echo 'checked="checked"';} ?>  /> 开启</label>
+      <label><input type="radio" name="setting[album_mobile_notactive_cannotpost]" value="0" <?php if(!@$settings_info['album_mobile_notactive_cannotpost']){ echo 'checked="checked"';} ?>  /> 关闭</label>
+    </td>
+  </tr>
+  <tr>
+    <td>
     上传时自动缩放大图片
     </td>
     <td>

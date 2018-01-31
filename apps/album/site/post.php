@@ -53,6 +53,13 @@ if(isPost()){
         alert('保存失败！');
     }
 }else{
+    if(@$_G['settings']['album_email_notactive_cannotpost'] && !$_G['user']['email_actived']){
+        showInfo('Email未激活不允许上传！',U('my','account'));
+    }
+    if(@$_G['settings']['album_mobile_notactive_cannotpost'] && !$_G['user']['mobile_actived']){
+        showInfo('手机未绑定不允许上传！',U('my','account'));
+    }
+
     $cates = app('album')->getCateList();
     $view->assign('cates',$cates);
     //分类列表
