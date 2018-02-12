@@ -786,7 +786,7 @@ div.photo-container a.btn-prev{
     width: 80px;
     height: 100%;
     position: absolute;
-    top: 0px;
+    top: 52px;
     left:0px;
     background: url(../images/a-left.png) no-repeat 10px center;
 }
@@ -795,7 +795,7 @@ div.photo-container a.btn-next{
     width: 80px;
     height: 100%;
     position: absolute;
-    top: 0px;
+    top: 52px;
     right:0px;
     background: url(../images/a-right.png) no-repeat 35px center;
 }

@@ -338,9 +338,9 @@ function U($app,$action,$param = array(),$extraparam=array(),$entry = 'default')
     }else{
         if($app=='base' && $action=='index'){
             $url .= '';
-        }elseif($app == 'base'){
+        }/*elseif($app == 'base'){
             $url .= '?m='.$action;
-        }else{
+        }*/else{
             $url .= '?app='.$app.'&m='.$action;
         }
 

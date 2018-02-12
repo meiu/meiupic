@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title><?php if(isset($site_title)): echo $site_title; else: ?><?php echo getSetting('site_title');?> - <?php echo getSetting('site_sub_title');?><?php endif; ?></title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
     <meta name="keywords" content="<?php if(isset($site_keywords)){ echo $site_keywords; } ?>" />
     <meta name="description" content="<?php if(isset($site_description)){ echo $site_description; } ?>" />
     <script type="text/javascript" src="<?=S('base','js/jquery.min.js');?>"></script>

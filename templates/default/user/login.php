@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title><?php if(isset($site_title)): echo $site_title; else: ?><?php echo getSetting('site_title');?> - <?php echo getSetting('site_sub_title');?><?php endif; ?></title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
     <meta name="keywords" content="<?php if(isset($site_keywords)){ echo $site_keywords; } ?>" />
     <meta name="description" content="<?php if(isset($site_description)){ echo $site_description; } ?>" />
     <script type="text/javascript" src="<?=S('base','js/jquery.min.js');?>"></script>
@@ -16,7 +18,7 @@
             <div class="content pull-left">
                 <h1 class="logo"><a href="/"><img src="<?php echo ST('images/login_logo.png');?>" alt="<?php echo getSetting('site_title');?>"></a></h1>
                 <h2>登录<?php echo getSetting('site_title');?></h2>
-                <form id="login_form" method="post" onsubmit="return doLogin(this)" action=""<?php echo U('user','login','a=dologin');?>">
+                <form id="login_form" method="post" onsubmit="return doLogin(this)" action="<?php echo U('user','login','a=dologin');?>">
                     <ul>
                         <li>
                             <input type="text" class="form-control" placeholder="用户名/邮箱/手机号码" name="username" />

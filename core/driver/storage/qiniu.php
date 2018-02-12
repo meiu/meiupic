@@ -215,12 +215,12 @@ class StorageQiniu extends Storage
             return $localpath;
         }
         //获取远程的图片
-        $content = file_get_contents($this->_setting['url_pre'].$path);
+        $content = file_get_contents($this->downloadUrl($path));
         file_put_contents($localpath,$content);
         
         return $localpath;
     }
-
+    
     public function getUrl($path){
         return $this->_setting['url_pre'].$path;
     }
@@ -229,8 +229,17 @@ class StorageQiniu extends Storage
         return $this->_setting['url_pre'].$path."?imageView/$t/w/$w/h/$h";
     }
 
-    //TODO: 生成带凭据的图片地址
+    private function downloadUrl($path){
+        $expire = time()+3600;
+
+        $downurl = $this->_setting['url_pre'].$path."?e=".$expire;
+        $sign = hash_hmac('sha1', $downurl, $this->_setting['secret_key'], true);
+        $token = $this->_setting['access_key'] . ':' . $this->encode($sign);
+        return $downurl.'&token='.$token;
+    }
+
     public function download($path){
-        
+        $downurl = $this->downloadUrl($path);
+        redirect($downurl);
     }
 }

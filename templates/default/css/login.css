@@ -1,6 +1,7 @@
 /* 登陆页面 */
 *{box-sizing: border-box;}
-html,body{min-height: 100%;}
+html,body{min-height: 100%;margin:0;}
+img{border:none;}
 body{background-color:#36465d;background: linear-gradient(0deg, #375176 1%, #36465d 100%);filter: progid:DXImageTransform.Microsoft.Gradient(startColorStr='#375176',endColorStr='#36465d',gradientType='0'); font-size:14px;font-family: "Hiragino Sans GB","Helvetica Neue","Microsoft YaHei","微软雅黑",Helvetica,STHeiTi,Arial,sans-serif;}
 button, html input[type="button"], input[type="reset"], input[type="submit"] {cursor: pointer;}
 input[type="text"],input[type="email"],input[type="password"],textarea{outline: none;}
