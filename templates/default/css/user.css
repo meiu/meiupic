@@ -443,10 +443,61 @@ div.pages a.on{
     background-color: rgba(255,255,255,0.2);
     border-radius: 3px;
 }
+.content-gallery .photo_thumbnail .info .credits{
+    position: absolute;
+    top:18px;
+    left:10px;
+    right: 100px;
+}
+.content-gallery .photo_thumbnail .info .credits .avatar{
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-size: cover;
+    vertical-align: middle;
+}
+.content-gallery .photo_thumbnail .info .credits .author-wrap{
+    display: inline-block;
+    font-size: 14px;
+    max-width: calc(100% - 40px);
+    overflow: hidden;
+    vertical-align: middle;
+}
+.content-gallery .photo_thumbnail .info .credits .author-wrap .author{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #fff;
+    display: inline-block;
+    max-width: 100%;
+    white-space: nowrap;
+}
 .content-gallery .photo_thumbnail .info a.addto{
     width: 24px;
     height: 24px;
     background: url(../images/gallery-btns.png) no-repeat center -60px;
+    position: absolute;
+    top:18px;
+    right: 10px;
+}
+.content-gallery .photo_thumbnail .info a.like{
+    padding-left: 26px;
+    padding-right: 4px;
+    line-height: 24px;
+    color: #fff;
+    height: 24px;
+    background: url(../images/gallery-btns.png) no-repeat 3px -159px;
+    position: absolute;
+    top:18px;
+    right: 10px;
+}
+.content-gallery .photo_thumbnail .info a.liked{
+    padding-left: 26px;
+    padding-right: 4px;
+    line-height: 24px;
+    color: #fff;
+    height: 24px;
+    background: url(../images/gallery-btns.png) no-repeat 3px -191px;
     position: absolute;
     top:18px;
     right: 10px;
@@ -467,20 +518,21 @@ div.pages a.on{
     top:0px;
     right: 40px;
 }
-.content-gallery .photo_thumbnail .top-button .btns,.content-gallery .photo_thumbnail .info a.btns,.content-gallery .photo_thumbnail .info span.photo-title{
+.content-gallery .photo_thumbnail .top-button .hits{
+    position: absolute;
+    top:0px;
+    right: 10px;
+    color:#fff;
+}
+.content-gallery .photo_thumbnail .top-button .btns,.content-gallery .photo_thumbnail .info a.btns,.content-gallery .photo_thumbnail .info .credits,.content-gallery .photo_thumbnail .info span.photo-title,.content-gallery .photo_thumbnail .hits,.content-gallery .photo_thumbnail .info a.btns{
     -webkit-transition: all .2s;
     -moz-transition: all .2s;
     transition: all .2s;
 }
-.content-gallery .photo_thumbnail:hover .info span.photo-title,.content-gallery .photo_thumbnail:hover .info a.addto,.content-gallery .photo_thumbnail:hover .top-button .btns{
+.content-gallery .photo_thumbnail:hover .info span.photo-title,.content-gallery .photo_thumbnail:hover .info a.btns,.content-gallery .photo_thumbnail:hover .info .credits,.content-gallery .photo_thumbnail:hover .top-button .btns,.content-gallery .photo_thumbnail:hover .hits{
     top:11px;
 }
-
-.content-gallery .photo_thumbnail .info a.addto:hover{
-    background-color: rgba(255,255,255,0.4);
-    border-radius: 3px;
-}
-.content-gallery .photo_thumbnail .top-button .btns:hover{
+.content-gallery .photo_thumbnail .info a.author:hover,.content-gallery .photo_thumbnail a.btns:hover{
     background-color: rgba(255,255,255,0.4);
     border-radius: 3px;
 }
@@ -781,6 +833,19 @@ div.photo-container a.icon-like{
     background: url(../images/b-heart.png) no-repeat left;
     z-index: 1001;
 }
+div.photo-container a.icon-liked{
+    display: none;
+    position: absolute;
+    right:10px;
+    top: 10px;
+    padding-left:36px;
+    width:40px;
+    height: 32px;
+    line-height: 32px;
+    color:#e6e6e6;
+    background: url(../images/b-hearted.png) no-repeat left;
+    z-index: 1001;
+}
 div.photo-container a.btn-prev{
     opacity: 0;
     width: 80px;
@@ -815,6 +880,9 @@ div.fullscreen div.photo-container a.close{
 div.fullscreen div.photo-container a.icon-like{
     display: block;
 }
+div.fullscreen div.photo-container a.icon-liked{
+    display: block;
+}
 div.fullscreen div.sidebar-region{
     display: none;
 }
@@ -832,6 +900,9 @@ div.sidebar-region .sidebar-actions a{
 }
 div.sidebar-region .sidebar-actions a.icon-like{
     background: url(../images/i-like.png) no-repeat left;
+}
+div.sidebar-region .sidebar-actions a.icon-liked{
+    background: url(../images/i-liked.png) no-repeat left;
 }
 div.sidebar-region .sidebar-actions a.icon-comment{
     background: url(../images/i-comment.png) no-repeat left;
@@ -888,6 +959,17 @@ div.sidebar-region .author-head{
     position: absolute;
     left: 10px;
     top: 16px;
+}
+div.sidebar-region .follow{
+    float: right;
+    margin-right: 10px;
+    margin-top: 8px;
+}
+div.sidebar-region .follow a{
+    display: inline-block;
+    color:#5fb336;
+    border: 1px solid #5fb336;
+    padding: 1px 5px;
 }
 div.sidebar-region .sidebar-description{
     border-bottom: 1px solid #1c1d1e;
@@ -968,3 +1050,4 @@ div.viewphoto{
     width: 100%;
     height: 100%;
 }
+

@@ -14,6 +14,10 @@ if($aid){
     $where .= ' and album_id = '.$aid;
     //获取相册信息
     $albumInfo = M('albums')->load($aid);
+
+    if($_G['user']['id']!=$albumInfo['uid']){
+        showInfo('您无权查看该相册！','/','非法权限');
+    }
     $view->assign('albumInfo',$albumInfo);
     $urlparam['aid'] = $aid;
 }
@@ -34,7 +38,7 @@ $rows = $m_photo->findAll(array(
 $view->assign('rows',$rows);
 
 if(isAjax()){
-    echo json_encode(array('status'=>'ok','page'=>$page,'html'=>$view->fetch('album/photo_list.php'),'pagehtml'=>$pager->html()));
+    echo json_encode(array('status'=>'ok','page'=>$page,'html'=>$view->fetch('album/my_photo_list.php'),'pagehtml'=>$pager->html()));
     exit;
 }else{
     $site_title = (empty($albumInfo)?'全部图片':$albumInfo['name']).' - 用户中心 - '.getSetting('site_title');

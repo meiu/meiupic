@@ -44,6 +44,11 @@
         <th>会员级别：</th>
         <td><input type="text" name="level" size="20" value="<?php echo $info['level'];?>" /> (99为超级管理员)</td>
         </tr>
+        <tr>
+        <th>简介：</th>
+        <td><input type="text" name="description" size="70" value="<?php echo $info['description'];?>" /></td>
+        </tr>
+        
         <!--额外字段开始-->
         <?php for($i=1;$i<=8;$i++):
         if(!isset($fields['extra'.$i])) continue;

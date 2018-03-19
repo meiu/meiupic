@@ -99,6 +99,24 @@ class DB{
      * @param  string $sql sql语句，如果为空直接调用$this->_sql
      * @return array
      */
+    public function getAsIndex($key,$sql = null){
+        $sql = $this->getSql($sql);
+
+        $res = $this->query($sql);
+        
+        $data = array();
+        while ($row = $this->fetch($res)) {
+            $data[$row[$key]] = $row;
+        }
+        $this->free($res);
+           
+        return $data;
+    }
+    /**
+     * 获取所有记录
+     * @param  string $sql sql语句，如果为空直接调用$this->_sql
+     * @return array
+     */
     public function getAll($sql = null){
         $sql = $this->getSql($sql);
 
@@ -202,8 +220,11 @@ class DB{
 
         extract($conditions);
 
-        $table = '_mytbl::'.$table;
-
+        if(strpos($table, '#')!==false){
+            $table = str_replace('#', '_mytbl::', $table);
+        }else{
+            $table = '_mytbl::'.$table;
+        }
         $sql = "SELECT {$fields} FROM $table WHERE $where";
 
         if ($order)

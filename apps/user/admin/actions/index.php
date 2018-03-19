@@ -52,6 +52,8 @@ class UserIndex extends Adminbase{
             $data['email'] = trim(getPost('email'));
             $data['level'] = intval(getPost('level'));
             $data['gender'] = getPost('gender');
+            $data['description'] = safestr(trim(getPost('description')));
+            
             if(!$data['username']){
                 alert('用户名不能为空！');
             }
@@ -132,6 +134,7 @@ class UserIndex extends Adminbase{
             $data['mobile'] = trim(getPost('mobile'));
             $data['level'] = intval(getPost('level'));
             $data['gender'] = getPost('gender');
+            $data['description'] = safestr(trim(getPost('description')));
 
             if(!$data['username']){
                 alert('用户名不能为空！');

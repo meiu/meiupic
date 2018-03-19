@@ -35,15 +35,20 @@ function setForm(){
     });
 }
 
-function opt_one(o,msg,callback){
+function opt_one(o,msg,param,callback){
+    if(param){
+        param.isajax = 1;
+    }else{
+        param = {isajax:1};
+    }
     if(msg){
         art.dialog.confirm(msg, function () {
-            $.post($(o).attr('href'),{isajax:1},function(data){
+            $.post($(o).attr('href'),param,function(data){
                 ajaxAlert(data,1,true,callback);
             },'json');
         });
     }else{
-        $.post($(o).attr('href'),{isajax:1},function(data){
+        $.post($(o).attr('href'),param,function(data){
                 ajaxAlert(data,1,true,callback);
         },'json');
     }

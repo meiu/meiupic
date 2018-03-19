@@ -789,6 +789,10 @@ function layout($data,$tpl){
     return $_G['runtime']['view']->fetch('layout/'.$tpl.'.php',$data);
 }
 
+function get_refer_url(){
+    return $_SERVER['HTTP_REFERER'];
+}
+
 function get_current_url(){
     $current_url='http://';
     if(isset($_SERVER['HTTPS'])&&$_SERVER['HTTPS']=='on'){
@@ -806,7 +810,12 @@ function checkLogin(){
     global $_G;
     if(!$_G['user']){
         $url = U('user','login');
-        redirect($url.(strpos($url, '?')!==false?'&':'?').'redirect='.urlencode(get_current_url()));
+        if(isAjax()){
+            //返回来源页
+            alert('请先登录！',true,$url.(strpos($url, '?')!==false?'&':'?').'redirect='.urlencode(get_refer_url()));
+        }else{
+            redirect($url.(strpos($url, '?')!==false?'&':'?').'redirect='.urlencode(get_current_url()));
+        }
     }
 }
 

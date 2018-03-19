@@ -72,7 +72,7 @@ class AlbumUpload extends Adminbase{
                 $data['tags'] = '';
                 $data['taken_time'] = 0;
                 $data['exif'] = '';
-
+                $data['post_ip'] = getClientIp();
                 $imginfo = @getimagesize($tmpfile);
                 $data['width'] = @$imginfo[0];
                 $data['height'] = @$imginfo[1];

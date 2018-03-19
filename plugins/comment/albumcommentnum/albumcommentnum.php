@@ -15,6 +15,7 @@ function update_album_comment($data,$cid){
     if($data['mod'] == 'album'){
         M('albums')->update($data['rel_id'], array('comments_num'=>array('exp','comments_num+1')) );
     }elseif($data['mod'] == 'album_photo'){
+       
         M('album_photos')->update($data['rel_id'], array('comments_num'=>array('exp','comments_num+1')) );
     }
 }

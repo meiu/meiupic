@@ -10,7 +10,7 @@ $where = 'deleted=0';
 $where .= ' and uid ='.intval($_G['user']['id']);
 
 $totalCount = $m_album->count($where);
-$pageurl = U('album','album',array('page'=>'%page%'));
+$pageurl = U('album','my_album',array('page'=>'%page%'));
 
 $pager = new Pager($page,C('pageset.default',15),$totalCount,$pageurl);
 $pager->config(C('page'));
@@ -26,10 +26,10 @@ $rows = $m_album->findAll(array(
 $view->assign('rows',$rows);
 
 if(isAjax()){
-    echo json_encode(array('status'=>'ok','page'=>$page,'html'=>$view->fetch('album/album_list.php'),'pagehtml'=>$pager->html()));
+    echo json_encode(array('status'=>'ok','page'=>$page,'html'=>$view->fetch('album/my_album_list.php'),'pagehtml'=>$pager->html()));
     exit;
 }else{
     $site_title = '相册列表 - 用户中心 - '.getSetting('site_title');
     $view->assign('site_title',$site_title);
-    $view->display('album/album.php');
+    $view->display('album/my_album.php');
 }

@@ -7,29 +7,30 @@
     <div class="photo-container">
         <a href="javascript:void(0)" class="fullscreen" title="全屏展示"></a>
         <a href="javascript:void(0)" class="close"></a>
-        <a class="icon-like" title="喜欢" href="<?php echo $photoInfo['uid']!=$_G['user']['id']?U('album','photo_like','id='.$photoInfo['id']):'javascript:void(0)'; ?>"><?php echo $photoInfo['like_num']; ?></a>
+        <a <?php if($photoInfo['liked']): ?>class="icon-liked" title="取消喜欢"<?php else: ?>class="icon-like" title="喜欢"<?php endif; ?> href="<?php echo $photoInfo['uid']!=$_G['user']['id']?U('album','photo_like','id='.$photoInfo['id']):'javascript:void(0)'; ?>"><?php echo $photoInfo['like_num']; ?></a>
         <div class="photo-view">
-        <img class="photo" src="<?php echo thumb($photoInfo['path'],1200,1200,2);?>" alt="<?php echo $photoInfo['name']; ?>">
+        <img class="photo" src="<?php echo thumb($photoInfo['path'],1600,1600,2);?>" alt="<?php echo $photoInfo['name']; ?>">
         </div>
         <a href="<?php echo $prevInfo?U('album','view','id='.$prevInfo['id']):'javascript:void(0)'; ?>" class="btn-prev"></a>
         <a href="<?php echo $nextInfo?U('album','view','id='.$nextInfo['id']):'javascript:void(0)'; ?>" class="btn-next"></a>
     </div>
     <div class="sidebar-region">
         <div class="sidebar-actions">
-            <a class="icon-like" title="喜欢" href="<?php echo $photoInfo['uid']!=$_G['user']['id']?U('album','photo_like','id='.$photoInfo['id']):'javascript:void(0)'; ?>"><?php echo $photoInfo['like_num']; ?></a>
+            
+            <a <?php if($photoInfo['liked']): ?>class="icon-liked" title="取消喜欢"<?php else: ?>class="icon-like" title="喜欢"<?php endif; ?> href="<?php echo $photoInfo['uid']!=$_G['user']['id']?U('album','photo_like','id='.$photoInfo['id']):'javascript:void(0)'; ?>"><?php echo $photoInfo['like_num']; ?></a>
+
             <a class="icon-comment" title="评论"><?php echo $photoInfo['comments_num']; ?></a>
             <a class="icon-read" title="浏览数"><?php echo $photoInfo['hits']; ?></a>
         </div>
         <div class="sidebar-author">
-            <a href="#" class="author-head">
+            <?php if(!$is_followed): ?>
+            <p class="follow"><a href="<?php echo U('friend','follow','uid='.$photoInfo['uid']) ?>" onlick="return opt_one(this,'关注该用户？')">关注</a></p>
+            <?php endif; ?>
+            <a href="<?php echo U('user','space','id='.$authorInfo['id']) ?>" class="author-head">
                 <img src="<?php echo app('user')->getAvatar($authorInfo,'small'); ?>">
             </a>
-            <a href="#"><?php echo $authorInfo['nickname']; ?></a>
-            <?php if($photoInfo['uid'] == $_G['user']['id'] || $is_followed): ?>
-            <p><?php echo $authorInfo['followers']; ?>粉丝</p>
-            <?php else: ?>
-            <p><a href="<?php echo U('friend','follow','uid='.$photoInfo['uid']) ?>" onlick="return opt_one(this,'关注该用户？')">关注</a></p>
-            <?php endif; ?>
+            <a href="<?php echo U('user','space','id='.$authorInfo['id']) ?>"><?php echo $authorInfo['nickname']; ?></a>
+            <p class="followers"><span><?php echo $authorInfo['followers']; ?></span>粉丝</p>
         </div>
         <div class="sidebar-description">
             <h2><?php echo $photoInfo['name']; ?></h2>
@@ -37,7 +38,7 @@
             <p>
                 <?php if ($photoInfo['tags']): 
                 foreach (explode(',',$photoInfo['tags']) as $value): ?>
-                <a href="<?php echo U('album','tags','tag='.$value) ?>">#<?php echo  $value; ?></a>
+                <a href="<?php echo U('album','search','tag='.$value) ?>">#<?php echo  $value; ?></a>
                 <?php
                 endforeach;
                 endif ?>
@@ -88,6 +89,17 @@
             </div>
         </div>
         <?php endif; ?>
+        <?php 
+        //编辑操作选项
+        if($_G['user']['level']>=80):
+        ?>
+        <div class="sidebar-edit">
+            <div class="owner_buttons">
+                <a class="light_button edit-photo" href="<?php echo U('album','photo_recommend','id='.$photoInfo['id']); ?>" onclick="return opt_one(this,'确定推荐该图片？')">推荐</a>
+                <a class="light_button" target="_blank" href="<?php echo U('album','tellauthor','id='.$photoInfo['id']); ?>">提醒删除</a>
+            </div>
+        </div>
+        <?php endif; ?>
         <div class="sidebar-comment">
             <?php 
                 echo x_comment_helper::comment('album_photo',$photoInfo['id'],!isAjax());
@@ -98,7 +110,13 @@
 </div>
 <script>
 $('div.photo-container a.close').click(function(){
-    location.href = '<?php echo U('album','my','aid='.$photoInfo['album_id']); ?>';
+    location.href = '<?php
+    if($_G['user']['id'] && $photoInfo['uid'] == $_G['user']['id']){ 
+        echo U('album','my','aid='.$photoInfo['album_id']); 
+    }else{
+        echo U('base','index'); 
+    }
+    ?>';
 });
 
 photo_detail_click();

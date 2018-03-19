@@ -1,7 +1,7 @@
 <?php 
 defined('IN_MWEB') or die('access denied');
 
-checkLogin();
+//checkLogin();
 
 $id = intval(getGet('id'));
 $m_photo = M('album_photos');
@@ -25,9 +25,15 @@ if($photoInfo['exif']){
 
 $is_followed = false;
 //判断用户是否关注了
-if($photoInfo['uid'] != $_G['user']['id']){
+if($_G['user']['id'] && $photoInfo['uid'] != $_G['user']['id']){
     //TODO: 判断是否关注了好友
     
+}
+
+$photoInfo['liked'] = false;
+//判断是否喜欢了当前照片
+if($_G['user']['id'] && M('album_likes')->findRow('uid='.$_G['user']['id'].' and photo_id='.$id)){
+    $photoInfo['liked'] = true;
 }
 
 //查看上一张和下一张(当前用户或其他用户开放的图片)

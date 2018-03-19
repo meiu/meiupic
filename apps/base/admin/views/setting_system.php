@@ -18,11 +18,15 @@
         </tr>
         <tr>
             <td>
-                服务器
+                服务器操作系统
             </td>
             <td>
-                <?php echo php_uname("s");?>
+                <?php echo php_uname("s").' '.php_uname('r');?>
             </td>
+        </tr>
+        <tr>
+            <td>Web服务器</td>
+            <td><?php echo($_SERVER["SERVER_SOFTWARE"]); ?></td>
         </tr>
         <tr>
             <td>
@@ -32,5 +36,47 @@
                 <?php echo PHP_VERSION;?>
             </td>
         </tr>
+        <tr>
+            <td>PHP运行方式</td>
+            <td><?php echo ucwords(php_sapi_name());?></td>
+        </tr>
+        <tr>
+            <td>Mysql版本</td>
+            <td><?php echo DB::instance()->getOne('Select version()'); ?></td>
+        </tr>
+        <tr>
+            <td>GD</td>
+            <td><?php 
+            if(function_exists("gd_info")){                 
+                $gd = gd_info();
+                $gdinfo = $gd['GD Version'];
+            }else {
+                $gdinfo = "未知";
+            }
+            echo $gdinfo;
+            ?></td>
+        </tr>
+        <tr>
+            <td>Imagick</td>
+            <td><?php
+            if(class_exists('Imagick')){
+                $ver = Imagick::getVersion();
+                echo $ver['versionString'];
+            }else{
+                echo '不支持';
+            }
+            ?></td>
+        </tr>
+        <tr>
+            <td>
+                最大上传限制
+            </td>
+            <td>
+                <?php
+                    echo get_cfg_var("upload_max_filesize")?get_cfg_var("upload_max_filesize"):"不允许上传附件";
+                ?>
+            </td>
+        </tr>
+        
     </tbody>
 </table>

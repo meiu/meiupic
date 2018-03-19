@@ -68,7 +68,6 @@ if($needaudit){
 
 $m_comment = M('comments');
 doAction('comment_post', $data);
-
 if($m_comment->insert($data)){
     $cid = $m_comment->insertId();
     doAction('comment_saved', $data, $cid);

@@ -2,7 +2,7 @@
   'mods' => 
   array (
     0 => 'album.cate',
-    1 => 'album.tags',
+    1 => 'album.search',
   ),
   'data' => 
   array (
@@ -20,19 +20,19 @@
       ),
       'regex' => '/^cate\\/([^\\/]+)$/i',
     ),
-    'tags/{tag}' => 
+    'tag/{tag}' => 
     array (
       'params' => 
       array (
         'app' => 'album',
-        'm' => 'tags',
+        'm' => 'search',
         'tag' => '@@',
       ),
       'needreplace' => 
       array (
         0 => 'tag',
       ),
-      'regex' => '/^tags\\/([^\\/]+)$/i',
+      'regex' => '/^tag\\/([^\\/]+)$/i',
     ),
   ),
 );
