@@ -3,6 +3,7 @@
   array (
     0 => 'album.cate',
     1 => 'album.search',
+    2 => 'album.index',
   ),
   'data' => 
   array (
@@ -33,6 +34,32 @@
         0 => 'tag',
       ),
       'regex' => '/^tag\\/([^\\/]+)$/i',
+    ),
+    'discover' => 
+    array (
+      'params' => 
+      array (
+        'app' => 'album',
+        'm' => 'index',
+      ),
+      'needreplace' => 
+      array (
+      ),
+      'regex' => '/^discover$/i',
+    ),
+    'search/{keyword}' => 
+    array (
+      'params' => 
+      array (
+        'app' => 'album',
+        'm' => 'search',
+        'keyword' => '@@',
+      ),
+      'needreplace' => 
+      array (
+        0 => 'keyword',
+      ),
+      'regex' => '/^search\\/([^\\/]+)$/i',
     ),
   ),
 );

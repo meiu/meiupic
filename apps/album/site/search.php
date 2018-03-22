@@ -3,20 +3,24 @@ defined('IN_MWEB') or die('access denied');
 
 $aid = intval(getGet('aid'));
 $page = getGet('page',1);
-$t = getGet('t');
+$tag = getGet('tag');
+$keyword = getGet('keyword');
 
 $m_photo = M('album_photos');
 
 $where = 'deleted=0 and priv_type=0';
 $urlparam = array('page'=>'%page%');
-if($t){
-    $urlparam['t'] = $t;
+if($tag){
+    $urlparam['tag'] = $tag;
+    $where .=  " and find_in_set(".$m_photo->escape($tag).",tags)";
+}elseif($keyword){
+    $urlparam['keyword'] = htmlspecialchars($keyword);
+    $where .=  " and name like '%".$m_photo->escape($keyword,false)."%'";
+}else{
+    show404();
 }
 
-if($t=='editor'){
-    $where .=  ' and recommended=1';
-    $order = 'recommend_time desc';
-}elseif($t == 'fresh'){
+if($t == 'fresh'){
     $order = 'id desc';
 }else{
     $order = 'hits desc';
@@ -55,7 +59,7 @@ if(isAjax()){
     echo json_encode(array('status'=>'ok','page'=>$page,'html'=>$view->fetch('album/normal_list.php'),'pagehtml'=>$pager->html()));
     exit;
 }else{
-    $site_title = '发现 - '.getSetting('site_title');
+    $site_title = '搜索 - '.getSetting('site_title');
     $view->assign('site_title',$site_title);
-    $view->display('album/index.php');
+    $view->display('album/search.php');
 }

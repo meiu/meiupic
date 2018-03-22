@@ -46,13 +46,11 @@ class AlbumTags extends Adminbase{
         $m_tag = M('album_tags');
         $id = intval(getGet('id'));
         if(isPost()){
-            $image = trim(getPost('image'));
-            $description = trim(getPost('description'));
-
-            $data = array(
-                'image'=>$image,
-                'description'=>$description
-            );
+            $data['name'] = trim(getPost('name'));
+            $data['image'] = trim(getPost('image'));
+            $data['description'] = trim(getPost('description'));
+            $data['recommended'] = intval(getPost('recommended'));
+            $data['sort'] = intval(getPost('sort'));
 
             if($m_tag->update($id,$data)){
                 alert('保存成功！',true,U('album','tags'));
@@ -73,19 +71,15 @@ class AlbumTags extends Adminbase{
     function addAct(){
         $m_tag = M('album_tags');
         if(isPost()){
-            $name = trim(getPost('name'));
-            $image = trim(getPost('image'));
-            $description = trim(getPost('description'));
-        
-            if(empty($name)){
+            $data['name'] = trim(getPost('name'));
+            $data['image'] = trim(getPost('image'));
+            $data['description'] = trim(getPost('description'));
+            $data['recommended'] = intval(getPost('recommended'));
+            $data['sort'] = intval(getPost('sort'));
+
+            if(empty($data['name'])){
                 alert('请输入标签名！');
             }
-
-            $data = array(
-                'name'=>$name,
-                'image'=>$image,
-                'description' => $description
-            );
 
             if($m_tag->insert($data)){
                 alert('保存成功！',true,U('album','tags'));

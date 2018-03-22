@@ -199,6 +199,20 @@ Class UserClass{
         return 'https://secure.gravatar.com/avatar/'.md5($email).'?rating=G&size=48&d=mm';
     }
 
+    public function getBannerBg($user){
+        if($user['bgver']){
+            if($user['id']>100){
+                $pre = substr($user['id'], 0,3);
+            }elseif($user['id']>10){
+                $pre = substr($user['id'], 0,2);
+            }else{
+                $pre = $user['id'];
+            }
+            return D('banner/'.$pre.'/'.$user['id'].'.jpg?'.$user['bgver']);
+        }else{
+            return S('user','images/banner_bg.jpg');
+        }
+    }
     //增加/减少积分
     //ac==0，增加积分 否则减少积分
     public function changePoints($uid,$points,$ac=0,$name=''){

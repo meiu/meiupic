@@ -44,7 +44,9 @@
                 <li><a href="<?=U('album','post')?>" class="publish-btn">上传</a></li>
             </ul>
             <?php else: ?>
-            <a href="<?=U('user','login')?>">登录</a> <a href="<?=U('user','register')?>">注册</a>
+            <div class="unlogin">
+            <a href="<?=U('user','login')?>">登录</a> <a class="reg" href="<?=U('user','register')?>">注册</a>
+            </div>
             <?php endif; ?>
         </div>
 
@@ -54,7 +56,7 @@
                 <li <?php if($_G['uri']['app']=='base'){echo 'class="active"';}?>><a href="<?=U('base','index')?>">首页</a></li>
                 <li <?php if($_G['uri']['app']=='album'){echo 'class="active"';}?>><a href="<?=U('album','index')?>">发现</a></li>
                 <li <?php if($_G['uri']['app']=='user'){echo 'class="active"';}?>><a href="<?=U('user','index')?>">摄影师</a></li>
-                <li <?php if($_G['uri']['app']=='user'){echo 'class="active"';}?>><a href="#">分类</a></li>
+                <li <?php if($_G['uri']['app']=='album' && $_G['uri']['m']=='cate'){echo 'class="active"';}?>><a href="#">分类</a></li>
             </ul>
         </div>
     </div>

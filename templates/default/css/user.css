@@ -23,6 +23,7 @@ body {
     padding: 0;
     font-size: 14px;
     background-color: #f9f9f9;
+    min-width: 800px;
 }
 .clearfix:after {
   content: " ";
@@ -926,7 +927,7 @@ div.sidebar-region .mc-thread .mc-replybox .mc-comment-submit input{
     margin-right: 0;
     border: solid 1px #5fb336;
     background: transparent;
-    border-radius:0;
+    border-radius:2px;
     box-shadow:none;
     text-shadow: none;
     font-weight:normal;
@@ -970,6 +971,7 @@ div.sidebar-region .follow a{
     color:#5fb336;
     border: 1px solid #5fb336;
     padding: 1px 5px;
+    border-radius: 2px;
 }
 div.sidebar-region .sidebar-description{
     border-bottom: 1px solid #1c1d1e;
@@ -1051,3 +1053,133 @@ div.viewphoto{
     height: 100%;
 }
 
+
+.user-banner{
+    background-color: #000;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 100%;
+    padding: 180px 40px 40px;
+    font-size: 14px;
+    line-height: 20px;
+    color: #f9f9f9;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.banner-user-avatar{
+    display: inline-block;
+    margin-right: 26px;
+    position: relative;
+}
+.banner-user-avatar img {
+    width: 100px;
+    height: 100px;
+    border: solid 1px rgba(255,255,255,.1);
+    border-radius: 50px;
+}
+.banner-user-info {
+    display: inline-block;
+    width: 495px;
+    vertical-align: top;
+    font-size: 14px;
+}
+.banner-user-info .info-name {
+    font-size: 22px;
+    line-height: 30px;
+    color: #fff;
+    font-weight: 500;
+}
+.banner-user-info a{
+    font-size: 14px;
+    color: #fff;
+}
+
+.banner-user-info  ul {
+    margin: 12px 0;
+    line-height: 20px;
+    height: 20px;
+}
+.banner-user-info  ul li{
+    display: inline-block;
+    line-height: 20px;
+}
+.banner-user-info  ul li::before {
+    content: '/';
+    color: #E0E0E0;
+    font-size: 12px;
+    margin: 0 10px;
+}
+.banner-user-info  ul li:first-child::before{
+    content: '';
+    margin: 0;
+}
+.banner-user-info .desc{
+    color:#bbb;
+}
+.banner-act{
+    float: right;
+    margin-top: 68px;
+}
+.banner-act #change-banner{
+    cursor: pointer;
+}
+
+.head-user .unlogin a{
+    display: inline-block;
+    margin-top: 12px;
+    margin-left: 30px;
+    height: 36px;
+    line-height: 36px;
+    color: #fff;
+    font-size: 14px;
+}
+.head-user .unlogin a.reg{
+    width: 100px;
+    text-align: center;
+    background-color: #5fb336;
+    border-radius: 4px;
+}
+
+.tag-list {
+    margin-right: -25px;
+    margin-bottom: -25px;
+    font-size: 0;
+    max-width: 1188px;
+    min-width: 792px;
+}
+.tag-list li{
+    width: 173px;
+    height: 173px;
+    margin-right: 25px;
+    margin-bottom: 25px;
+    display: inline-block;
+}
+.tag-list li a {
+    display: block;
+    position: relative;
+}
+.tag-list li a::before {
+    content: '';
+    background: rgba(0,0,0,.3);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+.tag-list .tag-title {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    line-height: 173px;
+    display: inline-block;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: 10px;
+    text-indent: 10px;
+}

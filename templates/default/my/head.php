@@ -44,7 +44,9 @@
                 <li><a href="<?=U('album','post')?>" class="publish-btn">上传</a></li>
             </ul>
             <?php else: ?>
-            <a href="<?=U('user','login')?>">登录</a> <a href="<?=U('user','register')?>">注册</a>
+            <div class="unlogin">
+            <a href="<?=U('user','login')?>">登录</a> <a class="reg" href="<?=U('user','register')?>">注册</a>
+            </div>
             <?php endif; ?>
         </div>
 
@@ -65,3 +67,70 @@
         </div>
     </div>
 </div>
+
+
+<div class="user-banner" style="background-image: url(<?php echo app('user')->getBannerBg($_G['user']);?>)">
+    <div class="banner-info">
+        <a href="javascript:void(0);" class="banner-user-avatar">
+            <img src="<?php echo app('user')->getAvatar($_G['user'],'large');?>">
+        </a>
+        <div class="banner-user-info">
+            <div>
+                <span class="info-name"> <?php echo $_G['user']['nickname']; ?> </span>
+            </div>
+            <div class="desc">
+                <?php echo $_G['user']['description']; ?>
+            </div>
+            <ul>
+                <li> 
+                    <a href="<?php echo U('friend','my_friends'); ?>"> 关注 <?php echo $_G['user']['friends']; ?> </a> 
+                </li>
+                <li> 
+                    <a href="<?php echo U($value['id'],'my_followers'); ?>"> 粉丝 <?php echo $_G['user']['followers']; ?> </a> 
+                </li>
+            </ul>
+        </div>
+        <div class="banner-act">
+            <label id="change-banner">
+                编辑封面 &gt; 
+            </label>
+        </div>
+    </div>
+</div>
+<script>
+var banneruploader = new plupload.Uploader({
+    runtimes : 'html5,flash,silverlight,html4',
+    browse_button : 'change-banner',
+    url : "<?=U('my','savebg')?>",
+    flash_swf_url : '<?php echo S("base","plupload/Moxie.swf");?>',
+    silverlight_xap_url : '<?php echo S("base","plupload/Moxie.xap");?>',
+    resize : { crop:true, width : 2000, height : 500, quality : 90 },
+    filters : {
+        max_file_size : '2mb',
+        mime_types: [
+            {title : "Image files", extensions : "jpg,gif,png"}
+        ]
+    },
+
+    init: {
+        FilesAdded: function(up, files) {
+            banneruploader.start();
+        },
+        UploadProgress: function(up, file) {
+            $('#change-banner').html('上传：'+file.percent +'%');
+        },
+        Error: function(up, err) {
+            $('#change-banner').html('编辑封面 &gt;');
+            art.dialog.tips('上传失败！',1,true);
+        },
+        UploadComplete: function(up, files) {
+            $('#change-banner').html('编辑封面 &gt;');
+            art.dialog.tips('上传成功！',1,true);
+            setTimeout(function(){
+                window.location.reload();
+            },1000);
+        }
+    }
+});
+banneruploader.init();
+</script>

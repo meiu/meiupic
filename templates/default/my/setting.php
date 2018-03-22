@@ -70,7 +70,7 @@ var uploader = new plupload.Uploader({
     url : "<?=U('my','saveavatar')?>",
     flash_swf_url : '<?php echo S("base","plupload/Moxie.swf");?>',
     silverlight_xap_url : '<?php echo S("base","plupload/Moxie.xap");?>',
-    resize : { width : 300, height : 300, quality : 90 },
+    resize : { width : 400, height : 400, quality : 90 },
     filters : {
         max_file_size : '2mb',
         mime_types: [
@@ -95,7 +95,7 @@ var uploader = new plupload.Uploader({
             setTimeout(function(){
                 window.location.reload();
             },1000);
-        },
+        }
     }
 });
 
