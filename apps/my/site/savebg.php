@@ -28,13 +28,18 @@ if($_G['user']['id']>100){
     $pre = $_G['user']['id'];
 }
 $path = 'banner/'.$pre.'/'.$_G['user']['id'].'.jpg';
+$smallpath = 'banner/'.$pre.'/'.$_G['user']['id'].'_small.jpg';
+$smalltmpfile = $tmpfile.'.small.jpg';
 $img = image::instance();
 $img->load($tmpfile);
 $img->resizeCut(2000,500);
 $img->save($tmpfile);
 
+$img->resizeCut(528,132);
+$img->save($smalltmpfile);
+
 $storagelib = storage::instance();
-if($storagelib->save($tmpfile,$path)){//上传成功
+if($storagelib->save($tmpfile,$path) && $storagelib->save($smalltmpfile,$smallpath) ){//上传成功
     @unlink($tmpfile);
     M('users')->update($_G['user']['id'],array('bgver'=>array('exp','bgver+1')));
 

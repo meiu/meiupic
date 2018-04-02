@@ -96,7 +96,6 @@
         <div class="sidebar-edit">
             <div class="owner_buttons">
                 <a class="light_button edit-photo" href="<?php echo U('album','photo_recommend','id='.$photoInfo['id']); ?>" onclick="return opt_one(this,'确定推荐该图片？')">推荐</a>
-                <a class="light_button" target="_blank" href="<?php echo U('album','tellauthor','id='.$photoInfo['id']); ?>">提醒删除</a>
             </div>
         </div>
         <?php endif; ?>

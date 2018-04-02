@@ -199,7 +199,7 @@ Class UserClass{
         return 'https://secure.gravatar.com/avatar/'.md5($email).'?rating=G&size=48&d=mm';
     }
 
-    public function getBannerBg($user){
+    public function getBannerBg($user,$size='large'){
         if($user['bgver']){
             if($user['id']>100){
                 $pre = substr($user['id'], 0,3);
@@ -208,7 +208,7 @@ Class UserClass{
             }else{
                 $pre = $user['id'];
             }
-            return D('banner/'.$pre.'/'.$user['id'].'.jpg?'.$user['bgver']);
+            return D('banner/'.$pre.'/'.$user['id'].($size=='small'?'_small':'').'.jpg?'.$user['bgver']);
         }else{
             return S('user','images/banner_bg.jpg');
         }

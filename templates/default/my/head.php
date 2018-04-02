@@ -86,7 +86,7 @@
                     <a href="<?php echo U('friend','my_friends'); ?>"> 关注 <?php echo $_G['user']['friends']; ?> </a> 
                 </li>
                 <li> 
-                    <a href="<?php echo U($value['id'],'my_followers'); ?>"> 粉丝 <?php echo $_G['user']['followers']; ?> </a> 
+                    <a href="<?php echo U('friend','my_followers'); ?>"> 粉丝 <?php echo $_G['user']['followers']; ?> </a> 
                 </li>
             </ul>
         </div>
@@ -104,9 +104,9 @@ var banneruploader = new plupload.Uploader({
     url : "<?=U('my','savebg')?>",
     flash_swf_url : '<?php echo S("base","plupload/Moxie.swf");?>',
     silverlight_xap_url : '<?php echo S("base","plupload/Moxie.xap");?>',
-    resize : { crop:true, width : 2000, height : 500, quality : 90 },
+    resize : { width : 2000, height : 500, quality : 90 },
     filters : {
-        max_file_size : '2mb',
+        max_file_size : '5mb',
         mime_types: [
             {title : "Image files", extensions : "jpg,gif,png"}
         ]

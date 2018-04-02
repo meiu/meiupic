@@ -1,4 +1,4 @@
-<?php $this->display('common/head.php'); ?>
+ <?php $this->display('common/head.php'); ?>
 <div class="container">
     <?php $this->display('album/index_menu.php'); ?>
     <div class="list-body">

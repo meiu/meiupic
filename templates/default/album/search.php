@@ -1,6 +1,15 @@
 <?php $this->display('common/head.php'); ?>
 <div class="container">
-    <?php $this->display('album/index_menu.php'); ?>
+    <nav class="secondary-nav">
+    <ul class="nav-list">
+        <li <?php if(!getGet('t')): ?>class="active"<?php endif; ?> data-index="0">
+            <a target="_self" href="<?=U('album','search',$urlparam)?>">热门</a>
+        </li>
+        <li <?php if(getGet('t')=='new'): ?>class="active"<?php endif; ?> data-index="1">
+            <a target="_self" href="<?=U('album','search',array_merge($urlparam,array('t'=>'new')))?>">新作</a>
+        </li>
+    </ul>
+    </nav>
     <div class="list-body">
         <div class="content-gallery">
             <div id="grid-gallery" class="listCont" style="opacity:0;">

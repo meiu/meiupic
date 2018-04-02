@@ -5,6 +5,7 @@ $aid = intval(getGet('aid'));
 $page = getGet('page',1);
 $tag = getGet('tag');
 $keyword = getGet('keyword');
+$t = getGet('t');
 
 $m_photo = M('album_photos');
 
@@ -20,7 +21,7 @@ if($tag){
     show404();
 }
 
-if($t == 'fresh'){
+if($t == 'new'){
     $order = 'id desc';
 }else{
     $order = 'hits desc';
@@ -61,5 +62,8 @@ if(isAjax()){
 }else{
     $site_title = '搜索 - '.getSetting('site_title');
     $view->assign('site_title',$site_title);
+
+    unset($urlparam['page']);
+    $view->assign('urlparam',$urlparam);
     $view->display('album/search.php');
 }
