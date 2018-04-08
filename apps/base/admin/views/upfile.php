@@ -9,10 +9,11 @@
 <link rel="stylesheet" href="<?php echo S('base','jquery-ui/jquery-ui.min.css');?>" />
 <link rel="stylesheet" href="<?php echo S('base','plupload/jquery.ui.plupload/css/jquery.ui.plupload.css'); ?>" type="text/css" />
 <script type="text/javascript" src="<?php echo S('base','plupload/plupload.full.min.js'); ?>"></script>
-<script type="text/javascript" src="<?php echo S('base','plupload/jquery.ui.plupload/jquery.ui.plupload.min.js"'); ?>"></script>
+<script type="text/javascript" src="<?php echo S('base','plupload/jquery.ui.plupload/jquery.ui.plupload.min.js'); ?>"></script>
 <script type="text/javascript" src="<?php echo S('base','plupload/i18n/zh_CN.js'); ?>"></script>
+<script>
+var UPFILE_PRE = "<?php echo C('storage.setting.url_pre'); ?>";
 
-<script type="text/javascript">
 function tab(h,con){
     var _tab=$(h);
     var _box=$(con);
@@ -70,7 +71,7 @@ function editorSeleted(){
             ret.push({"id":idarr[i],"path":patharr[i],"name":namearr[i]});
     }
     if(patharr.length > 1){
-        window.opener.CKEDITOR.tools.callFunction( '<?php echo $CKEditorFuncNum;?>', '<?php echo $upload_dir;?>'+ret[0].path );
+        window.opener.CKEDITOR.tools.callFunction( '<?php echo $CKEditorFuncNum;?>', UPFILE_PRE+ret[0].path );
         window.close();
     }else{
         alert('您还没有选择上传的文件！');

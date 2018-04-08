@@ -256,4 +256,20 @@ class AlbumClass{
 
         return true;
     }
+
+    public function makeCateLink($value,$other=array()){
+        $extra = array(
+          'catename'=>$value['name']
+        );
+        if($value['dirname']){
+          $extra['dirname'] =$value['dirname'];
+        }
+        $param = array(
+            'id' => $value['id']
+        );
+        if($other){
+            $param = array_merge($param,$other);
+        }
+        return U('album','cate',$param,$extra,'front');
+    }
 }

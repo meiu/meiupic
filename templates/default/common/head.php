@@ -54,9 +54,17 @@
         <div class="head-nav">
             <ul class="main-list">
                 <li <?php if($_G['uri']['app']=='base'){echo 'class="active"';}?>><a href="<?=U('base','index')?>">首页</a></li>
-                <li <?php if($_G['uri']['app']=='album'){echo 'class="active"';}?>><a href="<?=U('album','index')?>">发现</a></li>
+                <li <?php if($_G['uri']['app']=='album' && $_G['uri']['m']!='cate' && $_G['uri']['m']!='photos'){echo 'class="active"';}?>><a href="<?=U('album','index')?>">发现</a></li>
                 <li <?php if($_G['uri']['app']=='user'){echo 'class="active"';}?>><a href="<?=U('user','index')?>">摄影师</a></li>
-                <li <?php if($_G['uri']['app']=='album' && $_G['uri']['m']=='cate'){echo 'class="active"';}?>><a href="#">分类</a></li>
+                <li class="sub-list-trigger  <?php if($_G['uri']['app']=='album' && ($_G['uri']['m']=='cate' || $_G['uri']['m']=='photos')){echo 'active';}?>"><a href="javascript:void(0)">分类</a>
+                    <ul class="sub-list">
+                    <?php 
+                    $catelist = app('album')->getCateList(0); 
+                    foreach($catelist as $cate): ?>
+                        <li><a href="<?php echo app('album')->makeCateLink($cate);?>"><?php echo $cate['name']; ?></a></li>
+                    <?php endforeach; ?>
+                    </ul>
+                </li>
             </ul>
         </div>
     </div>

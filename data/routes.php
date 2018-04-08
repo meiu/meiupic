@@ -4,6 +4,7 @@
     0 => 'album.cate',
     1 => 'album.search',
     2 => 'album.index',
+    3 => 'album.photos',
   ),
   'data' => 
   array (
@@ -60,6 +61,20 @@
         0 => 'keyword',
       ),
       'regex' => '/^search\\/([^\\/]+)$/i',
+    ),
+    'work/{id}' => 
+    array (
+      'params' => 
+      array (
+        'app' => 'album',
+        'm' => 'photos',
+        'id' => '@@',
+      ),
+      'needreplace' => 
+      array (
+        0 => 'id',
+      ),
+      'regex' => '/^work\\/([^\\/]+)$/i',
     ),
   ),
 );

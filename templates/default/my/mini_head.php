@@ -24,4 +24,4 @@
         html,body{background: #fff;}
     </style>
 </head>
-<body>
+<body style="min-width: 500px;">

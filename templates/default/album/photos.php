@@ -1,21 +1,18 @@
 <?php $this->display('common/head.php'); ?>
 <div class="container">
-    <nav class="secondary-nav">
-    <?php if(!empty($urlparam['tag'])): ?>
-    <div class="caption-header">
-        <h1 class="caption-name"><?php echo $urlparam['tag']; ?></h1>
-        <span class="caption-posts"><?php echo $totalCount; ?>个作品</span>
+    <div class="detail-header">
+        <div class="detail-header-img">
+            <div class="detail-header-imgbg" style="background-image: url(<?php echo thumb($albumInfo['cover_path'],1600,1600,2);?>)"></div>
+            <span class="detail-header-imgpop"></span>
+        </div>
+        <dl class="text-item">
+            <dt><span class="title"><?php echo $albumInfo['name'];?></span></dt>
+            <dd><a href="<?php echo U('user','space','id='.$authorInfo['id']) ?>"><img src="<?php echo app('user')->getAvatar($authorInfo,'small'); ?>"> <span><?php echo $authorInfo['nickname']; ?></span></a></dd>
+        </dl>
+        <div class="total-info">
+            <div class="total-num">共 <span class="num"><?php echo $totalCount;?></span> 张图片</div>
+        </div>
     </div>
-    <?php endif; ?>
-    <ul class="nav-list">
-        <li <?php if(!getGet('t')): ?>class="active"<?php endif; ?> data-index="0">
-            <a target="_self" href="<?=U('album','search',$urlparam)?>">热门</a>
-        </li>
-        <li <?php if(getGet('t')=='new'): ?>class="active"<?php endif; ?> data-index="1">
-            <a target="_self" href="<?=U('album','search',array_merge($urlparam,array('t'=>'new')))?>">新作</a>
-        </li>
-    </ul>
-    </nav>
     <div class="list-body">
         <div class="content-gallery">
             <div id="grid-gallery" class="listCont" style="opacity:0;">

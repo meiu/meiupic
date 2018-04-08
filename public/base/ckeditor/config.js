@@ -52,8 +52,8 @@ CKEDITOR.editorConfig = function( config ) {
     // Make dialogs simpler.
     config.removeDialogTabs = 'image:advanced;link:advanced';
     config.image_previewText = '您正在使用MeiuPic,MeiuPic是一款智能的PHP系统,包含相册管理、评论、用户系统等功能。这里是图片预览区域！';
-    config.filebrowserWindowHeight = '470';
-    config.filebrowserWindowWidth = '520';
+    config.filebrowserWindowHeight = '490';
+    config.filebrowserWindowWidth = '600';
     config.filebrowserBrowseUrl = ADMIN_BASE_URL +'?app=base&m=upfile&type=attach&num=1';
     config.filebrowserFlashBrowseUrl = ADMIN_BASE_URL + '?app=base&m=upfile&type=flash&num=1';
     config.filebrowserImageBrowseUrl = ADMIN_BASE_URL + '?app=base&m=upfile&type=image&num=10';

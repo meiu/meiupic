@@ -24,13 +24,7 @@
         <a href="<?php echo U('album','cate','a=add&pid='.$value['id']);?>" title="添加子分类"><img src="<?php echo S('base','admin/images/b-add.png')?>" alt="添加子分类"></a>
     </td> 
     <td><?php 
-      $extra = array(
-          'catename'=>$value['name']
-      );
-      if($value['dirname']){
-          $extra['dirname'] =$value['dirname'];
-      }
-      $linkurl = U('album','cate','id='.$value['id'],$extra,'front');
+      $linkurl = app('album')->makeCateLink($value);
       echo $linkurl;
       echo ' [<a href="'.$linkurl.'" target="_blank">访问</a>]'
       ?></td>
