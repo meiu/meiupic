@@ -38,4 +38,5 @@ $rows = $m_album->findAll(array(
 
 $view->assign('rows',$rows);
 $view->assign('search',$search);
+$view->assign('totalCount',$totalCount);
 $view->display('album/photo_move.php');

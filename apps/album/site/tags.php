@@ -30,6 +30,7 @@ if(isAjax()){
     exit;
 }else{
     $site_title = '热门标签 - '.getSetting('site_title');
+    $view->assign('totalCount',$totalCount);
     $view->assign('site_title',$site_title);
     $view->display('album/tags.php');
 }

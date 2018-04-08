@@ -3,6 +3,7 @@ defined('IN_MWEB') or die('access denied');
 
 return array(
     'base_url' => '/',
+    'admin_base' => '/admin/',
     'public_url' => '/public/',
     'tmp_dir' => DATA_PATH.'cache/tmp',
     'database' => array(
@@ -35,8 +36,8 @@ return array(
     ),
     /*Cookie相关设置*/
     'cookie' => array(
-        'auth_name' => 'CMS_A',
-        'auth_key' => 'add23dsFJFh$$#2sa$33#%&&@sss',
+        'auth_name' => 'MEIU_AUTH',
+        'auth_key' => 'Zl$D#K.TkX[#zt7C)eGAyxfj',
         'domain' => '',
         'path'  => '/'
     ),

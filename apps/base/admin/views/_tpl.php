@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="<?php echo S('base','chosen/chosen.min.css');?>" />
     <script>
     var UPFILE_PRE = "<?php echo C('storage.setting.url_pre'); ?>";
-    var BASE_URL = "<?php echo C('base_url'); ?>";
+    var ADMIN_BASE_URL = "<?php echo C('admin_base'); ?>";
     </script>
     <?php doAction('adm_head'); ?>
 </head>

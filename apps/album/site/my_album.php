@@ -31,5 +31,6 @@ if(isAjax()){
 }else{
     $site_title = '相册列表 - 用户中心 - '.getSetting('site_title');
     $view->assign('site_title',$site_title);
+    $view->assign('totalCount',$totalCount);
     $view->display('album/my_album.php');
 }

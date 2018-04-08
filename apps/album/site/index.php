@@ -57,5 +57,6 @@ if(isAjax()){
 }else{
     $site_title = '发现 - '.getSetting('site_title');
     $view->assign('site_title',$site_title);
+    $view->assign('totalCount',$totalCount);
     $view->display('album/index.php');
 }

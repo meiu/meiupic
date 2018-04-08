@@ -158,7 +158,7 @@ var uploadWin={
         }else{
             uploadWin.callback = null;
         }
-        art.dialog.open(BASE_URL+'sys.php?app=base&m=upfile&type='+arg_type+'&num='+arg_num+'&attach='+attach,{
+        art.dialog.open(ADMIN_BASE_URL+'?app=base&m=upfile&type='+arg_type+'&num='+arg_num+'&attach='+attach,{
             title: 'Meiu上传组件',
             lock: true,
             fixed: true,
@@ -213,7 +213,7 @@ function editorMultiUpload(editor){
 }
 
 function sel_relate(id,model){
-    art.dialog.open(BASE_URL+'sys.php?app=cms&m=relate&model='+model,{
+    art.dialog.open(ADMIN_BASE_URL+'sys.php?app=cms&m=relate&model='+model,{
         title: '选择关联项',
         lock: true,
         background: '#000', // 背景色

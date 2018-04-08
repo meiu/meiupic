@@ -266,6 +266,8 @@ function replaceRoute($app,$action,$params,$extra){
 //生成URL
 function U($app,$action,$param = array(),$extraparam=array(),$entry = 'default'){
     $base_url = C('base_url');
+    $admin_base = C('admin_base');
+
     $url = $base_url.'index.php';
     $is_admin = false;
     $enable_rewrite = getSetting('enable_rewrite',false);
@@ -273,10 +275,10 @@ function U($app,$action,$param = array(),$extraparam=array(),$entry = 'default')
     $enable_route = getSetting('enable_route',false);
 
     if(ADMINPAGE && $entry=='default'){
-        $url = $base_url.'sys.php';
+        $url = $admin_base;
         $is_admin = true;
     }elseif($entry == 'admin'){
-        $url = $base_url.'sys.php';
+        $url = $admin_base;
         $is_admin = true;
     }else{
         if($app=='base' && $action=='index'){

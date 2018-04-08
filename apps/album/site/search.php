@@ -62,7 +62,7 @@ if(isAjax()){
 }else{
     $site_title = '搜索 - '.getSetting('site_title');
     $view->assign('site_title',$site_title);
-
+    $view->assign('totalCount',$totalCount);
     unset($urlparam['page']);
     $view->assign('urlparam',$urlparam);
     $view->display('album/search.php');

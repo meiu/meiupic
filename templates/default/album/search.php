@@ -1,6 +1,12 @@
 <?php $this->display('common/head.php'); ?>
 <div class="container">
     <nav class="secondary-nav">
+    <?php if(!empty($urlparam['tag'])): ?>
+    <div class="tag-header">
+        <h1 class="tag-name"><?php echo $urlparam['tag']; ?></h1>
+        <span class="tag-posts"><?php echo $totalCount; ?>组作品</span>
+    </div>
+    <?php endif; ?>
     <ul class="nav-list">
         <li <?php if(!getGet('t')): ?>class="active"<?php endif; ?> data-index="0">
             <a target="_self" href="<?=U('album','search',$urlparam)?>">热门</a>
