@@ -42,7 +42,7 @@ location / {
 6. 使用用户名:`admin` 密码:`admin` 体验吧。
 7. 后台访问地址为: http://域名/admin/
 
-### 注意如果您不是放在服务器根目录中
+### 注意如果您不是放在网站根目录中
 
 1. 需要修改`data/config.php`中的
 ```php
@@ -65,6 +65,20 @@ location / {
         break;
     }
 }
+```
+
+### 如何使用七牛存储来存图片
+可以通过修改配置文件直接支持七牛存储
+```php
+    'storage' => array(
+        'adapter' => 'qiniu', //存储引擎，目前支持file,qiniu两种
+        'setting' => array(
+            'bucket' => 'bucket名字',
+            'access_key' => '请填写七牛的access_key',
+            'secret_key' => '请填写七牛的secret_key',
+            'url_pre' => 'http://七牛bucket绑定的域名/'
+        )
+    ),
 ```
 
 ## 祝您使用愉快！
