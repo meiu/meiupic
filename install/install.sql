@@ -260,7 +260,7 @@ INSERT INTO `settings` (`name`, `value`, `autoload`) VALUES
 ('site_seo_title', '', 'yes'),
 ('site_sub_title', '又一个MeiuPic站点', 'yes'),
 ('site_title', '美优相册', 'yes'),
-('sms_setting', 'a:4:{s:8:"api_type";s:4:"none";s:7:"api_key";s:32:"96df7777237f2aa109f5711b5d62ef37";s:4:"sign";s:9:"推辞网";s:6:"yzmtpl";s:29:"您的验证码是#验证码#";}', 'yes'),
+('sms_setting', 'a:4:{s:8:"api_type";s:4:"none";s:7:"api_key";s:0:"";s:4:"sign";s:0:"";s:6:"yzmtpl";s:29:"您的验证码是#验证码#";}', 'yes'),
 ('stats', '', 'yes'),
 ('user_fields', 'a:2:{s:6:"extra1";a:2:{s:5:"cname";s:2:"QQ";s:4:"show";i:0;}s:6:"extra2";a:2:{s:5:"cname";s:12:"个人主页";s:4:"show";i:0;}}', 'yes'),
 ('user_setting', 'a:5:{s:15:"enable_register";s:1:"1";s:20:"enable_login_captcha";s:1:"1";s:18:"enable_reg_captcha";s:1:"1";s:21:"enable_mobile_captcha";s:1:"1";s:20:"enable_admin_captcha";s:1:"1";}', 'yes');
