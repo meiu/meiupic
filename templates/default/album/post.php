@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="<?php echo S('base','tageditor/jquery.tag-editor.css');?>" />
 <script type="text/javascript" src="<?php echo S('base','plupload/plupload.full.min.js'); ?>"></script>
 <script src="<?php echo S('base','js/jquery.dragsort.min.js');?>"></script>
-<link rel="stylesheet" href="<?=ST('css/album.css')?>" type="text/css" />
+<link rel="stylesheet" href="<?php echo ST('css/album.css')?>" type="text/css" />
 <div class="post_content">
    <form class="form-basic ajaxform" method="post">
        <div class="upload_content">
@@ -77,7 +77,7 @@ var uploader = new plupload.Uploader({
     browse_button : 'pickfiles',
     container: $('li.upload-item').get(0),
     drop_element:'muilti_uploader',
-    url : '<?=U("album","uploadprocess")?>',
+    url : '<?php echo U("album","uploadprocess")?>',
     flash_swf_url : '<?php echo S("base","plupload/Moxie.swf");?>',
     silverlight_xap_url : '<?php echo S("base","plupload/Moxie.xap");?>',
     chunk_size : '1mb',

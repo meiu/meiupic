@@ -3,10 +3,10 @@
     <nav class="secondary-nav">
     <ul class="nav-list">
         <li <?php if($_G['uri']['m']=='index' && !getGet('t')): ?>class="active"<?php endif; ?> data-index="0">
-            <a target="_self" href="<?=U('user','index')?>">热门摄影师</a>
+            <a target="_self" href="<?php echo U('user','index')?>">热门摄影师</a>
         </li>
         <li <?php if($_G['uri']['m']=='index' && getGet('t')=='new'): ?>class="active"<?php endif; ?> data-index="1">
-            <a target="_self" href="<?=U('user','index','t=new')?>">潜力新人</a>
+            <a target="_self" href="<?php echo U('user','index','t=new')?>">潜力新人</a>
         </li>
     </ul>
 </nav>

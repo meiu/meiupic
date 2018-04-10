@@ -7,10 +7,10 @@
     </div>
     <ul class="nav-list">
         <li <?php if(!getGet('t')): ?>class="active"<?php endif; ?> data-index="0">
-            <a target="_self" href="<?=app('album')->makeCateLink($cateinfo)?>">新作</a>
+            <a target="_self" href="<?php echo app('album')->makeCateLink($cateinfo)?>">新作</a>
         </li>
         <li <?php if(getGet('t')=='editor'): ?>class="active"<?php endif; ?> data-index="1">
-            <a target="_self" href="<?=app('album')->makeCateLink($cateinfo,array('t'=>'editor'))?>">编辑推荐</a>
+            <a target="_self" href="<?php echo app('album')->makeCateLink($cateinfo,array('t'=>'editor'))?>">编辑推荐</a>
         </li>
     </ul>
     </nav>

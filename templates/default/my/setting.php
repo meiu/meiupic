@@ -4,7 +4,7 @@
 
     <div class="content">
         <div id="avatar" class="avatar-wrap">
-            <div class="avatar" id="avatarPreview" style="background-image:url('<?=app('user')->getAvatar($_G['user'],'large')?>')"></div>
+            <div class="avatar" id="avatarPreview" style="background-image:url('<?php echo app('user')->getAvatar($_G['user'],'large')?>')"></div>
             <label class="change-btn" id="avatarPicker">
                 更换头像
             </label>
@@ -18,7 +18,7 @@
             <div class="line-wrap">             
                 <label class="label">昵称</label>
                 <div class="input-wrap">
-                    <input type="text" class="nomal-input" name="nickname" value="<?=$_G['user']['nickname']?>" autocomplete="off" data-target="form-basic">
+                    <input type="text" class="nomal-input" name="nickname" value="<?php echo $_G['user']['nickname']?>" autocomplete="off" data-target="form-basic">
                     <i></i>
                 </div>
             </div>
@@ -38,7 +38,7 @@
             <div class="line-wrap">
                 <label class="label">简介</label>
                 <div class="input-wrap">
-                    <input type="text" class="nomal-input" name="description" value="<?=$_G['user']['description']?>" autocomplete="off" data-target="form-basic">
+                    <input type="text" class="nomal-input" name="description" value="<?php echo $_G['user']['description']?>" autocomplete="off" data-target="form-basic">
                     <i></i>
                 </div>
             </div>
@@ -67,7 +67,7 @@
 var uploader = new plupload.Uploader({
     runtimes : 'html5,flash,silverlight,html4',
     browse_button : 'avatarPicker',
-    url : "<?=U('my','saveavatar')?>",
+    url : "<?php echo U('my','saveavatar')?>",
     flash_swf_url : '<?php echo S("base","plupload/Moxie.swf");?>',
     silverlight_xap_url : '<?php echo S("base","plupload/Moxie.xap");?>',
     resize : { width : 400, height : 400, quality : 90 },

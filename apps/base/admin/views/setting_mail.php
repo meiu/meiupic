@@ -17,7 +17,7 @@
       发件姓名
     </td>
     <td>
-        <input type="text" size="40" name="setting[send_name]" value="<?=isset($setting['send_name'])?$setting['send_name']:''?>" />
+        <input type="text" size="40" name="setting[send_name]" value="<?php echo isset($setting['send_name'])?$setting['send_name']:''?>" />
     </td>
   </tr>
   <tr>
@@ -25,7 +25,7 @@
       发件邮箱
     </td>
     <td>
-        <input type="text" size="40" name="setting[send_email]" value="<?=isset($setting['send_email'])?$setting['send_email']:''?>" />
+        <input type="text" size="40" name="setting[send_email]" value="<?php echo isset($setting['send_email'])?$setting['send_email']:''?>" />
     </td>
   </tr>
   <tr class="th">
@@ -38,7 +38,7 @@
       发送服务器
     </td>
     <td>
-        <input type="text" size="40" name="setting[smtp_host]" value="<?=isset($setting['smtp_host'])?$setting['smtp_host']:''?>" />
+        <input type="text" size="40" name="setting[smtp_host]" value="<?php echo isset($setting['smtp_host'])?$setting['smtp_host']:''?>" />
     </td>
   </tr>
   <tr>
@@ -54,7 +54,7 @@
       服务器端口
     </td>
     <td>
-        <input type="text" size="40" name="setting[smtp_port]" value="<?=isset($setting['smtp_port'])?$setting['smtp_port']:''?>" />
+        <input type="text" size="40" name="setting[smtp_port]" value="<?php echo isset($setting['smtp_port'])?$setting['smtp_port']:''?>" />
     </td>
   </tr>
   <tr>
@@ -62,7 +62,7 @@
       发件账号
     </td>
     <td>
-        <input type="text" size="40" name="setting[smtp_username]" value="<?=isset($setting['smtp_username'])?$setting['smtp_username']:''?>" />
+        <input type="text" size="40" name="setting[smtp_username]" value="<?php echo isset($setting['smtp_username'])?$setting['smtp_username']:''?>" />
     </td>
   </tr>
   <tr>
@@ -70,7 +70,7 @@
       发件账号密码
     </td>
     <td>
-        <input type="text" size="40" name="setting[smtp_password]" value="<?=isset($setting['smtp_password'])?$setting['smtp_password']:''?>" />
+        <input type="text" size="40" name="setting[smtp_password]" value="<?php echo isset($setting['smtp_password'])?$setting['smtp_password']:''?>" />
     </td>
   </tr>
   

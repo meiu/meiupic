@@ -13,7 +13,7 @@
       发送短信KEY
     </td>
     <td>
-        <input type="text" size="40" name="setting[api_key]" value="<?=isset($setting['api_key'])?$setting['api_key']:''?>" />
+        <input type="text" size="40" name="setting[api_key]" value="<?php echo isset($setting['api_key'])?$setting['api_key']:''?>" />
     </td>
   </tr>
   <tr>
@@ -21,7 +21,7 @@
       短信签名
     </td>
     <td>
-        <input type="text" size="40" name="setting[sign]" value="<?=isset($setting['sign'])?$setting['sign']:''?>" />
+        <input type="text" size="40" name="setting[sign]" value="<?php echo isset($setting['sign'])?$setting['sign']:''?>" />
     </td>
   </tr>
   <tr>
@@ -29,7 +29,7 @@
       验证码模版
     </td>
     <td>
-        <textarea cols="50" rows="3" name="setting[yzmtpl]"><?=isset($setting['yzmtpl'])?$setting['yzmtpl']:''?></textarea>
+        <textarea cols="50" rows="3" name="setting[yzmtpl]"><?php echo isset($setting['yzmtpl'])?$setting['yzmtpl']:''?></textarea>
     </td>
   </tr>
 </tbody>
