@@ -892,3 +892,11 @@ if (!function_exists('array_column'))
         return $result;
     }
 }
+
+function array_intval($arr){
+    if(is_array($arr)){
+        return array_map('intval',$arr);
+    }else{
+        return array();
+    }
+}

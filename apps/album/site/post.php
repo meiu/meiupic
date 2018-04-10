@@ -10,7 +10,7 @@ if(isPost()){
     $description = trim(getPost('description'));
     $tags = trim(getPost('tags'));
 
-    $pic_ids = getPost('pic_ids');
+    $pic_ids = array_intval(getPost('pic_ids'));
 
     //创建相册 
     $data['name'] = $title;
@@ -44,7 +44,7 @@ if(isPost()){
                 $info = $m_photos->load($picid);
                 app('album')->updateTags('photo',$picid,$data['tags'],$info['path'],true);
             }
-
+            $m_photos->updateW('id in ('.implode(',', $pic_ids).')',array('tags'=>$data['tags']));
             app('album')->updateTags('album',$album_id,$data['tags'],'',true);
         }
 

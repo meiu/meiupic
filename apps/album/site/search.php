@@ -13,7 +13,13 @@ $where = 'deleted=0 and priv_type=0';
 $urlparam = array('page'=>'%page%');
 if($tag){
     $urlparam['tag'] = $tag;
-    $where .=  " and find_in_set(".$m_photo->escape($tag).",tags)";
+
+    //取出TAG
+    $tagInfo = M('album_tags')->load($tag,'*','name');
+    if(!$tagInfo){
+        show404();
+    }
+    $where .=  " and id in (select rel_id from _mytbl::album_tag_rels where tag_id = ".$tagInfo['id']." and `type`='photo')";
 }elseif($keyword){
     $urlparam['keyword'] = htmlspecialchars($keyword);
     $where .=  " and name like '%".$m_photo->escape($keyword,false)."%'";
