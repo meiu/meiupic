@@ -5,6 +5,10 @@ checkLogin();
 
 $id = intval(getGet('id'));
 
+if(!$id){
+    alert('缺少参数id！');
+}
+
 $act = getPost('a');
 if($act == 'cancel'){
     $followrow = M('users_follow')->findRow('follow_uid='.$_G['user']['id'].' and uid='.$id);

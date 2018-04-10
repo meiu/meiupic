@@ -34,7 +34,7 @@ if(isPost()){
         $album_id = $m_album->insertId();
         
         //保存图片信息
-        $m_photos->updateW('id in ('.implode(',', $pic_ids).')',array('name'=>$title,'cate_id'=>$cate_id,'album_id'=>$album_id,'priv_type'=>$priv_type));
+        $m_photos->updateW('id in ('.implode(',', $pic_ids).')',array('name'=>$title,'cate_id'=>$cate_id,'album_id'=>$album_id,'priv_type'=>$priv_type,'tags'=>$data['tags']));
         app('album')->updatePhotoNum($album_id);
         app('album')->updateCover($album_id);
 
@@ -44,7 +44,6 @@ if(isPost()){
                 $info = $m_photos->load($picid);
                 app('album')->updateTags('photo',$picid,$data['tags'],$info['path'],true);
             }
-            $m_photos->updateW('id in ('.implode(',', $pic_ids).')',array('tags'=>$data['tags']));
             app('album')->updateTags('album',$album_id,$data['tags'],'',true);
         }
 

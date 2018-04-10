@@ -24,7 +24,7 @@
         </div>
         <div class="sidebar-author">
             <?php if(!$is_followed): ?>
-            <p class="follow"><a href="<?php echo U('friend','follow','uid='.$photoInfo['uid']) ?>" onlick="return opt_one(this,'关注该用户？')">关注</a></p>
+            <p class="follow"><a href="<?php echo U('friend','follow','id='.$photoInfo['uid']) ?>" onclick="return opt_one(this,'关注该用户？')">关注</a></p>
             <?php endif; ?>
             <a href="<?php echo U('user','space','id='.$authorInfo['id']) ?>" class="author-head">
                 <img src="<?php echo app('user')->getAvatar($authorInfo,'small'); ?>">

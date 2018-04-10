@@ -23,11 +23,10 @@ if($photoInfo['exif']){
     $photoInfo['exif'] = (new exif)->parse_exif(unserialize($photoInfo['exif']));
 }
 
-$is_followed = false;
+$is_followed = true;
 //判断用户是否关注了
 if($_G['user']['id'] && $photoInfo['uid'] != $_G['user']['id']){
-    //TODO: 判断是否关注了好友
-    
+    $is_followed = M('users_follow')->findRow('follow_uid='.$_G['user']['id'].' and uid='.$photoInfo['uid']);
 }
 
 $photoInfo['liked'] = false;
@@ -55,6 +54,7 @@ $nextInfo = $m_photo->findRow(array(
 $view->assign('prevInfo',$prevInfo);
 $view->assign('nextInfo',$nextInfo);
 
+$view->assign('is_followed',$is_followed);
 $view->assign('photoInfo',$photoInfo);
 $view->assign('authorInfo',$authorInfo);
 $view->assign('cateIndex',app('album')->getCateIndex());
