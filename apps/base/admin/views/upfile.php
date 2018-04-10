@@ -148,7 +148,7 @@ $(function() {
             <div class="tab_c">
                 <form id="uploadform" action="<?php echo U('base','upfile','a=savefiles&type='.$type.'&num='.$num.'&attach='.$attach);?>" method="post">
                     <div class="tips_info">
-                        <p><?=$filetype['memo']?></p>
+                        <p><?php echo $filetype['memo']?></p>
                     </div>
                     <div id="muilti_uploader"></div>
                 </form>

@@ -1,7 +1,7 @@
 <?php foreach ($rows as $key => $value): ?>
 <div class="photo_thumbnail normal">
-    <a href="<?php echo U('album','view','id='.$value['id']);?>" title="<?=$value['name']?>" class="photo_link">
-        <img src="<?php echo thumb($value['path'],600,600,2);?>" width="<?=$value['width']?>" height="<?=$value['height']?>" />
+    <a href="<?php echo U('album','view','id='.$value['id']);?>" title="<?php echo $value['name']?>" class="photo_link">
+        <img src="<?php echo thumb($value['path'],600,600,2);?>" width="<?php echo $value['width']?>" height="<?php echo $value['height']?>" />
     </a>
     <div class="top-button">
         <span class="hits">浏览：<?php echo $value['hits'];?></span>

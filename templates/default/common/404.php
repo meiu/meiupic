@@ -11,7 +11,7 @@
         a{color:#284b72;}
         a:hover{color:#528f6c;text-decoration:underline;}
         .error-box{max-width: 400px;margin:80px auto 0;}
-        .error-box .mod-body{padding:30px 30px 30px 100px;background-image:url(<?=ST('images/i-info.png')?>);background-size:65px 65px;background-repeat:no-repeat;background-position:15px center;background-color: #ebebeb;border-radius: 10px;}
+        .error-box .mod-body{padding:30px 30px 30px 100px;background-image:url(<?php echo ST('images/i-info.png')?>);background-size:65px 65px;background-repeat:no-repeat;background-position:15px center;background-color: #ebebeb;border-radius: 10px;}
         .error-box .icon-bubble{float: left;width: 80px;}
         .error-box .icon-bubble img{width: 60px;}
         @media (max-width:640px) {

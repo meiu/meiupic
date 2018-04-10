@@ -68,7 +68,7 @@ $(function() {
     <div id="filemanager" class="box_container">
         <form id="uploadform" action="<?php echo U('album','upload','a=save&aid='.$aid);?>" method="post">
             <div class="tips_info">
-                <p><?=$filetype['memo']?></p>
+                <p><?php echo $filetype['memo']?></p>
             </div>
             <div id="muilti_uploader"></div>
         </form>

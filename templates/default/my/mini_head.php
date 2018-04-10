@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
     <meta name="keywords" content="<?php if(isset($site_keywords)){ echo $site_keywords; } ?>" />
     <meta name="description" content="<?php if(isset($site_description)){ echo $site_description; } ?>" />
-    <script type="text/javascript" src="<?=S('base','js/jquery.min.js');?>"></script>
+    <script type="text/javascript" src="<?php echo S('base','js/jquery.min.js');?>"></script>
     <script src="<?php echo S('base','js/jquery.form.js');?>"></script>
     <script src="<?php echo S('base','dialog/jquery.artDialog.js?skin=modern');?>"></script>
     <script src="<?php echo S('base','dialog/plugins/iframeTools.js');?>"></script>
@@ -15,7 +15,7 @@
     <script src="<?php echo S('user','js/my.js');?>"></script>
     <script type="text/javascript" src="<?php echo ST('js/main.js'); ?>"></script>
     <script type="text/javascript" src="<?php echo ST('js/screenfull.js'); ?>"></script>
-    <link rel="stylesheet" href="<?=ST('css/user.css')?>" type="text/css" />
+    <link rel="stylesheet" href="<?php echo ST('css/user.css')?>" type="text/css" />
     <script>
         var site_title= '<?php echo getSetting('site_title');?>';
     </script>

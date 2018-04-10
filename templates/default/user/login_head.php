@@ -8,8 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="keywords" content="<?php if(isset($site_keywords)){ echo $site_keywords; } ?>" />
     <meta name="description" content="<?php if(isset($site_description)){ echo $site_description; } ?>" />
-    <script type="text/javascript" src="<?=S('base','js/jquery.min.js');?>"></script>
+    <script type="text/javascript" src="<?php echo S('base','js/jquery.min.js');?>"></script>
     <script type="text/javascript" src="<?php echo S('base','js/jquery.placeholder.js');?>"></script>
-    <link rel="stylesheet" href="<?=ST('css/login.css')?>" type="text/css" />
+    <link rel="stylesheet" href="<?php echo ST('css/login.css')?>" type="text/css" />
 </head>
 <body>
