@@ -541,8 +541,8 @@ function getCookies(){
     }
     return $_GET;
 }
-//自动加载
-function __autoload($className) {
+
+function meiu_autoload($className) {
     if (class_exists($className, false) || interface_exists($className, false)) {
         return true;
     }
@@ -566,6 +566,10 @@ function __autoload($className) {
     }
     return true;
 }
+
+//自动加载
+spl_autoload_register('meiu_autoload');
+
 //运行前台部分
 function run(){
     global $_G,$meiuHooks;
