@@ -23,8 +23,21 @@
     <link rel="stylesheet" href="<?php echo S('album','css/justifiedGallery.min.css')?>" type="text/css" />
     <script type="text/javascript" src="<?php echo ST('js/main.js'); ?>"></script>
     <script type="text/javascript" src="<?php echo ST('js/screenfull.js'); ?>"></script>
+    <?php
+    //七牛直传
+    $c = C('storage');
+    if($c['adapter'] == 'qiniu'):
+    $storlib = new Storage::instance();
+    $uptoken = $storlib->uploadToken($c['setting']['bucket']);
+    ?>
+    <meta name="uptoken" content="<?php echo $uptoken;?>" />
+    <script type="text/javascript" src="<?php echo ST('js/upload.normal.js'); ?>"></script>
+    <?php else: ?>
+    <script type="text/javascript" src="<?php echo ST('js/upload.normal.js'); ?>"></script>
+    <?php endif; ?>
     <script>
         var site_title= '<?php echo getSetting('site_title');?>';
+        var PUBLIC_URL= '<?php echo C('public_url');?>';
     </script>
     <?php  echo x_comment_helper::initJS(); ?>
 </head>
@@ -98,39 +111,5 @@
     </div>
 </div>
 <script>
-var banneruploader = new plupload.Uploader({
-    runtimes : 'html5,flash,silverlight,html4',
-    browse_button : 'change-banner',
-    url : "<?php echo U('my','savebg')?>",
-    flash_swf_url : '<?php echo S("base","plupload/Moxie.swf");?>',
-    silverlight_xap_url : '<?php echo S("base","plupload/Moxie.xap");?>',
-    resize : { width : 2000, height : 500, quality : 90 },
-    filters : {
-        max_file_size : '5mb',
-        mime_types: [
-            {title : "Image files", extensions : "jpg,gif,png"}
-        ]
-    },
-
-    init: {
-        FilesAdded: function(up, files) {
-            banneruploader.start();
-        },
-        UploadProgress: function(up, file) {
-            $('#change-banner').html('上传：'+file.percent +'%');
-        },
-        Error: function(up, err) {
-            $('#change-banner').html('编辑封面 &gt;');
-            art.dialog.tips('上传失败！',1,true);
-        },
-        UploadComplete: function(up, files) {
-            $('#change-banner').html('编辑封面 &gt;');
-            art.dialog.tips('上传成功！',1,true);
-            setTimeout(function(){
-                window.location.reload();
-            },1000);
-        }
-    }
-});
-banneruploader.init();
+    uploadBanner('<?php echo U("my","savebg")?>');
 </script>
