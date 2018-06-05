@@ -50,11 +50,11 @@
             <div class="label small camera_settings">
                 <div>
                     <div title="光圈" class="cicon apertureIcon"></div>
-                    <div><?php echo $photoInfo['exif']['ApertureFNumber']; ?></div>
+                    <div><?php echo isset($photoInfo['exif']['ApertureFNumber'])?$photoInfo['exif']['ApertureFNumber']:$photoInfo['exif']['FNumber']; ?></div>
                 </div>
                 <div>
                     <div title="快门速度" class="cicon exposureTimeIcon"></div>
-                    <div><?php echo $photoInfo['exif']['ExposureTime']; ?> s</div>
+                    <div><?php echo str_replace('sec.', '', $photoInfo['exif']['ExposureTime']); ?> s</div>
                 </div>
                 <div>
                     <div title="焦距" class="cicon focalLengthIcon"></div>

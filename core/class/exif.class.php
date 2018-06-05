@@ -191,7 +191,7 @@ class exif{
                     $new_img_info[$k] = $info?'手动':'自动';
                     break;
                 case 'FNumber':
-                    $new_img_info[$k] = $this->getNumber($info);
+                    $new_img_info[$k] = $info;
                     break;
                     
                 case 'ExposureProgram':
@@ -253,6 +253,8 @@ class exif{
                 return sprintf('%.1f',$result);
             }
             return $result;
+        }else{
+            return sprintf('%.1f',floatval($str));
         }
     }
 

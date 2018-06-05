@@ -48,7 +48,7 @@ class StorageQiniu extends Storage
         return $curl->post(self::QINIU_UP_HOST,$body);
     }
 
-    protected function uploadToken($config = array())
+    public function uploadToken($config = array())
     {
         if ( is_string($config) ) 
         {

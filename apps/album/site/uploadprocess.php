@@ -2,6 +2,50 @@
 defined('IN_MWEB') or die('access denied');
 
 checkLogin();
+$type = getRequest('type');
+if($type == 'uploaded'){
+    //插入image
+    //保存图片并返回图片
+    $data = array();
+    $data['uid'] = $_G['user']['id'];
+    $data['cate_id'] =  0;
+    $data['album_id'] = 0;
+    $data['create_time'] = time();
+    $data['priv_type'] = 1;
+    $data['path'] = getRequest('key');
+    $data['name'] = getRequest('name')?safestr(getRequest('name')):$data['create_time'];//默认名称直接改为时间戳
+    $data['tags'] = '';
+    $data['taken_time'] = 0;
+    $data['exif'] = '';
+    $data['post_ip'] = getClientIp();
+    $data['width'] = getRequest('width');
+    $data['height'] = getRequest('height');
+
+
+    $m_photos = M('album_photos');
+    $m_photos->insert($data);
+    $id = $m_photos->insertId();
+
+    echo json_encode(array(
+        'ret' => true,
+        'info' => array(
+            'id' => $id,
+            'url' => D($data['path'])
+        )
+    ));
+    exit;
+}elseif($type == 'updateexif'){
+    $m_photos = M('album_photos');
+    $key = getRequest('key');
+    $exif = json_decode(stripslashes(getRequest('exif')),true);
+
+    $data = [];
+    foreach ($exif as $k => $value) {
+        $data[$k]= $value['val'];
+    }
+    $m_photos->updateW('path='.$m_photos->escape($key),array('exif'=>serialize($data)));
+    exit;
+}
 
 function pluploadProcess($fileName,$append=true,$fullPath=false){
     $fileName = preg_replace('/[^\w\._]+/', '', $fileName);

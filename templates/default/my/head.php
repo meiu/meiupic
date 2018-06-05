@@ -26,12 +26,14 @@
     <?php
     //七牛直传
     $c = C('storage');
-    if($c['adapter'] == 'qiniu'):
-    $storlib = new Storage::instance();
+    if($c['adapter'] == 'qiniu' && $c['setting']['direct']):
+    $storlib = Storage::instance();
     $uptoken = $storlib->uploadToken($c['setting']['bucket']);
     ?>
     <meta name="uptoken" content="<?php echo $uptoken;?>" />
-    <script type="text/javascript" src="<?php echo ST('js/upload.normal.js'); ?>"></script>
+    <meta name="updomain" content="<?php echo $c['setting']['url_pre'];?>" />
+    <script type="text/javascript" src="https://unpkg.com/qiniu-js@v2.2.2/dist/qiniu.min.js"></script>
+    <script type="text/javascript" src="<?php echo ST('js/upload.qiniu.js'); ?>"></script>
     <?php else: ?>
     <script type="text/javascript" src="<?php echo ST('js/upload.normal.js'); ?>"></script>
     <?php endif; ?>
