@@ -1,4 +1,4 @@
- <?php $this->display('common/head.php'); ?>
+<?php $this->display('common/head.php'); ?>
 <div class="container">
     <?php $this->display('album/index_menu.php'); ?>
     <div class="list-body">
@@ -40,4 +40,4 @@ $('#grid-gallery').delegate('a.liked,a.like','click',function(){
 theater.init('div.container');
 </script>
 <script type="text/javascript" src="<?php echo S('album','js/loadmore.js'); ?>"></script>
-<?php $this->display('my/foot.php'); ?>
+<?php $this->display('common/foot.php'); ?>

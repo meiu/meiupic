@@ -46,7 +46,7 @@ if(isPost()){
         if($data){
             $m_user->update($_G['user']['id'],$data);
         }
-        alert('保存成功！',true,U('my','account'));
+        alert('保存成功！',true,U('space','account'));
     }elseif($a=='send_activecode'){//   
         if($_G['user']['email_actived']){
             alert('您的帐号已激活！');
@@ -103,5 +103,5 @@ if(isPost()){
         }
     }
 }else{
-    $view->display('my/account.php');
+    $view->display('space/account.php');
 }

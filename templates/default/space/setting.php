@@ -1,6 +1,7 @@
-<?php $this->display('my/head.php'); ?>
+<?php $this->display('common/head.php'); ?>
+<?php $this->display('user/inc.banner.php'); ?>
 <div class="container">
-    <?php $this->display('my/setting_menu.php'); ?>
+    <?php $this->display('space/setting_menu.php'); ?>
 
     <div class="content">
         <div id="avatar" class="avatar-wrap">
@@ -64,6 +65,6 @@
     </div>
 </div>
 <script>
-uploadAvatar('<?php echo U("my","saveavatar")?>');
+uploadAvatar('<?php echo U("space","saveavatar")?>');
 </script>
-<?php $this->display('my/foot.php'); ?>
+<?php $this->display('common/foot.php'); ?>

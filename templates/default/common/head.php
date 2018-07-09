@@ -13,18 +13,35 @@
     <script src="<?php echo S('base','dialog/plugins/iframeTools.js');?>"></script>
     <script src="<?php echo S('base','jquery-ui/jquery-ui.min.js');?>"></script>
     <link rel="stylesheet" href="<?php echo S('base','jquery-ui/jquery-ui.min.css');?>" />
-    <link rel="stylesheet" href="<?php echo S('base','plupload/jquery.ui.plupload/css/jquery.ui.plupload.css'); ?>" type="text/css" />
-    <script type="text/javascript" src="<?php echo S('base','plupload/plupload.full.min.js'); ?>"></script>
-    <script type="text/javascript" src="<?php echo S('base','plupload/jquery.ui.plupload/jquery.ui.plupload.min.js'); ?>"></script>
-    <script type="text/javascript" src="<?php echo S('base','plupload/i18n/zh_CN.js'); ?>"></script>
     <script type="text/javascript" src="<?php echo S('album','js/jquery.justifiedGallery.min.js'); ?>"></script>
     <script src="<?php echo S('user','js/my.js');?>"></script>
     <link rel="stylesheet" href="<?php echo ST('css/user.css')?>" type="text/css" />
     <link rel="stylesheet" href="<?php echo S('album','css/justifiedGallery.min.css')?>" type="text/css" />
     <script type="text/javascript" src="<?php echo ST('js/main.js'); ?>"></script>
     <script type="text/javascript" src="<?php echo ST('js/screenfull.js'); ?>"></script>
+    <?php if($_G['user']): ?>
+        <link rel="stylesheet" href="<?php echo S('base','plupload/jquery.ui.plupload/css/jquery.ui.plupload.css'); ?>" type="text/css" />
+        <script type="text/javascript" src="<?php echo S('base','plupload/plupload.full.min.js'); ?>"></script>
+        <script type="text/javascript" src="<?php echo S('base','plupload/jquery.ui.plupload/jquery.ui.plupload.min.js'); ?>"></script>
+        <script type="text/javascript" src="<?php echo S('base','plupload/i18n/zh_CN.js'); ?>"></script>
+        <?php
+        //七牛直传
+        $c = C('storage');
+        if($c['adapter'] == 'qiniu' && $c['setting']['direct']):
+        $storlib = Storage::instance();
+        $uptoken = $storlib->uploadToken($c['setting']['bucket']);
+        ?>
+        <meta name="uptoken" content="<?php echo $uptoken;?>" />
+        <meta name="updomain" content="<?php echo $c['setting']['url_pre'];?>" />
+        <script type="text/javascript" src="https://unpkg.com/qiniu-js@v2.2.2/dist/qiniu.min.js"></script>
+        <script type="text/javascript" src="<?php echo ST('js/upload.qiniu.js'); ?>"></script>
+        <?php else: ?>
+        <script type="text/javascript" src="<?php echo ST('js/upload.normal.js'); ?>"></script>
+        <?php endif; ?>
+    <?php endif; ?>
     <script>
         var site_title= '<?php echo getSetting('site_title');?>';
+        var PUBLIC_URL= '<?php echo C('public_url');?>';
     </script>
     <?php  echo x_comment_helper::initJS(); ?>
 </head>
@@ -34,10 +51,9 @@
         <div class="head-user">
             <?php if($_G['user']): ?>
             <ul class="main-list">
-                <li class="sub-list-trigger"><a class="user-info" href="<?php echo U('my','index')?>"><img src="<?php echo app('user')->getAvatar($_G['user'],'small')?>" /><?php echo $_G['user']['nickname'];?></a>
+                <li class="sub-list-trigger"><a class="user-info" href="<?php echo U('space','index','id='.$_G['user']['id'])?>"><img src="<?php echo app('user')->getAvatar($_G['user'],'small')?>" /><?php echo $_G['user']['nickname'];?></a>
                     <ul class="sub-list">
-                        <li><a href="<?php echo U('my','index')?>">用户中心</a></li>
-                        <li><a href="<?php echo U('my','setting')?>">用户设置</a></li>
+                        <li><a href="<?php echo U('space','setting')?>">用户设置</a></li>
                         <li><a href="<?php echo U('user','login','a=logout')?>">退出</a></li>
                     </ul>
                 </li>

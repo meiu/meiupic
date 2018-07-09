@@ -1,4 +1,4 @@
-<?php $this->display('my/mini_head.php'); ?>
+<?php $this->display('space/mini_head.php'); ?>
 <form class="mini-search" action="" method="post">
     <div class="line-wrap">
         相册名：
@@ -32,4 +32,4 @@
         $(this).find('input[type="radio"]').prop('checked',true);
     });
 </script>
-<?php $this->display('my/mini_foot.php'); ?>
+<?php $this->display('space/mini_foot.php'); ?>

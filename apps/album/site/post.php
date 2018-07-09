@@ -47,7 +47,7 @@ if(isPost()){
             app('album')->updateTags('album',$album_id,$data['tags'],'',true);
         }
 
-        alert('保存成功！',true,U('album','my'));
+        alert('保存成功！',true,U('album','space'));
     }else{
         alert('保存失败！');
     }

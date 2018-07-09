@@ -1,8 +1,8 @@
-<?php $this->display('my/head.php'); ?>
+<?php $this->display('common/head.php'); ?>
 <div class="container">
-    <?php $this->display('my/setting_menu.php'); ?>
+    <?php $this->display('space/setting_menu.php'); ?>
     <div class="content">
-        <form class="form-basic ajaxform" method="post" action="<?php echo U('my','account','a=savebind')?>">
+        <form class="form-basic ajaxform" method="post" action="<?php echo U('space','account','a=savebind')?>">
             <div class="line-wrap"> 
                 <h1 class="title">绑定激活</h1>
             </div> 
@@ -75,11 +75,11 @@
 <script>
     $(function(){
         $('#send_active_code').click(function(){
-            $.post('<?php echo U('my','account','a=send_activecode')?>',{isajax:1},function(data){
+            $.post('<?php echo U('space','account','a=send_activecode')?>',{isajax:1},function(data){
                 ajaxAlert(data,1,true);
             },'json');
         });
         showMobileCaptcha('.mobile_captcha','#mobile');
     })
 </script>
-<?php $this->display('my/foot.php'); ?>
+<?php $this->display('common/foot.php'); ?>

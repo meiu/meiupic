@@ -1,4 +1,4 @@
-<?php $this->display('my/head.php'); ?>
+<?php $this->display('common/head.php'); ?>
 <script src="<?php echo S('base','tageditor/jquery.caret.min.js');?>"></script>
 <script src="<?php echo S('base','tageditor/jquery.tag-editor.min.js');?>"></script>
 <link rel="stylesheet" href="<?php echo S('base','tageditor/jquery.tag-editor.css');?>" />

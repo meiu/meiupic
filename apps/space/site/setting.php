@@ -27,7 +27,7 @@ if(isPost()){
         }
         M('users_info')->updateW('uid='.$uid,$infodata);
 
-        alert('修改基本信息成功！',true,U('my','setting'));
+        alert('修改基本信息成功！',true,U('space','setting'));
     }else{
         alert('修改基本信息失败！');
     }
@@ -40,5 +40,5 @@ if(isPost()){
     $iinfo = M('users_info')->load($_G['user']['id'],'*','uid');
     if(!$iinfo) $iinfo = M('users_info')->loadDefault();
     $view->assign('iinfo',$iinfo);
-    $view->display('my/setting.php');
+    $view->display('space/setting.php');
 }

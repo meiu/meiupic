@@ -59,7 +59,7 @@
         <tr>
             <td>Imagick</td>
             <td><?php
-            if(class_exists('Imagick')){
+            if(class_exists('Imagick',false)){
                 $ver = Imagick::getVersion();
                 echo $ver['versionString'];
             }else{

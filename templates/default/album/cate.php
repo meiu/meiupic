@@ -26,4 +26,4 @@
 </div>
 
 <script type="text/javascript" src="<?php echo S('album','js/loadmore.js'); ?>"></script>
-<?php $this->display('my/foot.php'); ?>
+<?php $this->display('common/foot.php'); ?>

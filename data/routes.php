@@ -5,6 +5,10 @@
     1 => 'album.search',
     2 => 'album.index',
     3 => 'album.photos',
+    4 => 'space.index',
+    5 => 'album.space',
+    6 => 'friend.friends',
+    7 => 'friend.followers',
   ),
   'data' => 
   array (
@@ -75,6 +79,62 @@
         0 => 'id',
       ),
       'regex' => '/^work\\/([^\\/]+)$/i',
+    ),
+    'u/{id}' => 
+    array (
+      'params' => 
+      array (
+        'app' => 'space',
+        'm' => 'index',
+        'id' => '@@',
+      ),
+      'needreplace' => 
+      array (
+        0 => 'id',
+      ),
+      'regex' => '/^u\\/([^\\/]+)$/i',
+    ),
+    '{id}/album' => 
+    array (
+      'params' => 
+      array (
+        'app' => 'album',
+        'm' => 'space',
+        'id' => '@@',
+      ),
+      'needreplace' => 
+      array (
+        0 => 'id',
+      ),
+      'regex' => '/^([^\\/]+)\\/album$/i',
+    ),
+    '{id}/friends' => 
+    array (
+      'params' => 
+      array (
+        'app' => 'friend',
+        'm' => 'friends',
+        'id' => '@@',
+      ),
+      'needreplace' => 
+      array (
+        0 => 'id',
+      ),
+      'regex' => '/^([^\\/]+)\\/friends$/i',
+    ),
+    '{id}/followers' => 
+    array (
+      'params' => 
+      array (
+        'app' => 'friend',
+        'm' => 'followers',
+        'id' => '@@',
+      ),
+      'needreplace' => 
+      array (
+        0 => 'id',
+      ),
+      'regex' => '/^([^\\/]+)\\/followers$/i',
     ),
   ),
 );

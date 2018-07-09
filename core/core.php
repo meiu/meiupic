@@ -24,7 +24,6 @@ defined('LOG_EXTRA') or define('LOG_EXTRA','');// 日志记录额外信息
 defined('LOG_LEVEL') or define('LOG_LEVEL','EMERG,ALERT,CRIT,ERR');// 允许记录的日志级别
 defined('LOG_FILE_SIZE') or define('LOG_FILE_SIZE',2097152);// 日志文件大小限制
 
-
 /*这里是一些核心函数*/
 require_once(CORE_PATH.'common.php');
 /**
@@ -33,11 +32,9 @@ require_once(CORE_PATH.'common.php');
  */
 function C($name,$default=''){
     static $config=array();
-
     if(!$config){
         $config = include(DATA_PATH.'config.php');
     }
-
     $delimiter='.';
     if (false === strpos($name, $delimiter)) {
         return isset($config[$name]) ? $config[$name] : $default;

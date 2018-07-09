@@ -1,6 +1,6 @@
 <?php foreach ($rows as $key => $value): ?>
 <li class="user-row">
-    <a class="link_wrap" href="<?php echo U('user','space','id='.urlencode($value['id'])); ?>" title="<?php echo $value['nickname']; ?>" target="_blank">
+    <a class="link_wrap" href="<?php echo U('space','index','id='.urlencode($value['id'])); ?>" title="<?php echo $value['nickname']; ?>" target="_blank">
     </a>
     <div class="top" style="background-image: url(<?php echo app('user')->getBannerBg($value,'small');?>)">
         <img class="avatar" alt="<?php echo $value['nickname']; ?>" src="<?php echo app('user')->getAvatar($value,'small');?>">

@@ -1,4 +1,4 @@
-<?php $this->display('my/mini_head.php'); ?>
+<?php $this->display('space/mini_head.php'); ?>
 <script src="<?php echo S('base','tageditor/jquery.caret.min.js');?>"></script>
 <script src="<?php echo S('base','tageditor/jquery.tag-editor.min.js');?>"></script>
 <link rel="stylesheet" href="<?php echo S('base','tageditor/jquery.tag-editor.css');?>" />
@@ -56,4 +56,4 @@ $(function(){
     $('#tags').tagEditor({ placeholder: '输入标签...' });
 });
 </script>
-<?php $this->display('my/mini_foot.php'); ?>
+<?php $this->display('space/mini_foot.php'); ?>

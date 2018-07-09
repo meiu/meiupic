@@ -1,7 +1,7 @@
 <?php
 defined('IN_MWEB') or die('access denied');
 
-class MyIndex extends Adminbase{
+class SpaceIndex extends Adminbase{
 
     protected $_submenu = array(
         '个人中心默认应用' => array('index')
@@ -11,12 +11,12 @@ class MyIndex extends Adminbase{
     function indexAct(){
         if(isPost()){
             $default_app = getPost('default_app');
-            app('base')->setSetting('my_default_app',$default_app);
+            app('base')->setSetting('space_default_app',$default_app);
 
-            alert('设置默认应用成功！',true,U('my','index'));
+            alert('设置默认应用成功！',true,U('space','index'));
         }
 
-        $default_app = app('base')->getSetting('my_default_app');
+        $default_app = app('base')->getSetting('space_default_app');
 
         if(!$default_app){
             $default_app = 'album';

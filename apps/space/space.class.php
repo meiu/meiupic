@@ -1,6 +1,6 @@
 <?php
 
-Class MyClass{
+Class SpaceClass{
     //获取用户中心的菜单列表
     public function getAppMenus(){
         $cache = cache::instance();

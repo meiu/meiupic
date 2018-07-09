@@ -1,4 +1,4 @@
-<?php $this->display('my/head.php'); ?>
+<?php $this->display('space/head.php'); ?>
 <div class="container">
     <?php $this->display('album/my_menu.php'); ?>
     <?php if(isset($albumInfo) && $albumInfo): ?>
@@ -29,4 +29,4 @@ $("#grid-gallery").justifiedGallery({'rowHeight':300,'margins':10}).on('jg.compl
 theater.init('div.container');
 </script>
 <script type="text/javascript" src="<?php echo S('album','js/loadmore.js'); ?>"></script>
-<?php $this->display('my/foot.php'); ?>
+<?php $this->display('space/foot.php'); ?>
