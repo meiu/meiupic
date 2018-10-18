@@ -9,6 +9,8 @@
     5 => 'album.space',
     6 => 'friend.friends',
     7 => 'friend.followers',
+    8 => 'album.like',
+    9 => 'album.album',
   ),
   'data' => 
   array (
@@ -94,7 +96,7 @@
       ),
       'regex' => '/^u\\/([^\\/]+)$/i',
     ),
-    '{id}/album' => 
+    '{id}/all' => 
     array (
       'params' => 
       array (
@@ -106,7 +108,7 @@
       array (
         0 => 'id',
       ),
-      'regex' => '/^([^\\/]+)\\/album$/i',
+      'regex' => '/^([^\\/]+)\\/all$/i',
     ),
     '{id}/friends' => 
     array (
@@ -135,6 +137,34 @@
         0 => 'id',
       ),
       'regex' => '/^([^\\/]+)\\/followers$/i',
+    ),
+    '{id}/like' => 
+    array (
+      'params' => 
+      array (
+        'app' => 'album',
+        'm' => 'like',
+        'id' => '@@',
+      ),
+      'needreplace' => 
+      array (
+        0 => 'id',
+      ),
+      'regex' => '/^([^\\/]+)\\/like$/i',
+    ),
+    '{id}/albums' => 
+    array (
+      'params' => 
+      array (
+        'app' => 'album',
+        'm' => 'album',
+        'id' => '@@',
+      ),
+      'needreplace' => 
+      array (
+        0 => 'id',
+      ),
+      'regex' => '/^([^\\/]+)\\/albums$/i',
     ),
   ),
 );

@@ -212,7 +212,13 @@ INSERT INTO `routes` (`id`, `route`, `params`, `sort`) VALUES
 (2, 'tag/{tag}', 'app=album&m=search', 50),
 (3, 'discover', 'app=album&m=index', 50),
 (4, 'search/{keyword}', 'app=album&m=search', 50),
-(5, 'work/{id}', 'app=album&m=photos', 50);
+(5, 'work/{id}', 'app=album&m=photos', 50),
+(6, 'u/{id}', 'app=space&m=index', 50),
+(7, '{id}/all', 'app=album&m=space', 50),
+(8, '{id}/friends', 'app=friend&m=friends', 50),
+(9, '{id}/followers', 'app=friend&m=followers', 50),
+(10, '{id}/like', 'app=album&m=like', 50),
+(11, '{id}/albums', 'app=album&m=album', 50);
 
 -- --------------------------------------------------------
 
