@@ -6,6 +6,7 @@ ul,li,dl,dd,dt{margin:0;padding:0;list-style: none;}
 ::selection{background-color:#38485a;color:#fff;text-shadow:0 1px 0 rgba(0,0,0,0.3)}
 *::-moz-selection {background-color: #38485A;color: #FFFFFF;text-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);}
 form,p{margin:0;padding:0;}
+input:-webkit-autofill { -webkit-box-shadow: 0 0 0 1000px white inset; }
 a{ 
 outline: none;
 blr:expression(this.onFocus=this.blur());
@@ -93,6 +94,43 @@ div.pages a.on{
 }
 .head-nav{
     float: left;
+}
+.head-search{
+    position: absolute;
+    padding: 15px 0;
+    height: 30px;
+    right:300px;
+    z-index: 100;
+}
+.head-search input{
+    height: 28px;
+    border: 0;
+    background: #333;
+    border-radius: 4px;
+    line-height: 30px;
+    padding:0 10px;
+    width: 200px;
+    color:#ddd;
+    outline: none;
+}
+.head-search input::-webkit-input-placeholder { /* WebKit browsers */
+    color:    #999;
+}
+.head-search input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color:    #999;
+}
+.head-search input::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color:    #999;
+}
+.head-search input:-ms-input-placeholder { /* Internet Explorer 10+ */
+    color:    #999;
+}
+
+.head-search input:focus{
+    background: #fff;
+    width: 300px;
+    color: #222;
+    transition:width 0.5s ease-out;
 }
 .my-header a.head-logo{
     float: left;

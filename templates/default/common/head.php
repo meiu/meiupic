@@ -65,7 +65,7 @@
             </div>
             <?php endif; ?>
         </div>
-
+        <div class="head-search"><form method="get" action="<?php echo U('album','search');?>"><input type="search" placeholder="搜索图片" value="<?php echo getGet('keyword');?>" autocomplete="off" name="keyword" /></form></div>
         <a class="head-logo" href="<?php echo U('base','index')?>"></a>
         <div class="head-nav">
             <ul class="main-list">

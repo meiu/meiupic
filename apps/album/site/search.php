@@ -33,7 +33,7 @@ if($t == 'new'){
     $order = 'hits desc';
 }
 $totalCount = $m_photo->count($where);
-$pageurl = U('album','index',$urlparam);
+$pageurl = U('album','search',$urlparam);
 
 $pager = new Pager($page,C('pageset.default',15),$totalCount,$pageurl);
 $pager->config(C('page'));

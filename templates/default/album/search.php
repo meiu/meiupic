@@ -55,4 +55,4 @@ $('#grid-gallery').delegate('a.liked,a.like','click',function(){
 theater.init('div.container');
 </script>
 <script type="text/javascript" src="<?php echo S('album','js/loadmore.js'); ?>"></script>
-<?php $this->display('space/foot.php'); ?>
+<?php $this->display('common/foot.php'); ?>
