@@ -1423,3 +1423,12 @@ li.user-row .link_wrap {
     bottom: 40px;
     font-size: 14px;
 }
+.detail-header .back-link{
+    position: absolute;
+    left: 40px;
+    bottom: 40px;
+    font-size: 14px;
+}
+.detail-header .back-link a{
+    color:#fff;
+}

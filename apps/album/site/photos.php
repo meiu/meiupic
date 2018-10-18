@@ -55,6 +55,8 @@ if(isAjax()){
     $authorInfo = M('users')->load($albumInfo['uid']);
     $site_title = $albumInfo['name'].' - '.getSetting('site_title');
     
+    $cateInfo = M('album_cate')->load($albumInfo['cate_id']);
+    $view->assign('cateInfo',$cateInfo);
     $view->assign('albumInfo',$albumInfo);
     $view->assign('authorInfo',$authorInfo);
     $view->assign('site_title',$site_title);

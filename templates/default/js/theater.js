@@ -8,6 +8,10 @@ var theater = {
     currentUrl : '',
     checkState:function(){
         var currentState = window.history.state;
+        if(!currentState){
+            window.history.go(-1)
+            return false;
+        }
         if(currentState.type == 'list'){
             document.title = currentState.title;
             $('body').css('overflow','auto');

@@ -1,17 +1,9 @@
 <?php $this->display('common/head.php'); ?>
+<?php $this->display('space/inc.banner.php'); ?>
 <div class="container">
-    <nav class="secondary-nav">
-    <ul class="nav-list">
-        <li <?php if($_G['uri']['m']=='index' && !getGet('t')): ?>class="active"<?php endif; ?> data-index="0">
-            <a target="_self" href="<?php echo U('user','index')?>">热门摄影师</a>
-        </li>
-        <li <?php if($_G['uri']['m']=='index' && getGet('t')=='new'): ?>class="active"<?php endif; ?> data-index="1">
-            <a target="_self" href="<?php echo U('user','index','t=new')?>">潜力新人</a>
-        </li>
-    </ul>
-</nav>
+    <?php $this->display('album/space_menu.php'); ?>
     <div class="list-body">
-        <div class="page-content" id="userlist">
+         <div class="page-content" id="userlist">
             <div class="listCont">
                 <?php $this->display('user/user_list.php'); ?>
             </div>

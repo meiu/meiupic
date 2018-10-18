@@ -1,20 +1,21 @@
 <?php 
 defined('IN_MWEB') or die('access denied');
 
-checkLogin();
-
-$aid = intval(getGet('aid'));
+$uid = intval(getGet('id'));
 $page = getGet('page',1);
 
 $m_like = M('album_likes');
 
+$uinfo = M('users')->load($uid);
+$view->assign('uinfo',$uinfo);
+
 $select = array(
     'table' => '#album_likes as l inner join #album_photos as ph on l.photo_id = ph.id',
-    'where' => 'ph.deleted=0 and l.uid='.intval($_G['user']['id']),
+    'where' => 'ph.deleted=0 and l.uid='.$uid,
     'order' => 'l.addtime desc'
 );
 
-$urlparam = array('page'=>'%page%');
+$urlparam = array('page'=>'%page%','id'=>$uid);
 
 $totalCount = $m_like->select($select+array('field'=>'count(1) as cnt'))->getOne();
 $pageurl = U('album','like',$urlparam);
@@ -39,13 +40,14 @@ if($rows){
 }
 
 $view->assign('rows',$rows);
+$view->assign('uid',$uid);
 
 if(isAjax()){
-    echo json_encode(array('status'=>'ok','page'=>$page,'html'=>$view->fetch('album/photo_list.php'),'pagehtml'=>$pager->html()));
+    echo json_encode(array('status'=>'ok','page'=>$page,'html'=>$view->fetch('album/normal_list.php'),'pagehtml'=>$pager->html()));
     exit;
 }else{
     $site_title = '喜欢的图片 - 用户中心 - '.getSetting('site_title');
     $view->assign('site_title',$site_title);
     $view->assign('totalCount',$totalCount);
-    $view->display('album/my_like.php');
+    $view->display('album/like.php');
 }

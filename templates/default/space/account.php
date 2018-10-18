@@ -1,4 +1,5 @@
 <?php $this->display('common/head.php'); ?>
+<?php $this->display('space/inc.banner.php'); ?>
 <div class="container">
     <?php $this->display('space/setting_menu.php'); ?>
     <div class="content">

@@ -7,7 +7,7 @@
         <span class="hits">浏览：<?php echo $value['hits'];?></span>
     </div>
     <div class="info">
-        <a class="btns <?php if($value['liked']){echo "liked";}else{echo "like";} ?>" href="<?php echo U('album','photo_like','id='.$value['id']); ?>"><?php echo $value['like_num']; ?></a>
+        <a class="btns <?php if($value['liked']){echo "liked";}else{echo "like";} ?>" href="<?php if($uid==$_G['user']['id']): echo U('album','photo_like','id='.$value['id']); else: echo 'javascript:void(0)'; endif; ?>"><?php echo $value['like_num']; ?></a>
         <div class="credits">
             <a class="avatar" target="_blank" href="<?php echo U('space','index','id='.$value['uid']) ?>" style="background-image: url(<?php echo app('user')->getAvatar($value['user'],'small'); ?>);"></a>
             <div class="author-wrap">

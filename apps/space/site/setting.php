@@ -40,5 +40,6 @@ if(isPost()){
     $iinfo = M('users_info')->load($_G['user']['id'],'*','uid');
     if(!$iinfo) $iinfo = M('users_info')->loadDefault();
     $view->assign('iinfo',$iinfo);
+    $view->assign('uinfo',$_G['user']);
     $view->display('space/setting.php');
 }

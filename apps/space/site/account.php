@@ -103,5 +103,6 @@ if(isPost()){
         }
     }
 }else{
+    $view->assign('uinfo',$_G['user']);
     $view->display('space/account.php');
 }

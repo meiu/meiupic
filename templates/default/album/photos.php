@@ -12,6 +12,9 @@
         <div class="total-info">
             <div class="total-num">共 <span class="num"><?php echo $totalCount;?></span> 张图片</div>
         </div>
+        <div class="back-link">
+            <a href="<?php echo app('album')->makeCateLink($cateInfo);?>">&lt; 返回</a>
+        </div>
     </div>
     <div class="list-body">
         <div class="content-gallery">
@@ -52,4 +55,4 @@ $('#grid-gallery').delegate('a.liked,a.like','click',function(){
 theater.init('div.container');
 </script>
 <script type="text/javascript" src="<?php echo S('album','js/loadmore.js'); ?>"></script>
-<?php $this->display('my/foot.php'); ?>
+<?php $this->display('common/foot.php'); ?>
