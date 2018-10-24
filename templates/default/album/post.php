@@ -64,7 +64,7 @@
                 </div>
                 <div class="line-wrap">
                     <div class="input-wrap">
-                        <input type="submit" class="submit-btn" value="发布">
+                        <input type="submit" class="submit-btn" value="发布" onclick="showUploading()">
                     </div>
                 </div>
             </div>
@@ -73,6 +73,10 @@
 </div>
 <script>
     initPostUpload('<?php echo U("album","uploadprocess")?>'<?php if(@$_G['settings']['album_resize_img'] && @$_G['settings']['album_pre_resize_img']){ echo ",".$_G['settings']['album_resize_img_w'].','.$_G['settings']['album_resize_img_h'].',90';}?>)
+
+    function showUploading(){
+        art.dialog.tips('图片处理中！',20,true);
+    }
 </script>
 <script type="text/javascript">
 $(function(){
