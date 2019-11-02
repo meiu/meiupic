@@ -111,7 +111,7 @@
 $('div.photo-container a.close').click(function(){
     location.href = '<?php
     if($_G['user']['id'] && $photoInfo['uid'] == $_G['user']['id']){ 
-        echo U('album','my','aid='.$photoInfo['album_id']); 
+        echo U('album','space','id='.$photoInfo['uid'].'&aid='.$photoInfo['album_id']); 
     }else{
         echo U('base','index'); 
     }

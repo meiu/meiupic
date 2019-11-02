@@ -21,8 +21,8 @@ MeiuPic升级为多用户相册系统了！可以轻松构建图虫、500px之�
         'host'     => '127.0.0.1',
         'port'     => '3306',
         'dbuser'   => 'root',
-        'dbpass'   => 'dragon',
-        'dbname'   => 'newmeiu',
+        'dbpass'   => '',
+        'dbname'   => 'meiupic',
         'pconnect' => false,
         'charset'  => 'utf8',
         'pre'      => ''
@@ -76,7 +76,8 @@ location / {
             'bucket' => 'bucket名字',
             'access_key' => '请填写七牛的access_key',
             'secret_key' => '请填写七牛的secret_key',
-            'url_pre' => 'http://七牛bucket绑定的域名/'
+            'url_pre' => 'http://七牛bucket绑定的域名/',
+            'area' => 'z0' //这里输入七牛的区域
         )
     ),
 ```

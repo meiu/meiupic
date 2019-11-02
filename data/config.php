@@ -11,7 +11,7 @@ return array(
         'host'     => '127.0.0.1',
         'port'     => '3306',
         'dbuser'   => 'root',
-        'dbpass'   => 'dragon',
+        'dbpass'   => '',
         'dbname'   => 'newmeiu',
         'pconnect' => false,
         'charset'  => 'utf8',
@@ -30,17 +30,7 @@ return array(
             'dirpath' => ROOT_DIR.'public/upfiles/',
             'url_pre' => '/public/upfiles/'
         )
-    ),/*
-    'storage' => array(
-        'adapter' => 'qiniu', //存储引擎，目前支持file,qiniu两种
-        'setting' => array(
-            'direct' => 1,
-            'bucket' => 'newmeiu',
-            'access_key' => 'QDDuRDgLwYTLXgAF35-Hao-6qDcfVqtmii0RcYQl',
-            'secret_key' => '_uG7YZ8ZF4uWiXpF_FB_CN9Waa2VXHkRi5jCp9xB',
-            'url_pre' => 'http://sto.meiu.cn/'
-        )
-    ),*/
+    ),
     'image' => array(
         'engine' => 'gd' //图像处理引擎，目前支持gd,imagick两种
     ),

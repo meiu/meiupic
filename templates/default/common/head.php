@@ -35,6 +35,9 @@
         <meta name="updomain" content="<?php echo $c['setting']['url_pre'];?>" />
         <script type="text/javascript" src="https://unpkg.com/qiniu-js@v2.2.2/dist/qiniu.min.js"></script>
         <script type="text/javascript" src="<?php echo ST('js/upload.qiniu.js'); ?>"></script>
+        <script type="text/javascript">
+            var qiniu_area = qiniu.region.<?php echo $c['setting']['area'];?>;
+        </script>
         <?php else: ?>
         <script type="text/javascript" src="<?php echo ST('js/upload.normal.js'); ?>"></script>
         <?php endif; ?>

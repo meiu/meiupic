@@ -191,7 +191,7 @@ function uploadWithQiniu(upconfig,callbacks){
       useCdnDomain: true,
       disableStatisticsReport: false,
       retryCount: 5,
-      region: qiniu.region.z0
+      region: qiniu_area
     };
     var putExtra = {
       fname: "",

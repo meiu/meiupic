@@ -7,11 +7,20 @@ class StorageQiniu extends Storage
     const QINIU_UP_HOST    = 'http://up.qiniu.com';
     const QINIU_RS_HOST    = 'http://rs.qiniu.com';
 
+    private $_up_urls = array(
+        'z0' => 'http://up.qiniup.com',
+        'z1' => 'http://up-z1.qiniup.com',
+        'z2' => 'http://up-z2.qiniup.com',
+        'na0' => 'http://up-na0.qiniup.com',
+        'as0' => 'http://up-as0.qiniup.com'
+    );
+
     private $_setting = array(
         'bucket' => 'meiupic',
         'access_key' => '',
         'secret_key' => '',
-        'url_pre' => ''
+        'url_pre' => '',
+        'area' => 'z0'
     );
 
     public function __construct($config){
@@ -45,7 +54,7 @@ class StorageQiniu extends Storage
         $curl->headers = array(
             'Content-type: '.$contentType
         );
-        return $curl->post(self::QINIU_UP_HOST,$body);
+        return $curl->post($this->_up_urls[$this->_setting['area']],$body);
     }
 
     public function uploadToken($config = array())
@@ -226,6 +235,8 @@ class StorageQiniu extends Storage
     }
 
     public function getThumb($path,$w,$h,$t,$placeholder){
+        if(empty($path)) return $placeholder;
+        
         return $this->_setting['url_pre'].$path."?imageView/$t/w/$w/h/$h";
     }
 
