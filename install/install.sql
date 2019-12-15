@@ -1,64 +1,371 @@
--- phpMyAdmin SQL Dump
--- version 4.5.4.1deb2ubuntu2
--- http://www.phpmyadmin.net
---
--- Host: localhost
--- Generation Time: 2018-04-10 11:53:17
--- 服务器版本： 5.7.21-0ubuntu0.16.04.1
--- PHP Version: 7.0.28-0ubuntu0.16.04.1
-
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
--- Database: `newmeiu`
---
-
--- --------------------------------------------------------
-
---
--- 表的结构 `albums`
---
-
-CREATE TABLE `albums` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(150) NOT NULL,
-  `uid` int(11) DEFAULT '0',
-  `cate_id` bigint(4) UNSIGNED NOT NULL DEFAULT '0',
-  `cover_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
-  `cover_path` varchar(200) DEFAULT NULL,
-  `comments_num` int(11) UNSIGNED NOT NULL DEFAULT '0',
-  `photos_num` int(11) UNSIGNED NOT NULL DEFAULT '0',
-  `create_time` int(11) UNSIGNED NOT NULL DEFAULT '0',
-  `up_time` int(11) UNSIGNED NOT NULL DEFAULT '0',
-  `tags` varchar(255) DEFAULT NULL,
-  `priv_type` tinyint(1) NOT NULL DEFAULT '0',
-  `description` longtext,
-  `deleted` tinyint(1) NOT NULL DEFAULT '0',
-  `enable_comment` tinyint(1) NOT NULL DEFAULT '1',
-  `recommended` tinyint(1) NOT NULL DEFAULT '0',
-  `recommend_time` int(11) NOT NULL DEFAULT '0'
-) ;
-
--- --------------------------------------------------------
-
---
--- 表的结构 `album_cate`
---
-
+-- ----------------------------
+-- Table structure for album_cate
+-- ----------------------------
+DROP TABLE IF EXISTS `album_cate`;
 CREATE TABLE `album_cate` (
-  `id` int(4) NOT NULL,
+  `id` int(4) NOT NULL AUTO_INCREMENT,
   `pid` int(4) NOT NULL DEFAULT '0',
   `name` varchar(100) NOT NULL,
   `dirname` varchar(50) DEFAULT NULL,
   `status` tinyint(1) NOT NULL DEFAULT '1',
-  `sort` int(4) NOT NULL DEFAULT '0'
-) ;
+  `sort` int(4) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `par_id` (`pid`)
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for album_likes
+-- ----------------------------
+DROP TABLE IF EXISTS `album_likes`;
+CREATE TABLE `album_likes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) NOT NULL,
+  `album_id` int(11) NOT NULL,
+  `addtime` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `uid` (`uid`,`album_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for album_photos
+-- ----------------------------
+DROP TABLE IF EXISTS `album_photos`;
+CREATE TABLE `album_photos` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `cate_id` int(11) NOT NULL DEFAULT '0',
+  `album_id` int(11) NOT NULL DEFAULT '0',
+  `uid` int(11) DEFAULT '0',
+  `post_ip` varchar(50) DEFAULT NULL COMMENT '上传图片时的ip地址',
+  `name` varchar(100) NOT NULL,
+  `path` varchar(255) NOT NULL,
+  `width` int(11) NOT NULL DEFAULT '0',
+  `height` int(11) NOT NULL DEFAULT '0',
+  `hits` bigint(20) NOT NULL DEFAULT '0',
+  `comments_num` int(11) NOT NULL DEFAULT '0',
+  `like_num` int(11) NOT NULL DEFAULT '0',
+  `create_time` int(11) NOT NULL DEFAULT '0',
+  `taken_time` int(11) NOT NULL DEFAULT '0',
+  `description` longtext,
+  `exif` longtext,
+  `tags` varchar(255) DEFAULT NULL,
+  `priv_type` tinyint(4) NOT NULL DEFAULT '0',
+  `deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `recommended` tinyint(1) NOT NULL DEFAULT '0',
+  `recommend_time` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `cate_id` (`cate_id`),
+  KEY `uid` (`uid`),
+  KEY `album_id` (`album_id`),
+  KEY `recommended` (`recommended`),
+  KEY `recommend_time` (`recommend_time`),
+  KEY `tags` (`tags`),
+  KEY `name` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for album_set_photos
+-- ----------------------------
+DROP TABLE IF EXISTS `album_set_photos`;
+CREATE TABLE `album_set_photos` (
+  `set_id` int(11) NOT NULL DEFAULT '0',
+  `photo_id` int(11) NOT NULL DEFAULT '0',
+  `uid` int(11) DEFAULT '0',
+  `add_time` int(11) DEFAULT '0',
+  PRIMARY KEY (`set_id`,`photo_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for album_sets
+-- ----------------------------
+DROP TABLE IF EXISTS `album_sets`;
+CREATE TABLE `album_sets` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) DEFAULT NULL,
+  `uid` int(11) DEFAULT '0',
+  `cover_id` int(11) DEFAULT '0',
+  `cover_path` varchar(200) DEFAULT NULL,
+  `description` text,
+  `photos_num` int(11) DEFAULT '0',
+  `create_time` int(11) DEFAULT '0',
+  `update_time` int(11) DEFAULT '0',
+  `priv_type` tinyint(4) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for album_tag_rels
+-- ----------------------------
+DROP TABLE IF EXISTS `album_tag_rels`;
+CREATE TABLE `album_tag_rels` (
+  `tag_id` int(11) NOT NULL,
+  `type` enum('album','photo') NOT NULL,
+  `rel_id` int(11) NOT NULL,
+  PRIMARY KEY (`tag_id`,`type`,`rel_id`),
+  KEY `rel_id` (`rel_id`,`type`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for album_tags
+-- ----------------------------
+DROP TABLE IF EXISTS `album_tags`;
+CREATE TABLE `album_tags` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `image` varchar(100) DEFAULT NULL,
+  `description` varchar(500) NOT NULL,
+  `album_num` int(11) NOT NULL,
+  `photo_num` int(11) NOT NULL,
+  `addtime` int(11) NOT NULL,
+  `recommended` tinyint(1) NOT NULL DEFAULT '0',
+  `sort` int(11) NOT NULL DEFAULT '0' COMMENT '排序',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for albums
+-- ----------------------------
+DROP TABLE IF EXISTS `albums`;
+CREATE TABLE `albums` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(150) NOT NULL,
+  `uid` int(11) DEFAULT '0',
+  `cate_id` bigint(4) unsigned NOT NULL DEFAULT '0',
+  `cover_id` bigint(20) unsigned NOT NULL DEFAULT '0',
+  `cover_path` varchar(200) DEFAULT NULL,
+  `comments_num` int(11) unsigned NOT NULL DEFAULT '0',
+  `like_num` int(11) NOT NULL DEFAULT '0',
+  `photos_num` int(11) unsigned NOT NULL DEFAULT '0',
+  `create_time` int(11) unsigned NOT NULL DEFAULT '0',
+  `up_time` int(11) unsigned NOT NULL DEFAULT '0',
+  `tags` varchar(255) DEFAULT NULL,
+  `priv_type` tinyint(1) NOT NULL DEFAULT '0',
+  `hits` int(10) unsigned NOT NULL DEFAULT '0',
+  `description` longtext,
+  `deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `enable_comment` tinyint(1) NOT NULL DEFAULT '1',
+  `recommended` tinyint(1) NOT NULL DEFAULT '0',
+  `recommend_time` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `cover_id` (`cover_id`),
+  KEY `cate_id` (`cate_id`),
+  KEY `uid` (`uid`),
+  KEY `name` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for comments
+-- ----------------------------
+DROP TABLE IF EXISTS `comments`;
+CREATE TABLE `comments` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `mod` varchar(100) NOT NULL COMMENT '所属模块',
+  `rel_id` int(11) NOT NULL DEFAULT '0' COMMENT '所属id',
+  `parent_id` int(11) NOT NULL DEFAULT '0' COMMENT '上级id',
+  `uid` int(11) NOT NULL COMMENT '用户id(谁产生了这条数据)',
+  `author` varchar(50) NOT NULL COMMENT '发布人',
+  `email` varchar(200) NOT NULL COMMENT 'email',
+  `addtime` int(11) NOT NULL COMMENT '添加时间',
+  `ip` varchar(50) DEFAULT NULL COMMENT 'ip地址',
+  `content` text NOT NULL COMMENT '评论内容',
+  `support` int(11) NOT NULL DEFAULT '0' COMMENT '支持',
+  `object` int(11) NOT NULL DEFAULT '0' COMMENT '反对',
+  `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0: 待审核 1:审核通过 2:未通过审核',
+  PRIMARY KEY (`id`),
+  KEY `parent_id` (`parent_id`),
+  KEY `uid` (`uid`),
+  KEY `mod` (`mod`,`rel_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for labels
+-- ----------------------------
+DROP TABLE IF EXISTS `labels`;
+CREATE TABLE `labels` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL COMMENT '标签名称',
+  `data` text NOT NULL COMMENT '标签定义',
+  `pure_txt` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for routes
+-- ----------------------------
+DROP TABLE IF EXISTS `routes`;
+CREATE TABLE `routes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `route` varchar(100) NOT NULL COMMENT '路由',
+  `params` text NOT NULL COMMENT '映射参数',
+  `sort` int(11) NOT NULL DEFAULT '0' COMMENT '默认排序',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for settings
+-- ----------------------------
+DROP TABLE IF EXISTS `settings`;
+CREATE TABLE `settings` (
+  `name` varchar(100) NOT NULL COMMENT '参数名',
+  `value` text NOT NULL COMMENT '值',
+  `autoload` enum('yes','no') NOT NULL DEFAULT 'yes' COMMENT '是否自动加载',
+  PRIMARY KEY (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for sms_codes
+-- ----------------------------
+DROP TABLE IF EXISTS `sms_codes`;
+CREATE TABLE `sms_codes` (
+  `mobile` char(11) NOT NULL,
+  `code` varchar(32) NOT NULL,
+  `lasttime` int(11) NOT NULL,
+  `send_count` int(11) NOT NULL,
+  PRIMARY KEY (`mobile`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for sms_logs
+-- ----------------------------
+DROP TABLE IF EXISTS `sms_logs`;
+CREATE TABLE `sms_logs` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `mobile` char(15) NOT NULL,
+  `content` varchar(255) NOT NULL,
+  `sendtime` int(11) NOT NULL,
+  `result` enum('success','failed') DEFAULT NULL,
+  `result_content` varchar(200) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for upfiles
+-- ----------------------------
+DROP TABLE IF EXISTS `upfiles`;
+CREATE TABLE `upfiles` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL COMMENT '文件原名',
+  `path` varchar(100) NOT NULL COMMENT '路径',
+  `ext` varchar(10) NOT NULL COMMENT '文件后缀',
+  `size` int(11) NOT NULL COMMENT '大小，单位字节',
+  `isthumb` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否是缩略图？1，是',
+  `filetype` varchar(20) NOT NULL DEFAULT 'image',
+  `addtime` int(11) NOT NULL DEFAULT '0' COMMENT '添加时间',
+  PRIMARY KEY (`id`),
+  KEY `path` (`path`),
+  KEY `filetype` (`filetype`),
+  KEY `isthumb` (`isthumb`),
+  KEY `name` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for users
+-- ----------------------------
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(100) NOT NULL COMMENT '登录名',
+  `userpass` varchar(100) NOT NULL COMMENT '密码',
+  `salt` varchar(10) NOT NULL COMMENT '加点儿盐',
+  `mobile` char(15) NOT NULL COMMENT '手机号',
+  `email` varchar(100) NOT NULL COMMENT 'Email',
+  `nickname` varchar(100) NOT NULL DEFAULT '' COMMENT '昵称',
+  `description` varchar(200) DEFAULT NULL COMMENT '描述/签名',
+  `friends` int(11) NOT NULL DEFAULT '0' COMMENT '好友数',
+  `followers` int(11) NOT NULL DEFAULT '0' COMMENT '粉丝数',
+  `gender` enum('f','m','n') NOT NULL DEFAULT 'n' COMMENT '性别',
+  `points` int(11) NOT NULL DEFAULT '0' COMMENT '积分数',
+  `regtime` int(11) NOT NULL COMMENT '注册时间',
+  `regip` varchar(50) NOT NULL COMMENT '注册ip',
+  `logintime` int(11) NOT NULL COMMENT '登录时间',
+  `loginip` varchar(50) NOT NULL COMMENT '最后登录ip',
+  `level` int(11) NOT NULL DEFAULT '0' COMMENT '用户级别，99为管理员',
+  `status` tinyint(3) NOT NULL DEFAULT '1' COMMENT '0,停用 1,启用 2,删除',
+  `email_actived` tinyint(1) NOT NULL DEFAULT '0',
+  `mobile_actived` tinyint(1) NOT NULL DEFAULT '0',
+  `facever` int(11) NOT NULL DEFAULT '0' COMMENT '头像版本号',
+  `bgver` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `username` (`username`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for users_codes
+-- ----------------------------
+DROP TABLE IF EXISTS `users_codes`;
+CREATE TABLE `users_codes` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `uid` int(11) DEFAULT '0',
+  `expire_time` int(10) DEFAULT NULL,
+  `code` varchar(32) DEFAULT NULL,
+  `code_type` varchar(16) DEFAULT NULL,
+  `add_time` int(10) DEFAULT NULL,
+  `add_ip` varchar(50) DEFAULT NULL,
+  `active_time` int(10) DEFAULT NULL,
+  `active_ip` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `active_code` (`code`),
+  KEY `active_type_code` (`code_type`),
+  KEY `uid` (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for users_follow
+-- ----------------------------
+DROP TABLE IF EXISTS `users_follow`;
+CREATE TABLE `users_follow` (
+  `uid` int(11) NOT NULL,
+  `follow_uid` int(11) NOT NULL COMMENT '关注者UID',
+  `follow_time` int(11) NOT NULL,
+  PRIMARY KEY (`uid`,`follow_uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for users_info
+-- ----------------------------
+DROP TABLE IF EXISTS `users_info`;
+CREATE TABLE `users_info` (
+  `uid` int(11) NOT NULL,
+  `extra1` varchar(200) NOT NULL COMMENT '扩展字段1',
+  `extra2` varchar(200) NOT NULL COMMENT '扩展字段2',
+  `extra3` varchar(200) NOT NULL COMMENT '扩展字段3',
+  `extra4` varchar(200) NOT NULL COMMENT '扩展字段4',
+  `extra5` varchar(200) NOT NULL COMMENT '扩展字段5',
+  `extra6` varchar(200) NOT NULL COMMENT '扩展字段6',
+  `extra7` varchar(200) NOT NULL COMMENT '扩展字段7',
+  `extra8` varchar(200) NOT NULL COMMENT '扩展字段8',
+  `addtime` int(11) NOT NULL COMMENT '加入时间',
+  PRIMARY KEY (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for users_point
+-- ----------------------------
+DROP TABLE IF EXISTS `users_point`;
+CREATE TABLE `users_point` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL COMMENT '积分说明',
+  `pointkey` varchar(100) NOT NULL COMMENT '积分key',
+  `points` int(11) NOT NULL DEFAULT '0' COMMENT '积分数',
+  `ac` tinyint(1) NOT NULL COMMENT '0加积分1减积分',
+  PRIMARY KEY (`id`),
+  KEY `pointkey` (`pointkey`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for users_point_log
+-- ----------------------------
+DROP TABLE IF EXISTS `users_point_log`;
+CREATE TABLE `users_point_log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) NOT NULL COMMENT '用户id',
+  `name` varchar(100) NOT NULL COMMENT '积分说明',
+  `points` int(11) NOT NULL DEFAULT '0' COMMENT '积分数',
+  `ac` tinyint(1) NOT NULL COMMENT '0加积分1减积分',
+  `addtime` int(11) NOT NULL COMMENT '积分变化的时间',
+  PRIMARY KEY (`id`),
+  KEY `uid` (`uid`)
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `album_cate`
@@ -82,155 +389,26 @@ INSERT INTO `album_cate` (`id`, `pid`, `name`, `dirname`, `status`, `sort`) VALU
 (15, 0, '儿童', 'child', 1, 0),
 (16, 0, '其他', 'other', 0, 0);
 
--- --------------------------------------------------------
-
---
--- 表的结构 `album_likes`
---
-
-CREATE TABLE `album_likes` (
-  `id` int(11) NOT NULL,
-  `uid` int(11) NOT NULL,
-  `photo_id` int(11) NOT NULL,
-  `addtime` int(11) NOT NULL
-) ;
-
--- --------------------------------------------------------
-
---
--- 表的结构 `album_photos`
---
-
-CREATE TABLE `album_photos` (
-  `id` bigint(20) NOT NULL,
-  `cate_id` int(11) NOT NULL DEFAULT '0',
-  `album_id` int(11) NOT NULL DEFAULT '0',
-  `uid` int(11) DEFAULT '0',
-  `post_ip` varchar(50) DEFAULT NULL COMMENT '上传图片时的ip地址',
-  `name` varchar(100) NOT NULL,
-  `path` varchar(255) NOT NULL,
-  `width` int(11) NOT NULL DEFAULT '0',
-  `height` int(11) NOT NULL DEFAULT '0',
-  `hits` bigint(20) NOT NULL DEFAULT '0',
-  `comments_num` int(11) NOT NULL DEFAULT '0',
-  `like_num` int(11) NOT NULL DEFAULT '0',
-  `create_time` int(11) NOT NULL DEFAULT '0',
-  `taken_time` int(11) NOT NULL DEFAULT '0',
-  `description` longtext,
-  `exif` longtext,
-  `tags` varchar(255) DEFAULT NULL,
-  `priv_type` tinyint(4) NOT NULL DEFAULT '0',
-  `deleted` tinyint(1) NOT NULL DEFAULT '0',
-  `recommended` tinyint(1) NOT NULL DEFAULT '0',
-  `recommend_time` int(11) NOT NULL DEFAULT '0'
-) ;
-
--- --------------------------------------------------------
-
---
--- 表的结构 `album_tags`
---
-
-CREATE TABLE `album_tags` (
-  `id` int(11) NOT NULL,
-  `name` varchar(50) NOT NULL,
-  `image` varchar(100) DEFAULT NULL,
-  `description` varchar(500) NOT NULL,
-  `album_num` int(11) NOT NULL,
-  `photo_num` int(11) NOT NULL,
-  `addtime` int(11) NOT NULL,
-  `recommended` tinyint(1) NOT NULL DEFAULT '0',
-  `sort` int(11) NOT NULL DEFAULT '0' COMMENT '排序'
-) ;
-
--- --------------------------------------------------------
-
---
--- 表的结构 `album_tag_rels`
---
-
-CREATE TABLE `album_tag_rels` (
-  `tag_id` int(11) NOT NULL,
-  `type` enum('album','photo') NOT NULL,
-  `rel_id` int(11) NOT NULL
-) ;
-
--- --------------------------------------------------------
-
---
--- 表的结构 `comments`
---
-
-CREATE TABLE `comments` (
-  `id` int(11) NOT NULL,
-  `mod` varchar(100) NOT NULL COMMENT '所属模块',
-  `rel_id` int(11) NOT NULL DEFAULT '0' COMMENT '所属id',
-  `parent_id` int(11) NOT NULL DEFAULT '0' COMMENT '上级id',
-  `uid` int(11) NOT NULL COMMENT '用户id(谁产生了这条数据)',
-  `author` varchar(50) NOT NULL COMMENT '发布人',
-  `email` varchar(200) NOT NULL COMMENT 'email',
-  `addtime` int(11) NOT NULL COMMENT '添加时间',
-  `ip` varchar(50) DEFAULT NULL COMMENT 'ip地址',
-  `content` text NOT NULL COMMENT '评论内容',
-  `support` int(11) NOT NULL DEFAULT '0' COMMENT '支持',
-  `object` int(11) NOT NULL DEFAULT '0' COMMENT '反对',
-  `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0: 待审核 1:审核通过 2:未通过审核'
-) ;
-
--- --------------------------------------------------------
-
---
--- 表的结构 `labels`
---
-
-CREATE TABLE `labels` (
-  `id` int(11) NOT NULL,
-  `name` varchar(100) NOT NULL COMMENT '标签名称',
-  `data` text NOT NULL COMMENT '标签定义',
-  `pure_txt` tinyint(1) NOT NULL DEFAULT '0'
-) ;
-
--- --------------------------------------------------------
-
---
--- 表的结构 `routes`
---
-
-CREATE TABLE `routes` (
-  `id` int(11) NOT NULL,
-  `route` varchar(100) NOT NULL COMMENT '路由',
-  `params` text NOT NULL COMMENT '映射参数',
-  `sort` int(11) NOT NULL DEFAULT '0' COMMENT '默认排序'
-) ;
 
 --
 -- 转存表中的数据 `routes`
 --
-
-INSERT INTO `routes` (`id`, `route`, `params`, `sort`) VALUES
-(1, 'cate/{dirname}', 'app=album&m=cate', 50),
+INSERT INTO `routes` VALUES (1, 'cate/{dirname}', 'app=album&m=cate', 50),
 (2, 'tag/{tag}', 'app=album&m=search', 50),
 (3, 'discover', 'app=album&m=index', 50),
-(4, 'search/{keyword}', 'app=album&m=search', 50),
-(5, 'work/{id}', 'app=album&m=photos', 50),
+(4, 'search/{keyword}', 'app=album&m=search', 50);
+(5, 'sets/{id}', 'app=album&m=sets_photos', 50);
 (6, 'u/{id}', 'app=space&m=index', 50),
-(7, '{id}/all', 'app=album&m=space', 50),
-(8, '{id}/friends', 'app=friend&m=friends', 50),
-(9, '{id}/followers', 'app=friend&m=followers', 50),
-(10, '{id}/like', 'app=album&m=like', 50),
-(11, '{id}/albums', 'app=album&m=album', 50);
+(7, 'u{id}/works', 'app=album&m=space', 50),
+(8, 'u{id}/friends', 'app=friend&m=friends', 50),
+(9, 'u{id}/followers', 'app=friend&m=followers', 50),
+(10, 'u{id}/like', 'app=album&m=space_like', 50),
+(12, 'u{id}/profile', 'app=album&m=space_profile', 50),
+(13, 'u{id}/sets', 'app=album&m=space_sets', 50),
+(14, 'work/{id}', 'app=album&m=album_detail', 50),
+(15, 'sets/{set_id}/{id}', 'app=album&m=sets_view', 50);
 
 -- --------------------------------------------------------
-
---
--- 表的结构 `settings`
---
-
-CREATE TABLE `settings` (
-  `name` varchar(100) NOT NULL COMMENT '参数名',
-  `value` text NOT NULL COMMENT '值',
-  `autoload` enum('yes','no') NOT NULL DEFAULT 'yes' COMMENT '是否自动加载'
-) ;
 
 --
 -- 转存表中的数据 `settings`
@@ -274,134 +452,14 @@ INSERT INTO `settings` (`name`, `value`, `autoload`) VALUES
 -- --------------------------------------------------------
 
 --
--- 表的结构 `sms_codes`
---
-
-CREATE TABLE `sms_codes` (
-  `mobile` char(11) NOT NULL,
-  `code` varchar(32) NOT NULL,
-  `lasttime` int(11) NOT NULL,
-  `send_count` int(11) NOT NULL
-) ;
-
--- --------------------------------------------------------
-
---
--- 表的结构 `sms_logs`
---
-
-CREATE TABLE `sms_logs` (
-  `id` int(11) NOT NULL,
-  `mobile` char(15) NOT NULL,
-  `content` varchar(255) NOT NULL,
-  `sendtime` int(11) NOT NULL,
-  `result` enum('success','failed') DEFAULT NULL,
-  `result_content` varchar(200) DEFAULT NULL
-) ;
-
--- --------------------------------------------------------
-
---
--- 表的结构 `upfiles`
---
-
-CREATE TABLE `upfiles` (
-  `id` int(11) NOT NULL,
-  `name` varchar(50) NOT NULL COMMENT '文件原名',
-  `path` varchar(100) NOT NULL COMMENT '路径',
-  `ext` varchar(10) NOT NULL COMMENT '文件后缀',
-  `size` int(11) NOT NULL COMMENT '大小，单位字节',
-  `isthumb` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否是缩略图？1，是',
-  `filetype` varchar(20) NOT NULL DEFAULT 'image',
-  `addtime` int(11) NOT NULL DEFAULT '0' COMMENT '添加时间'
-) ;
-
--- --------------------------------------------------------
-
---
--- 表的结构 `users`
---
-
-CREATE TABLE `users` (
-  `id` int(11) NOT NULL,
-  `username` varchar(100) NOT NULL COMMENT '登录名',
-  `userpass` varchar(100) NOT NULL COMMENT '密码',
-  `salt` varchar(10) NOT NULL COMMENT '加点儿盐',
-  `mobile` char(15) NOT NULL COMMENT '手机号',
-  `email` varchar(100) NOT NULL COMMENT 'Email',
-  `nickname` varchar(100) NOT NULL DEFAULT '' COMMENT '昵称',
-  `description` varchar(200) DEFAULT NULL COMMENT '描述/签名',
-  `friends` int(11) NOT NULL DEFAULT '0' COMMENT '好友数',
-  `followers` int(11) NOT NULL DEFAULT '0' COMMENT '粉丝数',
-  `gender` enum('f','m','n') NOT NULL DEFAULT 'n' COMMENT '性别',
-  `points` int(11) NOT NULL DEFAULT '0' COMMENT '积分数',
-  `regtime` int(11) NOT NULL COMMENT '注册时间',
-  `regip` varchar(50) NOT NULL COMMENT '注册ip',
-  `logintime` int(11) NOT NULL COMMENT '登录时间',
-  `loginip` varchar(50) NOT NULL COMMENT '最后登录ip',
-  `level` int(11) NOT NULL DEFAULT '0' COMMENT '用户级别，99为管理员',
-  `status` tinyint(3) NOT NULL DEFAULT '1' COMMENT '0,停用 1,启用 2,删除',
-  `email_actived` tinyint(1) NOT NULL DEFAULT '0',
-  `mobile_actived` tinyint(1) NOT NULL DEFAULT '0',
-  `facever` int(11) NOT NULL DEFAULT '0' COMMENT '头像版本号',
-  `bgver` int(11) NOT NULL DEFAULT '0'
-) ;
-
---
 -- 转存表中的数据 `users`
 --
 
 INSERT INTO `users` (`id`, `username`, `userpass`, `salt`, `mobile`, `email`, `nickname`, `description`, `friends`, `followers`, `gender`, `points`, `regtime`, `regip`, `logintime`, `loginip`, `level`, `status`, `email_actived`, `mobile_actived`, `facever`, `bgver`) VALUES
 (1, 'admin', '7aea7a735ba20676322e4985b1232504', 'fed42f', '', 'admin@admin.com', '管理员', '我是网站的管理员', 0, 0, 'm', 310, 1375625719, '127.0.0.1', 1523332289, '127.0.0.1', 99, 1, 0, 0, 0, 0);
 
--- --------------------------------------------------------
-
---
--- 表的结构 `users_codes`
---
-
-CREATE TABLE `users_codes` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `uid` int(11) DEFAULT '0',
-  `expire_time` int(10) DEFAULT NULL,
-  `code` varchar(32) DEFAULT NULL,
-  `code_type` varchar(16) DEFAULT NULL,
-  `add_time` int(10) DEFAULT NULL,
-  `add_ip` varchar(50) DEFAULT NULL,
-  `active_time` int(10) DEFAULT NULL,
-  `active_ip` varchar(50) DEFAULT NULL
-) ;
 
 -- --------------------------------------------------------
-
---
--- 表的结构 `users_follow`
---
-
-CREATE TABLE `users_follow` (
-  `uid` int(11) NOT NULL,
-  `follow_uid` int(11) NOT NULL COMMENT '关注者UID',
-  `follow_time` int(11) NOT NULL
-) ;
-
--- --------------------------------------------------------
-
---
--- 表的结构 `users_info`
---
-
-CREATE TABLE `users_info` (
-  `uid` int(11) NOT NULL,
-  `extra1` varchar(200) NOT NULL COMMENT '扩展字段1',
-  `extra2` varchar(200) NOT NULL COMMENT '扩展字段2',
-  `extra3` varchar(200) NOT NULL COMMENT '扩展字段3',
-  `extra4` varchar(200) NOT NULL COMMENT '扩展字段4',
-  `extra5` varchar(200) NOT NULL COMMENT '扩展字段5',
-  `extra6` varchar(200) NOT NULL COMMENT '扩展字段6',
-  `extra7` varchar(200) NOT NULL COMMENT '扩展字段7',
-  `extra8` varchar(200) NOT NULL COMMENT '扩展字段8',
-  `addtime` int(11) NOT NULL COMMENT '加入时间'
-) ;
 
 --
 -- 转存表中的数据 `users_info`
@@ -413,18 +471,6 @@ INSERT INTO `users_info` (`uid`, `extra1`, `extra2`, `extra3`, `extra4`, `extra5
 -- --------------------------------------------------------
 
 --
--- 表的结构 `users_point`
---
-
-CREATE TABLE `users_point` (
-  `id` int(11) NOT NULL,
-  `name` varchar(100) NOT NULL COMMENT '积分说明',
-  `pointkey` varchar(100) NOT NULL COMMENT '积分key',
-  `points` int(11) NOT NULL DEFAULT '0' COMMENT '积分数',
-  `ac` tinyint(1) NOT NULL COMMENT '0加积分1减积分'
-) ;
-
---
 -- 转存表中的数据 `users_point`
 --
 
@@ -433,247 +479,3 @@ INSERT INTO `users_point` (`id`, `name`, `pointkey`, `points`, `ac`) VALUES
 (2, '注册增加积分', 'user_register', 10, 0);
 
 -- --------------------------------------------------------
-
---
--- 表的结构 `users_point_log`
---
-
-CREATE TABLE `users_point_log` (
-  `id` int(11) NOT NULL,
-  `uid` int(11) NOT NULL COMMENT '用户id',
-  `name` varchar(100) NOT NULL COMMENT '积分说明',
-  `points` int(11) NOT NULL DEFAULT '0' COMMENT '积分数',
-  `ac` tinyint(1) NOT NULL COMMENT '0加积分1减积分',
-  `addtime` int(11) NOT NULL COMMENT '积分变化的时间'
-) ;
-
---
--- 转存表中的数据 `users_point_log`
---
-
-INSERT INTO `users_point_log` (`id`, `uid`, `name`, `points`, `ac`, `addtime`) VALUES
-(1, 1, '登录增加积分', 5, 0, 1523332289);
-
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `albums`
---
-ALTER TABLE `albums`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `cover_id` (`cover_id`),
-  ADD KEY `cate_id` (`cate_id`),
-  ADD KEY `uid` (`uid`),
-  ADD KEY `name` (`name`);
-
---
--- Indexes for table `album_cate`
---
-ALTER TABLE `album_cate`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `par_id` (`pid`);
-
---
--- Indexes for table `album_likes`
---
-ALTER TABLE `album_likes`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `uid` (`uid`);
-
---
--- Indexes for table `album_photos`
---
-ALTER TABLE `album_photos`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `cate_id` (`cate_id`),
-  ADD KEY `uid` (`uid`),
-  ADD KEY `album_id` (`album_id`),
-  ADD KEY `recommended` (`recommended`),
-  ADD KEY `recommend_time` (`recommend_time`),
-  ADD KEY `tags` (`tags`),
-  ADD KEY `name` (`name`);
-
---
--- Indexes for table `album_tags`
---
-ALTER TABLE `album_tags`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `name` (`name`);
-
---
--- Indexes for table `album_tag_rels`
---
-ALTER TABLE `album_tag_rels`
-  ADD PRIMARY KEY (`tag_id`,`type`,`rel_id`),
-  ADD KEY `rel_id` (`rel_id`,`type`);
-
---
--- Indexes for table `comments`
---
-ALTER TABLE `comments`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `parent_id` (`parent_id`),
-  ADD KEY `uid` (`uid`),
-  ADD KEY `mod` (`mod`,`rel_id`);
-
---
--- Indexes for table `labels`
---
-ALTER TABLE `labels`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `routes`
---
-ALTER TABLE `routes`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `settings`
---
-ALTER TABLE `settings`
-  ADD PRIMARY KEY (`name`);
-
---
--- Indexes for table `sms_codes`
---
-ALTER TABLE `sms_codes`
-  ADD PRIMARY KEY (`mobile`);
-
---
--- Indexes for table `sms_logs`
---
-ALTER TABLE `sms_logs`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `upfiles`
---
-ALTER TABLE `upfiles`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `path` (`path`),
-  ADD KEY `filetype` (`filetype`),
-  ADD KEY `isthumb` (`isthumb`),
-  ADD KEY `name` (`name`);
-
---
--- Indexes for table `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `username` (`username`);
-
---
--- Indexes for table `users_codes`
---
-ALTER TABLE `users_codes`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `active_code` (`code`),
-  ADD KEY `active_type_code` (`code_type`),
-  ADD KEY `uid` (`uid`);
-
---
--- Indexes for table `users_follow`
---
-ALTER TABLE `users_follow`
-  ADD PRIMARY KEY (`uid`,`follow_uid`);
-
---
--- Indexes for table `users_info`
---
-ALTER TABLE `users_info`
-  ADD PRIMARY KEY (`uid`);
-
---
--- Indexes for table `users_point`
---
-ALTER TABLE `users_point`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `pointkey` (`pointkey`);
-
---
--- Indexes for table `users_point_log`
---
-ALTER TABLE `users_point_log`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `uid` (`uid`);
-
---
--- 在导出的表使用AUTO_INCREMENT
---
-
---
--- 使用表AUTO_INCREMENT `albums`
---
-ALTER TABLE `albums`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
---
--- 使用表AUTO_INCREMENT `album_cate`
---
-ALTER TABLE `album_cate`
-  MODIFY `id` int(4) NOT NULL AUTO_INCREMENT;
---
--- 使用表AUTO_INCREMENT `album_likes`
---
-ALTER TABLE `album_likes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- 使用表AUTO_INCREMENT `album_photos`
---
-ALTER TABLE `album_photos`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
---
--- 使用表AUTO_INCREMENT `album_tags`
---
-ALTER TABLE `album_tags`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- 使用表AUTO_INCREMENT `comments`
---
-ALTER TABLE `comments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- 使用表AUTO_INCREMENT `labels`
---
-ALTER TABLE `labels`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- 使用表AUTO_INCREMENT `routes`
---
-ALTER TABLE `routes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- 使用表AUTO_INCREMENT `sms_logs`
---
-ALTER TABLE `sms_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- 使用表AUTO_INCREMENT `upfiles`
---
-ALTER TABLE `upfiles`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- 使用表AUTO_INCREMENT `users`
---
-ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- 使用表AUTO_INCREMENT `users_codes`
---
-ALTER TABLE `users_codes`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
---
--- 使用表AUTO_INCREMENT `users_point`
---
-ALTER TABLE `users_point`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- 使用表AUTO_INCREMENT `users_point_log`
---
-ALTER TABLE `users_point_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

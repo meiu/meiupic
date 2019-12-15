@@ -7,10 +7,10 @@ function initPostUpload(upload_url,w,h,q){
             resize : w&&h?{width : w, height : h, quality : q}:false
         },{
         PostInit:function(){
-            $('#muilti_uploader ul.photo-list li.photo-item').remove();
+            $('#muilti_uploader ul.photo-list li.photo-item:not(.old)').remove();
         },
         Error: function(up, err) {
-            art.dialog.tips('上传失败！'+err,1,true);
+            art.dialog.tips('上传失败,'+err.message,1,true);
         },
         FilesAdded: function(up,files){
             plupload.each(files, function(file) {
@@ -54,61 +54,6 @@ function initPostUpload(upload_url,w,h,q){
         $(this).removeClass('drophere');
     });
 }
-/*
-
-function uploadBanner(upload_url){
-    uploadWithQiniu({
-            browse_button: 'change-banner',
-            multi_selection: false,
-            resize : {width : 2000, height : 500, quality : 90}
-        },{
-        Error: function(up, err) {
-            $('#change-banner').html('编辑封面 &gt;');
-            art.dialog.tips('上传失败！'+err,1,true);
-        },
-        UploadProgress: function(uploader, file) {
-            $('#change-banner').html('上传：'+file.percent +'%');
-        },
-        UploadComplete: function(up, files) {
-            $('#change-banner').html('编辑封面 &gt;');
-            art.dialog.tips('上传成功！',1,true);
-            setTimeout(function(){
-                window.location.reload();
-            },1000);
-        },
-        uploadFinish: function(res,info,file_id){
-            //上传成功
-        }
-    });
-
-}
-
-function uploadAvatar(upload_url){
-    uploadWithQiniu({
-            browse_button: 'avatarPicker',
-            multi_selection: false,
-            resize : {width : 400, height : 400, quality : 90}
-        },{
-        Error: function(up, err) {
-            $('#avatarPicker label').html('更换头像');
-            art.dialog.tips('上传失败！'+err,1,true);
-        },
-        UploadProgress: function(uploader, file) {
-            $('#avatarPicker label').html('上传：'+file.percent +'%');
-        },
-        UploadComplete: function(up, files) {
-            $('#avatarPicker label').html('更换头像');
-            art.dialog.tips('上传成功！',1,true);
-            setTimeout(function(){
-                window.location.reload();
-            },1000);
-        },
-        uploadFinish: function(res,info,file_id){
-            
-        }
-    });
-}
-*/
 
 function uploadBanner(upload_url){
     var banneruploader = new plupload.Uploader({
@@ -117,11 +62,11 @@ function uploadBanner(upload_url){
         url : upload_url,
         flash_swf_url : PUBLIC_URL+'base/plupload/Moxie.swf',
         silverlight_xap_url : PUBLIC_URL+'base/plupload/Moxie.xap',
-        resize : { width : 2000, height : 500, quality : 90 },
+        resize : { width : 2000, height : 2000, quality : 90 },
         filters : {
             max_file_size : '5mb',
             mime_types: [
-                {title : "Image files", extensions : "jpg,gif,png"}
+                {title : "Image files", extensions : "jpg,jpeg,gif,png"}
             ]
         },
 
@@ -134,7 +79,7 @@ function uploadBanner(upload_url){
             },
             Error: function(up, err) {
                 $('#change-banner').html('编辑封面 &gt;');
-                art.dialog.tips('上传失败！',1,true);
+                art.dialog.tips('上传失败,'+err.message,1,true);
             },
             UploadComplete: function(up, files) {
                 $('#change-banner').html('编辑封面 &gt;');
@@ -158,7 +103,7 @@ function uploadAvatar(upload_url){
         filters : {
             max_file_size : '2mb',
             mime_types: [
-                {title : "Image files", extensions : "jpg,gif,png"}
+                {title : "Image files", extensions : "jpg,jpeg,gif,png"}
             ]
         },
 
@@ -171,7 +116,7 @@ function uploadAvatar(upload_url){
             },
             Error: function(up, err) {
                 $('#avatarPicker label').html('更换头像');
-                art.dialog.tips('上传失败！',1,true);
+                art.dialog.tips('上传失败,'+err.message,1,true);
             },
             UploadComplete: function(up, files) {
                 $('#avatarPicker label').html('更换头像');
@@ -259,7 +204,6 @@ function uploadWithQiniu(upconfig,callbacks){
           
         },
         FileUploaded: function(up, file, info) {
-          console.log(info);
           var id = file.id;
           if (resume) {
             mkFileRequest(file)
@@ -268,14 +212,12 @@ function uploadWithQiniu(upconfig,callbacks){
           }
         },
         UploadComplete: function(up, files) {
-          console.log("[完成]");
-
           if(callbacks && callbacks.UploadComplete){
             callbacks.UploadComplete(up,files);
           }
         },
         Error: function(up, err) {
-          console.log(err)
+          //console.log(err)
           if(callbacks && callbacks.Error){
             callbacks.Error(up,err);
           }

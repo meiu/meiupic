@@ -189,7 +189,12 @@ Class UserClass{
             }else{
                 $pre = $user['id'];
             }
-            return D('avatar/'.$pre.'/'.$user['id'].'/'.$size.'.jpg?'.$user['facever']);
+            $path = 'avatar/'.$pre.'/'.$user['id'].'_'.$user['facever'].'.jpg';
+            if($size=='small'){
+                return thumb($path,60,60);
+            }else{
+                return D($path);
+            }
         }else{
             return S('user','images/avatar_'.$size.'.png');
         }
@@ -208,7 +213,12 @@ Class UserClass{
             }else{
                 $pre = $user['id'];
             }
-            return D('banner/'.$pre.'/'.$user['id'].($size=='small'?'_small':'').'.jpg?'.$user['bgver']);
+            $path = 'banner/'.$pre.'/'.$user['id'].'_'.$user['bgver'].'.jpg';
+            if($size=='small'){
+                return thumb($path,282,131);
+            }else{
+                return D($path);
+            }
         }else{
             return S('user','images/banner_bg.jpg');
         }

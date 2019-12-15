@@ -9,6 +9,9 @@
         <li <?php if($_G['uri']['m']=='index' && getGet('t')=='fresh'): ?>class="active"<?php endif; ?> data-index="1">
             <a target="_self" href="<?php echo U('album','index','t=fresh')?>">新作</a>
         </li>
+        <li <?php if($_G['uri']['m']=='sets'): ?>class="active"<?php endif; ?> data-index="1">
+            <a target="_self" href="<?php echo U('album','sets')?>">图集</a>
+        </li>
         <li <?php if($_G['uri']['m']=='tags'): ?>class="active"<?php endif; ?> data-index="1">
             <a target="_self" href="<?php echo U('album','tags')?>">热门标签</a>
         </li>

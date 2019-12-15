@@ -136,8 +136,6 @@ Class DBMysql extends Db{
         if (is_bool($value)) { return $value ? 1:0; }
         if (is_null($value)) { return 'NULL'; }
         
-        $value = stripslashes($value);
-
         $value =  mysql_real_escape_string($value,$this->conn);
         return $addquote?"'".$value."'":$value;
     }

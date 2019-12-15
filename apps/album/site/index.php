@@ -5,7 +5,7 @@ $aid = intval(getGet('aid'));
 $page = getGet('page',1);
 $t = getGet('t');
 
-$m_photo = M('album_photos');
+$m_album = M('albums');
 
 $where = 'deleted=0 and priv_type=0';
 $urlparam = array('page'=>'%page%');
@@ -21,7 +21,7 @@ if($t=='editor'){
 }else{
     $order = 'hits desc';
 }
-$totalCount = $m_photo->count($where);
+$totalCount = $m_album->count($where);
 $pageurl = U('album','index',$urlparam);
 
 $pager = new Pager($page,C('pageset.default',15),$totalCount,$pageurl);
@@ -29,7 +29,7 @@ $pager->config(C('page'));
 $limit = $pager->getLimit();
 $view->assign('pagestr',$pager->html());
 
-$rows = $m_photo->findAll(array(
+$rows = $m_album->findAll(array(
     'where' => $where,
     'start' => $limit['start'],
     'limit' => $limit['limit'],
@@ -39,7 +39,7 @@ $rows = $m_photo->findAll(array(
 if($rows){
     $userInfos = M('users')->select('id in ('.implode(',',array_unique(array_column($rows, 'uid'))).')')->getAsIndex('id');
     if($_G['user']['id']){
-        $likeIndexs = M('album_likes')->select('uid='.$_G['user']['id'].' and photo_id in ('.implode(',',array_column($rows, 'id')).')')->getAsIndex('photo_id');
+        $likeIndexs = M('album_likes')->select('uid='.$_G['user']['id'].' and album_id in ('.implode(',',array_column($rows, 'id')).')')->getAsIndex('album_id');
     }
     foreach ($rows as $key => $value) {
         $rows[$key]['user'] = $userInfos[$value['uid']];

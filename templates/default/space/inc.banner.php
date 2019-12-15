@@ -1,6 +1,6 @@
 <div class="user-banner" style="background-image: url(<?php echo app('user')->getBannerBg($uinfo);?>)">
     <div class="banner-info">
-        <a href="javascript:void(0);" class="banner-user-avatar">
+        <a href="<?php echo U('album','space','id='.$uinfo['id'])?>" class="banner-user-avatar">
             <img src="<?php echo app('user')->getAvatar($uinfo,'large');?>">
         </a>
         <div class="banner-user-info">

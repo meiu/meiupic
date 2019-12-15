@@ -4,6 +4,8 @@ var theater = {
         url: location.href,
         type: 'list'
     },
+    inited : false,
+    theater_type: 'album',
     containerId: 'list-body',
     currentUrl : '',
     checkState:function(){
@@ -24,7 +26,10 @@ var theater = {
             window.history.replaceState(currentState, currentState.title, currentState.url);
         }
     },
-    init:function(container){
+    init:function(container,type){
+        if(type){
+            this.theater_type = type;
+        }
         this.containerId = container;
         var that=this;
         if(window.history.pushState){
@@ -36,7 +41,7 @@ var theater = {
         
         $(container).delegate('a.photo_link','click',function(){
             var url = $(this).attr('href');
-            var title = $(this).attr('title')+' - '+site_title;
+            var title = $(this).find('img').attr('alt')+' - '+site_title;
 
             that.viewphoto(url,title);
             var state = {
@@ -49,21 +54,8 @@ var theater = {
             return false;
         });
 
-        $(document).bind('keydown',
-             function(e){
-                 if (e.altKey) return true;
-                 var target = e.target;
-                 if (target && target.type) return true;
-                 switch(e.keyCode) {
-                     case 63235: case 39: 
-                      that.goNext();
-                      break;
-                     case 63234: case 37:
-                      that.goPrev();
-                      break;
-                 }
-             }
-        );
+        this.inited = true;
+        bind_keys();
     },
     viewphoto: function(url,title){
         var that=this;
@@ -75,7 +67,7 @@ var theater = {
                 $('body').append('<div class="viewphoto"></div>');
             }
             $('body .viewphoto').show().html(data);
-            if(commentInit)
+            if(that.theater_type=='album' && commentInit)
                 commentInit();
 
             $('body .viewphoto').find('div.photo-container a.close').click(function(){
@@ -88,37 +80,28 @@ var theater = {
                 }
                 return false;
             });
-            $('body .viewphoto').find('div.photo-container a.btn-prev').click(function(){
-                that.goPrev();
-                return false;
-            });
-            $('body .viewphoto').find('div.photo-container a.btn-next').click(function(){
-                that.goNext();
-                return false;
-            });
+
             photo_detail_click();
         },'html');
     },
-    goPrev: function(){
-        var pos=$(this.containerId).find('a.photo_link[href="'+this.currentUrl+'"]').parent().index()
-        console.log('pos:'+pos)
-        if(pos==0){
-            return false;
-        }
-        pos--;
-        $(this.containerId).find('a.photo_link').eq(pos).click();
-    },
-    goNext: function(){
+    goNext: function(callback){
         var that = this;
         var pos=$(this.containerId).find('a.photo_link[href="'+this.currentUrl+'"]').parent().index()
         var length = $(this.containerId).find('a.photo_link').length;
         
-        console.log('length:'+length+',pos:'+pos)
         if(pos>=(length-1)){//先加载更多数据
             ajax_load_data(function(){
                 if(pos < $(this.containerId).find('a.photo_link').length-1){
                     pos++;
                     $(that.containerId).find('a.photo_link').eq(pos).click();
+                }else{
+                    if(typeof callback == 'function'){
+                        callback();
+                    }
+                }
+            },function(){
+                if(typeof callback == 'function'){
+                    callback();
                 }
             });
         }else{

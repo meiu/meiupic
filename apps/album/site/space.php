@@ -4,7 +4,7 @@ defined('IN_MWEB') or die('access denied');
 $uid = intval(getGet('id'));
 $aid = intval(getGet('aid'));
 $page = getGet('page',1);
-$m_photo = M('album_photos');
+$m_album = M('albums');
 
 $uinfo = M('users')->load($uid);
 $view->assign('uinfo',$uinfo);
@@ -23,11 +23,12 @@ if($aid){
     $view->assign('albumInfo',$albumInfo);
     $urlparam['aid'] = $aid;
 }
+
 if($G_['user']['id'] != $uid){//访客，那么不取出私人照片
     $where .= ' and priv_type=0';
 }
 
-$totalCount = $m_photo->count($where);
+$totalCount = $m_album->count($where);
 $pageurl = U('album','space',$urlparam);
 
 $pager = new Pager($page,C('pageset.default',15),$totalCount,$pageurl);
@@ -35,7 +36,7 @@ $pager->config(C('page'));
 $limit = $pager->getLimit();
 $view->assign('pagestr',$pager->html());
 
-$rows = $m_photo->findAll(array(
+$rows = $m_album->findAll(array(
     'where' => $where,
     'start' => $limit['start'],
     'limit' => $limit['limit'],
@@ -48,7 +49,7 @@ if(isAjax()){
     echo json_encode(array('status'=>'ok','page'=>$page,'html'=>$view->fetch('album/space_photo_list.php'),'pagehtml'=>$pager->html()));
     exit;
 }else{
-    $site_title = (empty($albumInfo)?'全部图片':$albumInfo['name']).' - 用户中心 - '.getSetting('site_title');
+    $site_title = (empty($albumInfo)?'全部作品':$albumInfo['name']).' - 用户中心 - '.getSetting('site_title');
     $view->assign('site_title',$site_title);
     $view->assign('totalCount',$totalCount);
     $view->display('album/space.php');

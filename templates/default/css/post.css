@@ -45,6 +45,9 @@ body, html {
     width: 78%;
     width: calc(100% - 361px);
 }
+.upload_content.fullsize{
+    width: 100% !important;
+}
 #muilti_uploader{
     padding: 22px 30px 80px;
     border:2px solid #eef0f3;

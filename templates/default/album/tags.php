@@ -3,10 +3,13 @@
     <?php $this->display('album/index_menu.php'); ?>
     <div class="list-body" style="max-width: 1188px;">
          <div class="page-content">
+            <?php if($rows):?>
             <ul class="listCont tag-list">
                 <?php $this->display('album/tag_list.php'); ?>
             </ul>
-            
+            <?php else: ?>
+            <div class="no-data">暂无内容</div>
+            <?php endif; ?>
             <div class="pageset" style="display:none"><?php echo $pagestr; ?></div> 
         </div>
     </div>

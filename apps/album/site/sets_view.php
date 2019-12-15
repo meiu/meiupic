@@ -1,8 +1,7 @@
 <?php 
 defined('IN_MWEB') or die('access denied');
 
-//checkLogin();
-
+$set_id = intval(getGet('set_id'));
 $id = intval(getGet('id'));
 $m_photo = M('album_photos');
 $photoInfo = $m_photo->load($id);
@@ -16,13 +15,6 @@ if($photoInfo['priv_type']==1 && $photoInfo['uid']!=$_G['user']['id']){
 
 $authorInfo = M('users')->load($photoInfo['uid']);
 
-//增加计数
-$m_photo->update($id , array('hits'=>array('exp','hits+1')) );
-
-if($photoInfo['exif']){
-    $photoInfo['exif'] = (new exif)->parse_exif(unserialize($photoInfo['exif']));
-}
-
 $is_followed = true;
 //判断用户是否关注了
 if($_G['user']['id'] && $photoInfo['uid'] != $_G['user']['id']){
@@ -35,29 +27,20 @@ if($_G['user']['id'] && M('album_likes')->findRow('uid='.$_G['user']['id'].' and
     $photoInfo['liked'] = true;
 }
 
-//查看上一张和下一张(当前用户或其他用户开放的图片)
-if($photoInfo['uid'] == $_G['user']['id']){
-    $where = 'uid = '.$_G['user']['id'];
-}else{
-    $where = 'priv_type = 0';
-}
-$prevInfo = $m_photo->findRow(array(
-    'where' => $where.' and id>'.$id,
-    'order' => 'id asc',
-    'limit' => 1
+//查找当前的图集的所有照片
+$photos = $m_photo->findAll(array(
+    'field'=>'p.id,p.path,p.width,p.height',
+    'table' => '#album_set_photos as sp inner join #album_photos as p on sp.photo_id = p.id',
+    'where' => 'p.deleted=0 AND set_id='.$set_id,
+    'order' => 'sp.add_time desc'
 ));
-$nextInfo = $m_photo->findRow(array(
-    'where' => $where.' and id<'.$id,
-    'order' => 'id desc',
-    'limit' => 1
-));
-$view->assign('prevInfo',$prevInfo);
-$view->assign('nextInfo',$nextInfo);
 
 $view->assign('is_followed',$is_followed);
+$view->assign('set_id',$set_id);
 $view->assign('photoInfo',$photoInfo);
+$view->assign('photos',$photos);
 $view->assign('authorInfo',$authorInfo);
 $view->assign('cateIndex',app('album')->getCateIndex());
 $site_title = $photoInfo['name'].' - '.getSetting('site_title');
 $view->assign('site_title',$site_title);
-$view->display('album/photo_view.php');
+$view->display('album/sets_view.php');

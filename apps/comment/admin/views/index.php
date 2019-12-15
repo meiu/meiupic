@@ -55,7 +55,7 @@ function multi_audit(status){
     <th width="20"><input type="checkbox" onclick="$('.id_sel').attr('checked',this.checked);" /></th>
     <th width="60">编号</th>
     <th width="80">发布人</th>
-    <th width="130">时间</th>
+    <th width="140">时间</th>
     <th width="120">所属模块</th>
     <th width="80">所属ID</th>
     <th width="100">审核状态</th>

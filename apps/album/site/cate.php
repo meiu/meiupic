@@ -59,7 +59,7 @@ if($rows){
 $view->assign('rows',$rows);
 
 if(isAjax()){
-    echo json_encode(array('status'=>'ok','page'=>$page,'html'=>$view->fetch('album/album_normal_list.php'),'pagehtml'=>$pager->html()));
+    echo json_encode(array('status'=>'ok','page'=>$page,'html'=>$view->fetch('album/normal_list.php'),'pagehtml'=>$pager->html()));
     exit;
 }else{
     $site_title = $cateinfo['name'].' - '.getSetting('site_title');

@@ -172,14 +172,14 @@ class UserIndex extends Adminbase{
 
             $data['salt'] = substr(uniqid(rand()), -6);
             $data['userpass'] = md5(md5($userpass).$data['salt']);
-            $data['regtime'] = time();
+            $data['regtime'] = CURRENT_TIME;
             $data['regip'] = getClientIp();
 
             if($m_user->insert($data)){
                 $uid = $m_user->insertId();
                 //额外字段信息
                 $fields = app('base')->getSetting('user_fields',true);
-                $infodata = array( 'uid' => $uid,'addtime'=>time());
+                $infodata = array( 'uid' => $uid,'addtime'=>CURRENT_TIME);
                 foreach($fields as $k=>$v){
                     $infodata[$k] = trim(getPost($k));
                 }

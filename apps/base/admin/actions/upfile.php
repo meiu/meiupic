@@ -199,7 +199,7 @@ class BaseUpfile extends Adminbase{
                         $tmpfilePath = $targetDir . DS . $file;
 
                         // 删除5个小时之前的临时文件
-                        if (filemtime($tmpfilePath) < time() - 18000) {
+                        if (filemtime($tmpfilePath) < CURRENT_TIME - 18000) {
                             @unlink($tmpfilePath);
                         }
                     }
@@ -237,7 +237,7 @@ class BaseUpfile extends Adminbase{
                         'path' => $path,
                         'size' => $filesize,
                         'isthumb' => 0,
-                        'addtime' => time()
+                        'addtime' => CURRENT_TIME
                     );
                     $m_upfile->insert($insert_data);
                     $insert_data['id'] = $m_upfile->insertId();

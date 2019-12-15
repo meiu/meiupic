@@ -7,7 +7,7 @@ $(function(){
 });
 
 var isLoading = false;
-function ajax_load_data(callback) {
+function ajax_load_data(callback,errorback) {
     if (!isLoading) {
         var next_p = $('.pageset').find('.next-page');
         if (next_p.length > 0) {
@@ -23,6 +23,10 @@ function ajax_load_data(callback) {
                 error: function(){
                     $('.loadingbar').hide();
                     isLoading = false;
+
+                    if(typeof(errorback) == 'function'){
+                        errorback('error');
+                    }
                 },
                 success: function (data) {
                     try{
@@ -43,13 +47,19 @@ function ajax_load_data(callback) {
                             $('.pageset').html(data.pagehtml);
                         }
                     }catch (ex){
-
+                        if(typeof(errorback) == 'function'){
+                            errorback('error');
+                        }
                     }
                 }
             });
         }else{
             $('.loadingbar label').html('').addClass('nomore');
             $('.loadingbar').show();
+
+            if(typeof(errorback) == 'function'){
+                errorback('nomore');
+            }
         }
     }
 }

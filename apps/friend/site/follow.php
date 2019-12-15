@@ -15,7 +15,7 @@ if($act == 'cancel'){
     if(!$followrow){
         alert('还未关注过，无法取关注！');
     }
-    if(time()-$followrow['follow_time']<60){
+    if(CURRENT_TIME-$followrow['follow_time']<60){
         alert('操作过于频繁！');
     }
     M('users_follow')->deleteW('follow_uid='.$_G['user']['id'].' and uid='.$id);

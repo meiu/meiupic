@@ -12,9 +12,13 @@
 </nav>
     <div class="list-body">
         <div class="page-content" id="userlist">
+            <?php if($rows):?>
             <div class="listCont">
                 <?php $this->display('user/user_list.php'); ?>
             </div>
+            <?php else: ?>
+            <div class="no-data">暂无内容</div>
+            <?php endif; ?>
             <div class="pageset" style="display:none"><?php echo $pagestr; ?></div> 
         </div>
     </div>

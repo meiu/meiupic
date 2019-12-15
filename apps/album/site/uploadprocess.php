@@ -3,15 +3,21 @@ defined('IN_MWEB') or die('access denied');
 
 checkLogin();
 $type = getRequest('type');
+$album_id = intval(getGet('album_id'));
+if($album_id){
+    $albumInfo = M('albums')->load($album_id);
+}else{
+    $albumInfo = false;
+}
 if($type == 'uploaded'){
     //插入image
     //保存图片并返回图片
     $data = array();
     $data['uid'] = $_G['user']['id'];
-    $data['cate_id'] =  0;
-    $data['album_id'] = 0;
-    $data['create_time'] = time();
-    $data['priv_type'] = 1;
+    $data['cate_id'] = $albumInfo?$albumInfo['cate_id']:1;
+    $data['album_id'] = $albumInfo?$albumInfo['id']:1;
+    $data['create_time'] = CURRENT_TIME;
+    $data['priv_type'] = $albumInfo?$albumInfo['priv_type']:1;
     $data['path'] = getRequest('key');
     $data['name'] = getRequest('name')?safestr(getRequest('name')):$data['create_time'];//默认名称直接改为时间戳
     $data['tags'] = '';
@@ -25,12 +31,14 @@ if($type == 'uploaded'){
     $m_photos = M('album_photos');
     $m_photos->insert($data);
     $id = $m_photos->insertId();
-
+    if($albumInfo){
+        M('albums')->update($albumInfo['id'],array('photos_num'=>array('exp','photos_num+1')));
+    }
     echo json_encode(array(
         'ret' => true,
         'info' => array(
             'id' => $id,
-            'url' => D($data['path'])
+            'url' => thumb($data['path'],256,256,2)
         )
     ));
     exit;
@@ -43,7 +51,14 @@ if($type == 'uploaded'){
     foreach ($exif as $k => $value) {
         $data[$k]= $value['val'];
     }
-    $m_photos->updateW('path='.$m_photos->escape($key),array('exif'=>serialize($data)));
+    $updata = array(
+        'exif' => serialize($data)
+    );
+    if(isset($data['DateTimeOriginal'])){
+        $updata['taken_time'] = strtotime($data['DateTimeOriginal']);
+    }
+    
+    $m_photos->updateW('path='.$m_photos->escape($key),$updata);
     exit;
 }
 
@@ -173,7 +188,7 @@ if($chunk+1 == $chunks){
             while (($file = readdir($dir)) !== false) {
                 $tmpfilePath = $targetDir . DS . $file;
                 // 删除5个小时之前的临时文件
-                if (filemtime($tmpfilePath) < time() - 18000) {
+                if (filemtime($tmpfilePath) < CURRENT_TIME - 18000) {
                     @unlink($tmpfilePath);
                 }
             }
@@ -207,10 +222,10 @@ if($chunk+1 == $chunks){
     //保存图片并返回图片
     $data = array();
     $data['uid'] = $_G['user']['id'];
-    $data['cate_id'] =  0;
-    $data['album_id'] = 0;
-    $data['create_time'] = time();
-    $data['priv_type'] = 1;
+    $data['cate_id'] =  $albumInfo?$albumInfo['cate_id']:1;
+    $data['album_id'] = $albumInfo?$albumInfo['id']:1;
+    $data['create_time'] = CURRENT_TIME;
+    $data['priv_type'] = $albumInfo?$albumInfo['priv_type']:1;
     $data['path'] = $path;
     if (isset($_FILES['file']) && isset($_FILES['file']['tmp_name'])){
         $data['name'] = htmlspecialchars($_FILES['file']['name']);
@@ -299,7 +314,9 @@ if($chunk+1 == $chunks){
     
     $m_photos->insert($data);
     $id = $m_photos->insertId();
-
-    $return = array('jsonrpc'=>'2.0','result'=>['path'=>D($path),'width'=>$data['width'],'height'=>$data['height']],'id'=>$id);
+    if($albumInfo){
+        M('albums')->update($albumInfo['id'],array('photos_num'=>array('exp','photos_num+1')));
+    }
+    $return = array('jsonrpc'=>'2.0','result'=>['path'=>thumb($path,256,256,2),'width'=>$data['width'],'height'=>$data['height']],'id'=>$id);
 }
 echo json_encode($return);

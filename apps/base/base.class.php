@@ -160,7 +160,7 @@ Class BaseClass{
         $m_setting = M('settings');
 
         $insert_data['name'] = $name;
-        $insert_data['value'] = is_array($value)?sc_encode($value,true):$value;
+        $insert_data['value'] = is_array($value)?sc_encode($value):$value;
         $insert_data['autoload'] = ($autoload=='yes'?'yes':'no');
         
         $ret = $m_setting->insert($insert_data,true);

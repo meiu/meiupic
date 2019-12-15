@@ -72,7 +72,7 @@ class AlbumAlbum extends Adminbase{
             $data['tags'] = trim(getPost('tags'));
             $data['description'] = trim(getPost('description'));
             $data['cate_id'] = intval(getPost('cate_id'));
-            $data['up_time'] = time();
+            $data['up_time'] = CURRENT_TIME;
             $data['priv_type'] = intval(getPost('priv_type'));
             $data['enable_comment'] = intval(getPost('enable_comment'));
             $data['recommended'] = intval(getPost('recommended'));
@@ -116,7 +116,7 @@ class AlbumAlbum extends Adminbase{
             $data['tags'] = trim(getPost('tags'));
             $data['description'] = trim(getPost('description'));
             $data['cate_id'] = intval(getPost('cate_id'));
-            $data['create_time'] = $data['up_time'] = time();
+            $data['create_time'] = $data['up_time'] = CURRENT_TIME;
             $data['priv_type'] = intval(getPost('priv_type'));
             $data['enable_comment'] = intval(getPost('enable_comment'));
             $data['recommended'] = intval(getPost('recommended'));

@@ -2,6 +2,8 @@ function ajaxAlert(data,time,lock,callback){
     time = time||1;
     lock = lock||false;
 
+    //先删除tips
+    art.dialog({id:'Tips'}).close();
     if(!data.ret && data.msg){
         window.top.art.dialog.alert(data.msg);
         return;
@@ -41,14 +43,19 @@ function opt_one(o,msg,param,callback){
     }else{
         param = {isajax:1};
     }
+    var url = $(o).attr('data-url');
+    if(!url){
+        url = $(o).attr('href');
+    }
+
     if(msg){
         art.dialog.confirm(msg, function () {
-            $.post($(o).attr('href'),param,function(data){
+            $.post(url,param,function(data){
                 ajaxAlert(data,1,true,callback);
             },'json');
         });
     }else{
-        $.post($(o).attr('href'),param,function(data){
+        $.post(url,param,function(data){
                 ajaxAlert(data,1,true,callback);
         },'json');
     }

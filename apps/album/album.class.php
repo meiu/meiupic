@@ -173,6 +173,10 @@ class AlbumClass{
         $storelib = storage::instance();
         $storelib->delete($photoInfo['path']);
         M('album_photos')->delete(intval($id));
+
+        //删除关联set的照片id
+        M('album_set_photos')->deleteW('photo_id='.intval($id));
+
         return true;
     }
 
@@ -184,6 +188,16 @@ class AlbumClass{
         foreach($photos as $photo){
             $storelib->delete($photo['path']);
         }
+        //删除关联tag
+        M('album_tags')->deleteW('rel_id='.intval($id)." AND `type`='album'");
+        
+        return true;
+    }
+
+    public function delSet($id){
+        M('album_set_photos')->deleteW('set_id='.intval($id));
+        M('album_sets')->delete(intval($id));
+
         return true;
     }
 
@@ -242,7 +256,7 @@ class AlbumClass{
                 }
                 $M_tag->update($tag_id,$upArr);
             }else{
-                $insertArr = array('name'=>$tag,'image'=>$image,'addtime'=>time());
+                $insertArr = array('name'=>$tag,'image'=>$image,'addtime'=>CURRENT_TIME);
                 if($type == 'album'){
                     $insertArr['album_num'] = 1;
                 }else{

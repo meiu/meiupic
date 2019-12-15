@@ -2,24 +2,27 @@
 <div class="container">
     <div class="detail-header">
         <div class="detail-header-img">
-            <div class="detail-header-imgbg" style="background-image: url(<?php echo thumb($albumInfo['cover_path'],1600,1600,2);?>)"></div>
+            <div class="detail-header-imgbg" style="<?php if($setsInfo['cover_path']):?>background-image: url(<?php echo thumb($setsInfo['cover_path'],1600,1600,2);?>)<?php else:?>background:#eee;<?php endif;?>"></div>
             <span class="detail-header-imgpop"></span>
         </div>
         <dl class="text-item">
-            <dt><span class="title"><?php echo $albumInfo['name'];?></span></dt>
-            <dd><a href="<?php echo U('user','space','id='.$authorInfo['id']) ?>"><img src="<?php echo app('user')->getAvatar($authorInfo,'small'); ?>"> <span><?php echo $authorInfo['nickname']; ?></span></a></dd>
+            <dt><span class="title"><?php echo $setsInfo['name'];?></span></dt>
+            <dd><a href="<?php echo U('space','index','id='.$authorInfo['id']) ?>"><img src="<?php echo app('user')->getAvatar($authorInfo,'small'); ?>"> <span><?php echo $authorInfo['nickname']; ?></span></a></dd>
+            <dt class="detail-description">
+            <?php echo $setsInfo['description'];?>
+            </dt>
         </dl>
+        
         <div class="total-info">
             <div class="total-num">共 <span class="num"><?php echo $totalCount;?></span> 张图片</div>
         </div>
         <div class="back-link">
-            <a href="<?php echo app('album')->makeCateLink($cateInfo);?>">&lt; 返回</a>
         </div>
     </div>
     <div class="list-body">
         <div class="content-gallery">
             <div id="grid-gallery" class="listCont" style="opacity:0;">
-                <?php $this->display('album/normal_list.php'); ?>
+                <?php $this->display('album/sets_photo_list.php'); ?>
             </div>
             <div class="pageset" style="display:none"><?php echo $pagestr; ?></div> 
         </div>
@@ -30,7 +33,7 @@
 <script type="text/javascript" src="<?php echo ST('js/theater.js'); ?>"></script>
 <script>
 $('.list-body').css('max-width',$(window).width()-120);
-$("#grid-gallery").justifiedGallery({'rowHeight':300,'margins':10}).on('jg.complete', function (e) {
+$("#grid-gallery").justifiedGallery({'rowHeight':260,'margins':10,'captions':false}).on('jg.complete', function (e) {
     $('#grid-gallery').css('opacity',1);
 });
 $('#grid-gallery').delegate('a.liked,a.like','click',function(){
@@ -52,7 +55,7 @@ $('#grid-gallery').delegate('a.liked,a.like','click',function(){
         }
     });
 });
-theater.init('div.container');
+theater.init('div.container','photo');
 </script>
 <script type="text/javascript" src="<?php echo S('album','js/loadmore.js'); ?>"></script>
 <?php $this->display('common/foot.php'); ?>

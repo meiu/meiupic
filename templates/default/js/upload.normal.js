@@ -19,7 +19,7 @@ function initPostUpload(upload_url,w,h,q){
         resize : w&&h?{width : w, height : h, quality : q}:false,
         init: {
             PostInit: function() {
-                $('#muilti_uploader ul.photo-list li.photo-item').remove();
+                $('#muilti_uploader ul.photo-list li.photo-item:not(.old)').remove();
             },
             FilesAdded: function(up, files) {
                 plupload.each(files, function(file) {
@@ -49,8 +49,7 @@ function initPostUpload(upload_url,w,h,q){
                 }
             },
             Error: function(up, err) {
-                console.log(err)
-                art.dialog.tips('上传失败！'+err,1,true);
+                art.dialog.tips('上传失败,'+err.message,1,true);
             }
         }
     });
@@ -75,7 +74,7 @@ function uploadBanner(upload_url){
         url : upload_url,
         flash_swf_url : PUBLIC_URL+'base/plupload/Moxie.swf',
         silverlight_xap_url : PUBLIC_URL+'base/plupload/Moxie.xap',
-        resize : { width : 2000, height : 500, quality : 90 },
+        resize : { width : 2000, height : 2000, quality : 90 },
         filters : {
             max_file_size : '5mb',
             mime_types: [
@@ -92,7 +91,7 @@ function uploadBanner(upload_url){
             },
             Error: function(up, err) {
                 $('#change-banner').html('编辑封面 &gt;');
-                art.dialog.tips('上传失败！',1,true);
+                art.dialog.tips('上传失败,'+err.message,1,true);
             },
             UploadComplete: function(up, files) {
                 $('#change-banner').html('编辑封面 &gt;');
@@ -129,7 +128,7 @@ function uploadAvatar(upload_url){
             },
             Error: function(up, err) {
                 $('#avatarPicker label').html('更换头像');
-                art.dialog.tips('上传失败！',1,true);
+                art.dialog.tips('上传失败,'+err.message,1,true);
             },
             UploadComplete: function(up, files) {
                 $('#avatarPicker label').html('更换头像');

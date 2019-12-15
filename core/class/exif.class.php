@@ -260,10 +260,19 @@ class exif{
 
     function getGps($exifCoord) 
 	{
-	  $degrees = count($exifCoord) > 0 ? $this->gps2Num($exifCoord[0]) : 0; 
-	  $minutes = count($exifCoord) > 1 ? $this->gps2Num($exifCoord[1]) : 0; 
-	  $seconds = count($exifCoord) > 2 ? $this->gps2Num($exifCoord[2]) : 0; 
-	  
+      if(is_array($exifCoord)){
+    	  $degrees = count($exifCoord) > 0 ? $this->gps2Num($exifCoord[0]) : 0; 
+    	  $minutes = count($exifCoord) > 1 ? $this->gps2Num($exifCoord[1]) : 0; 
+    	  $seconds = count($exifCoord) > 2 ? $this->gps2Num($exifCoord[2]) : 0; 
+	  }else{
+          if(strpos($exifCoord, ',')){
+            list($degrees,$minutes,$seconds) = explode(',', $exifCoord);
+          }elseif(strpos($exifCoord,';')){
+            list($degrees,$minutes,$seconds) = explode(';', $exifCoord);
+          }else{
+            return array();
+          }
+      }
 	  //normalize 
 	  $minutes += 60 * ($degrees - floor($degrees)); 
 	  $degrees = floor($degrees); 

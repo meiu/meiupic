@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="<?php echo ST('css/user.css')?>" type="text/css" />
     <link rel="stylesheet" href="<?php echo S('album','css/justifiedGallery.min.css')?>" type="text/css" />
     <script type="text/javascript" src="<?php echo ST('js/main.js'); ?>"></script>
+    <script type="text/javascript" src="<?php echo S('comment','js/comment.js'); ?>"></script>
     <script type="text/javascript" src="<?php echo ST('js/screenfull.js'); ?>"></script>
     <?php if($_G['user']): ?>
         <link rel="stylesheet" href="<?php echo S('base','plupload/jquery.ui.plupload/css/jquery.ui.plupload.css'); ?>" type="text/css" />
@@ -33,7 +34,7 @@
         ?>
         <meta name="uptoken" content="<?php echo $uptoken;?>" />
         <meta name="updomain" content="<?php echo $c['setting']['url_pre'];?>" />
-        <script type="text/javascript" src="https://unpkg.com/qiniu-js@v2.2.2/dist/qiniu.min.js"></script>
+        <script type="text/javascript" src="<?php echo ST('js/qiniu.min.js'); ?>"></script>
         <script type="text/javascript" src="<?php echo ST('js/upload.qiniu.js'); ?>"></script>
         <script type="text/javascript">
             var qiniu_area = qiniu.region.<?php echo $c['setting']['area'];?>;
@@ -46,7 +47,7 @@
         var site_title= '<?php echo getSetting('site_title');?>';
         var PUBLIC_URL= '<?php echo C('public_url');?>';
     </script>
-    <?php  echo x_comment_helper::initJS(); ?>
+    <?php // echo x_comment_helper::initJS(); ?>
 </head>
 <body>
 <div class="my-header">

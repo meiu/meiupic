@@ -1,12 +1,5 @@
 <?php $this->display('space/mini_head.php'); ?>
-<form class="mini-search" action="" method="post">
-    <div class="line-wrap">
-        相册名：
-        <input type="text"  class="nomal-input" name="name" value="<?php echo $search['name'];?>" />
-        <input type="submit" value="搜索" class="normal-btn" />
-    </div>
-</form>
-<form id="submit_form" action="<?php echo U('album','do_photo_move');?>" class="ajaxform" method="post">
+<form id="submit_form" style="margin-top: 10px;" action="" class="ajaxform" method="post">
     <div class="innercol grid">
         <div class="gallary_wrap">
         <?php foreach ($rows as $key => $value): ?>
@@ -16,14 +9,14 @@
                     <?php echo $value['name'];?>
                 </div>
                 <div class="check"></div>
-                <input class="id_sel selitem" name="album_id" type="radio" value="<?php echo $value['id']; ?>" />
+                <input class="id_sel selitem" name="set_id" type="radio" value="<?php echo $value['id']; ?>" />
             </div>
             <?php endforeach ?>
             <div class="clear"></div>
         </div>
     </div>
     <?php echo $pagestr; ?>
-    <input type="hidden" name="id" value="<?php echo $search['id'];?>" />
+    <input type="hidden" name="photo_id" value="<?php echo $search['photo_id'];?>" />
     <input type="submit" id="dosubmit" style="display:none;" value="保存修改" />
 </form>
 <script>

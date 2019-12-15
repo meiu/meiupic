@@ -324,9 +324,8 @@ function getSetting($name,$is_array=false){
 }
 
 //序列化函数
-function sc_encode($arr,$addslashes = false){
-    $str = serialize($arr);
-    return ($addslashes?addslashes($str):$str);
+function sc_encode($arr){
+    return serialize($arr);
 }
 //反序列化
 function sc_decode($string){

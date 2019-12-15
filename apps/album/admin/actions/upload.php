@@ -27,7 +27,7 @@ class AlbumUpload extends Adminbase{
                 while (($file = readdir($dir)) !== false) {
                     $tmpfilePath = $targetDir . DS . $file;
                     // 删除5个小时之前的临时文件
-                    if (filemtime($tmpfilePath) < time() - 18000) {
+                    if (filemtime($tmpfilePath) < CURRENT_TIME - 18000) {
                         @unlink($tmpfilePath);
                     }
                 }
@@ -65,7 +65,7 @@ class AlbumUpload extends Adminbase{
                 $data['uid'] = $_G['user']['id'];
 	            $data['cate_id'] =  $albumInfo?$albumInfo['cate_id']:0;
 	            $data['album_id'] = $aid;
-	            $data['create_time'] = time();
+	            $data['create_time'] = CURRENT_TIME;
 	            $data['priv_type'] = $albumInfo?$albumInfo['priv_type']:0;
                 $data['path'] = $path;
                 $data['name'] = $filename;

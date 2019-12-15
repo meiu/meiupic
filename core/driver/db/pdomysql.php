@@ -126,12 +126,10 @@ Class DBPdomysql extends Db{
         if (is_bool($value)) { return $value ? 1:0; }
         if (is_null($value)) { return 'NULL'; }
         
-        $value = stripslashes($value);
-
         if($addquote){
             return $this->conn->quote($value);
         }
-        return addslashes($value);
+        return $value;
     }
     /**
      * 直接查询Sql

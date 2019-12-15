@@ -14,7 +14,7 @@
   
   <tr>
     <td>
-      发件姓名
+      发件姓名：
     </td>
     <td>
         <input type="text" size="40" name="setting[send_name]" value="<?php echo isset($setting['send_name'])?$setting['send_name']:''?>" />
@@ -22,7 +22,7 @@
   </tr>
   <tr>
     <td>
-      发件邮箱
+      发件邮箱：
     </td>
     <td>
         <input type="text" size="40" name="setting[send_email]" value="<?php echo isset($setting['send_email'])?$setting['send_email']:''?>" />
@@ -35,7 +35,7 @@
   </tr>
   <tr>
     <td>
-      发送服务器
+      发送服务器：
     </td>
     <td>
         <input type="text" size="40" name="setting[smtp_host]" value="<?php echo isset($setting['smtp_host'])?$setting['smtp_host']:''?>" />
@@ -51,7 +51,7 @@
   </tr>
   <tr>
     <td>
-      服务器端口
+      服务器端口：
     </td>
     <td>
         <input type="text" size="40" name="setting[smtp_port]" value="<?php echo isset($setting['smtp_port'])?$setting['smtp_port']:''?>" />
@@ -59,7 +59,7 @@
   </tr>
   <tr>
     <td>
-      发件账号
+      发件账号：
     </td>
     <td>
         <input type="text" size="40" name="setting[smtp_username]" value="<?php echo isset($setting['smtp_username'])?$setting['smtp_username']:''?>" />
@@ -67,7 +67,7 @@
   </tr>
   <tr>
       <td>
-      发件账号密码
+      发件账号密码：
     </td>
     <td>
         <input type="text" size="40" name="setting[smtp_password]" value="<?php echo isset($setting['smtp_password'])?$setting['smtp_password']:''?>" />

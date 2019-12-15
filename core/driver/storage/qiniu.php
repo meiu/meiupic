@@ -207,6 +207,7 @@ class StorageQiniu extends Storage
     public function save($src,$dst,$delete_src=true){
         $result = $this->upload($src,$dst);
         $result = @json_decode($result,true);
+        
         if($result && isset($result['key'])){
             //删除原文件
             if($delete_src){

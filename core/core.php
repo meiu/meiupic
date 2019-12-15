@@ -466,9 +466,9 @@ function isAjax(){
 
 function getGet($key,$default=''){
     if(isset($_GET[$key])){
-        if(!MAGIC_GPC)
+        if(MAGIC_GPC)
         {
-            return arrAddslashes($_GET[$key]);
+            return arrStripslashes($_GET[$key]);
         }
         return $_GET[$key];
     }
@@ -477,9 +477,9 @@ function getGet($key,$default=''){
 
 function getPost($key,$default=''){
     if(isset($_POST[$key])){
-        if(!MAGIC_GPC)
+        if(MAGIC_GPC)
         {
-            return arrAddslashes($_POST[$key]);
+            return arrStripslashes($_POST[$key]);
         }
         return $_POST[$key];
     }
@@ -488,9 +488,9 @@ function getPost($key,$default=''){
 
 function getCookie($key,$default=''){
     if(isset($_COOKIE[$key])){
-        if(!MAGIC_GPC)
+        if(MAGIC_GPC)
         {
-            return arrAddslashes($_COOKIE[$key]);
+            return arrStripslashes($_COOKIE[$key]);
         }
         return $_COOKIE[$key];
     }
@@ -499,9 +499,9 @@ function getCookie($key,$default=''){
 
 function getRequest($key,$default=''){
     if(isset($_REQUEST[$key])){
-        if(!MAGIC_GPC)
+        if(MAGIC_GPC)
         {
-            return arrAddslashes($_REQUEST[$key]);
+            return arrStripslashes($_REQUEST[$key]);
         }
         return $_REQUEST[$key];
     }
@@ -509,32 +509,32 @@ function getRequest($key,$default=''){
 }
 
 function getPosts(){
-    if(!MAGIC_GPC)
+    if(MAGIC_GPC)
     {
-        return arrAddslashes($_POST);
+        return arrStripslashes($_POST);
     }
     return $_POST;
 }
 
 function getRequests(){
-    if(!MAGIC_GPC)
+    if(MAGIC_GPC)
     {
-        return arrAddslashes($_REQUEST);
+        return arrStripslashes($_REQUEST);
     }
     return $_REQUEST;
 }
 
 function getGets(){
-    if(!MAGIC_GPC)
+    if(MAGIC_GPC)
     {
-        return arrAddslashes($_GET);
+        return arrStripslashes($_GET);
     }
     return $_GET;
 }
 function getCookies(){
-    if(!MAGIC_GPC)
+    if(MAGIC_GPC)
     {
-        return arrAddslashes($_COOKIE);
+        return arrStripslashes($_COOKIE);
     }
     return $_GET;
 }

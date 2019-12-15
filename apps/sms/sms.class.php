@@ -95,7 +95,7 @@ Class SmsClass{
         $row = $m->findRow("mobile=".$m->escape($mobile));
 
         if($row){
-            if(time() - $row['lasttime']<60){
+            if(CURRENT_TIME - $row['lasttime']<60){
                 $msg = '操作过于频繁，请稍后再次操作!';
                 return false;
             }
@@ -112,9 +112,9 @@ Class SmsClass{
             }else{
                 $send_count = 1;
             }
-            $m->updateW("mobile=".$m->escape($mobile),array('code'=>$code,'lasttime'=>time(),'send_count'=>$send_count));
+            $m->updateW("mobile=".$m->escape($mobile),array('code'=>$code,'lasttime'=>CURRENT_TIME,'send_count'=>$send_count));
         }else{
-            $m->insert(array("mobile"=>$mobile,'code'=>$code,'lasttime'=>time(),'send_count'=>1));
+            $m->insert(array("mobile"=>$mobile,'code'=>$code,'lasttime'=>CURRENT_TIME,'send_count'=>1));
         }
 
         if($this->sendSMS($mobile,$code,1)){

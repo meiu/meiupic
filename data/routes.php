@@ -4,13 +4,16 @@
     0 => 'album.cate',
     1 => 'album.search',
     2 => 'album.index',
-    3 => 'album.photos',
+    3 => 'album.sets_photos',
     4 => 'space.index',
     5 => 'album.space',
     6 => 'friend.friends',
     7 => 'friend.followers',
-    8 => 'album.like',
-    9 => 'album.album',
+    8 => 'album.space_like',
+    9 => 'album.space_profile',
+    10 => 'album.space_sets',
+    11 => 'album.album_detail',
+    12 => 'album.sets_view',
   ),
   'data' => 
   array (
@@ -68,19 +71,19 @@
       ),
       'regex' => '/^search\\/([^\\/]+)$/i',
     ),
-    'work/{id}' => 
+    'sets/{id}' => 
     array (
       'params' => 
       array (
         'app' => 'album',
-        'm' => 'photos',
+        'm' => 'sets_photos',
         'id' => '@@',
       ),
       'needreplace' => 
       array (
         0 => 'id',
       ),
-      'regex' => '/^work\\/([^\\/]+)$/i',
+      'regex' => '/^sets\\/([^\\/]+)$/i',
     ),
     'u/{id}' => 
     array (
@@ -96,7 +99,7 @@
       ),
       'regex' => '/^u\\/([^\\/]+)$/i',
     ),
-    '{id}/all' => 
+    'u{id}/works' => 
     array (
       'params' => 
       array (
@@ -108,9 +111,9 @@
       array (
         0 => 'id',
       ),
-      'regex' => '/^([^\\/]+)\\/all$/i',
+      'regex' => '/^u([^\\/]+)\\/works$/i',
     ),
-    '{id}/friends' => 
+    'u{id}/friends' => 
     array (
       'params' => 
       array (
@@ -122,9 +125,9 @@
       array (
         0 => 'id',
       ),
-      'regex' => '/^([^\\/]+)\\/friends$/i',
+      'regex' => '/^u([^\\/]+)\\/friends$/i',
     ),
-    '{id}/followers' => 
+    'u{id}/followers' => 
     array (
       'params' => 
       array (
@@ -136,35 +139,79 @@
       array (
         0 => 'id',
       ),
-      'regex' => '/^([^\\/]+)\\/followers$/i',
+      'regex' => '/^u([^\\/]+)\\/followers$/i',
     ),
-    '{id}/like' => 
+    'u{id}/like' => 
     array (
       'params' => 
       array (
         'app' => 'album',
-        'm' => 'like',
+        'm' => 'space_like',
         'id' => '@@',
       ),
       'needreplace' => 
       array (
         0 => 'id',
       ),
-      'regex' => '/^([^\\/]+)\\/like$/i',
+      'regex' => '/^u([^\\/]+)\\/like$/i',
     ),
-    '{id}/albums' => 
+    'u{id}/profile' => 
     array (
       'params' => 
       array (
         'app' => 'album',
-        'm' => 'album',
+        'm' => 'space_profile',
         'id' => '@@',
       ),
       'needreplace' => 
       array (
         0 => 'id',
       ),
-      'regex' => '/^([^\\/]+)\\/albums$/i',
+      'regex' => '/^u([^\\/]+)\\/profile$/i',
+    ),
+    'u{id}/sets' => 
+    array (
+      'params' => 
+      array (
+        'app' => 'album',
+        'm' => 'space_sets',
+        'id' => '@@',
+      ),
+      'needreplace' => 
+      array (
+        0 => 'id',
+      ),
+      'regex' => '/^u([^\\/]+)\\/sets$/i',
+    ),
+    'work/{id}' => 
+    array (
+      'params' => 
+      array (
+        'app' => 'album',
+        'm' => 'album_detail',
+        'id' => '@@',
+      ),
+      'needreplace' => 
+      array (
+        0 => 'id',
+      ),
+      'regex' => '/^work\\/([^\\/]+)$/i',
+    ),
+    'sets/{set_id}/{id}' => 
+    array (
+      'params' => 
+      array (
+        'app' => 'album',
+        'm' => 'sets_view',
+        'set_id' => '@@',
+        'id' => '@@',
+      ),
+      'needreplace' => 
+      array (
+        0 => 'set_id',
+        1 => 'id',
+      ),
+      'regex' => '/^sets\\/([^\\/]+)\\/([^\\/]+)$/i',
     ),
   ),
 );

@@ -122,10 +122,9 @@ Class DBMysqli extends Db{
         if (is_bool($value)) { return $value ? 1:0; }
         if (is_null($value)) { return 'NULL'; }
         
-        $value = stripslashes($value);
-
+        $value = mysqli_real_escape_string($this->conn,$value);
         
-        return $addquote?"'".mysqli_real_escape_string($this->conn,$value)."'":mysqli_real_escape_string($this->conn,$value);
+        return $addquote?"'".$value."'":$value;
     }
     /**
      * 直接查询Sql

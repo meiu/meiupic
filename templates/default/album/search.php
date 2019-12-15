@@ -30,7 +30,7 @@
 <script type="text/javascript" src="<?php echo ST('js/theater.js'); ?>"></script>
 <script>
 $('.list-body').css('max-width',$(window).width()-120);
-$("#grid-gallery").justifiedGallery({'rowHeight':300,'margins':10}).on('jg.complete', function (e) {
+$("#grid-gallery").justifiedGallery({'rowHeight':260,'margins':10,'captions':false}).on('jg.complete', function (e) {
     $('#grid-gallery').css('opacity',1);
 });
 $('#grid-gallery').delegate('a.liked,a.like','click',function(){

@@ -163,7 +163,7 @@ class ImageGd extends image{
         if($height>=$imgHeight) return;
 
         $ratio = $height / $imgHeight;
-        $width = $this->getWidth() * $ratio;
+        $width = round($this->getWidth() * $ratio);
         $this->resize($width,$height);
     }
     /**
@@ -175,7 +175,7 @@ class ImageGd extends image{
         $imgWidth = $this->getWidth();
         if($width>=$imgWidth) return;
         $ratio = $width / $this->getWidth();
-        $height = $this->getHeight() * $ratio;
+        $height = round($this->getHeight() * $ratio);
         $this->resize($width,$height);
     }
 
@@ -237,27 +237,27 @@ class ImageGd extends image{
         $ratio_o = $width/$height;
         $ratio_t = $w/$h;
 
-        if($width>$w && $height > $h){
+        if($width>=$w && $height >= $h){
             if($ratio_o == $ratio_t){
                 return $this->resize($w,$h);
             }
 
             if($ratio_o > $ratio_t){
                 $this->resizeToHeight($h);
-                $left = ceil(($h/$height * $width - $w)/2);
+                $left = round(($h/$height * $width - $w)/2);
             }else{
                 $this->resizeToWidth($w);
-                $top = ceil(($w/$width * $height - $h)/2);
+                $top = round(($w/$width * $height - $h)/2);
             }
             return $this->cut($w,$h,$left,$top);
         }elseif($width<$w && $height < $h){
             return true;
         }else{
             if($width < $w){
-                $top = ceil(($height - $h)/2);
+                $top = round(($height - $h)/2);
                 return $this->cut($width,$h,$left,$top);
             }else{
-                $left = ceil(($width - $w)/2);
+                $left = round(($width - $w)/2);
                 return $this->cut($w,$height,$left,$top);
             }
         }
@@ -306,6 +306,7 @@ class ImageGd extends image{
         }elseif($this->true_color && $this->image_type == IMAGETYPE_JPEG){
             $new_image = imagecreatetruecolor($width, $height);
             imagecopy($new_image, $this->image, 0, 0, $left, $top, $width, $height);
+            //imagecopyresampled($new_image, $this->image, 0, 0, $left, $top,  $width, $height, $this->getWidth(), $this->getHeight());
         }else{
             $new_image = imagecreate($width, $height);
             imagecopy($new_image, $this->image, 0, 0, $left, $top, $width, $height);

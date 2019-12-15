@@ -55,7 +55,7 @@ $data['parent_id'] = intval(getPost('par_id',0));//上级id
 if(!$data['mod'] || !$data['rel_id']){
     alert('参数有误！');
 }
-$data['addtime'] = time();
+$data['addtime'] = CURRENT_TIME;
 $data['ip'] = getClientIp();
 
 //判断是否需要审核
