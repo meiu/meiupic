@@ -396,8 +396,8 @@ INSERT INTO `album_cate` (`id`, `pid`, `name`, `dirname`, `status`, `sort`) VALU
 INSERT INTO `routes` VALUES (1, 'cate/{dirname}', 'app=album&m=cate', 50),
 (2, 'tag/{tag}', 'app=album&m=search', 50),
 (3, 'discover', 'app=album&m=index', 50),
-(4, 'search/{keyword}', 'app=album&m=search', 50);
-(5, 'sets/{id}', 'app=album&m=sets_photos', 50);
+(4, 'search/{keyword}', 'app=album&m=search', 50),
+(5, 'sets/{id}', 'app=album&m=sets_photos', 50),
 (6, 'u/{id}', 'app=space&m=index', 50),
 (7, 'u{id}/works', 'app=album&m=space', 50),
 (8, 'u{id}/friends', 'app=friend&m=friends', 50),
