@@ -19,8 +19,4 @@
 </div>
 
 <script type="text/javascript" src="<?php echo S('album','js/loadmore.js'); ?>"></script>
-<?php 
-if(getGet('add')){
-    echo "<script>$('.nav-add').click();</script>";
-}?>
 <?php $this->display('common/foot.php'); ?>

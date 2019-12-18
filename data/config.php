@@ -31,6 +31,17 @@ return array(
             'url_pre' => '/public/upfiles/'
         )
     ),
+    /*'storage' => array(
+        'adapter' => 'file', //存储引擎，目前支持file,qiniu两种
+        'setting' => array(
+            'bucket' => 'bucket名字',
+            'access_key' => '请填写七牛的access_key',
+            'secret_key' => '请填写七牛的secret_key',
+            'url_pre' => 'http://七牛bucket绑定的域名/',
+            'url_pre' => 'http://七牛bucket绑定的域名/',
+            'area' => 'z0' //这里输入七牛的区域
+        )
+    ),*/
     'image' => array(
         'engine' => 'gd' //图像处理引擎，目前支持gd,imagick两种
     ),

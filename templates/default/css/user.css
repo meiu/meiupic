@@ -556,6 +556,9 @@ div.pages a.on{
     left:10px;
     right: 80px;
 }
+.sets-gallery .photo_thumbnail .info .credits{
+    right: 10px;
+}
 .content-gallery .photo_thumbnail .info .credits .avatar{
     display: inline-block;
     width: 30px;
@@ -625,6 +628,16 @@ div.pages a.on{
     top:0px;
     right: 40px;
 }
+.content-gallery .photo_thumbnail .top-button .remove{
+    position: absolute;
+    top:0px;
+    right: 10px;
+    color: #fff;
+}
+.content-gallery .photo_thumbnail .top-button .remove a{
+    color: #fff;
+}
+
 .content-gallery .photo_thumbnail .top-button .hits{
     position: absolute;
     top:0px;

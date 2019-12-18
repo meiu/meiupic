@@ -1,7 +1,7 @@
 <?php $this->display('space/mini_head.php'); ?>
 <form id="submit_form" action="" class="ajaxform" method="post">
     <div style="padding:10px 0;">
-        <a class="normal-btn" target="_blank" href="<?php echo U('album','space_sets','id='.$_G['user']['id'].'&add=1')?>">新增图集</a>
+        <a class="normal-btn" href="javascript:void(0)" onclick="MuiShow('<?php echo U('album','sets_create','from='.getGet('winid'));?>','创建图集',500,350);">新增图集</a>
     </div>
     <div class="innercol grid">
         <div class="gallary_wrap">

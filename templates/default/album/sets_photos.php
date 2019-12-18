@@ -20,7 +20,7 @@
         </div>
     </div>
     <div class="list-body">
-        <div class="content-gallery">
+        <div class="content-gallery sets-gallery">
             <div id="grid-gallery" class="listCont" style="opacity:0;">
                 <?php $this->display('album/sets_photo_list.php'); ?>
             </div>

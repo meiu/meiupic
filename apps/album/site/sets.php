@@ -7,7 +7,7 @@ $m_album_sets = M('album_sets');
 $uinfo = M('users')->load($uid);
 $view->assign('uinfo',$uinfo);
 
-$where = 'priv_type=0';
+$where = 'priv_type=0 AND photos_num>0';
 
 $totalCount = $m_album_sets->count($where);
 $pageurl = U('album','sets',array('page'=>'%page%','id'=>$uid));

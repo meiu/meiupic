@@ -17,7 +17,11 @@ function ajaxAlert(data,time,lock,callback){
     }
     setTimeout(function(){
         if(data.redirect && data.redirect == 'js_reload'){
-            window.top.location.reload();
+            if(data.parent_winid){
+                window.top.art.dialog({id:data.parent_winid}).iframe.contentWindow.location.reload();
+            }else{
+                window.top.location.reload();
+            }
         }else if(data.redirect){
             window.top.location.href=data.redirect;
         }
