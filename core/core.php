@@ -33,6 +33,9 @@ require_once(CORE_PATH.'common.php');
 function C($name,$default=''){
     static $config=array();
     if(!$config){
+        if(!file_exists(DATA_PATH.'config.php')){
+            trace('缺少配置文件 data/config.php！','config');
+        }
         $config = include(DATA_PATH.'config.php');
     }
     $delimiter='.';

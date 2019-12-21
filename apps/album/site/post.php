@@ -29,7 +29,9 @@ if(isPost()){
     if(!$data['cate_id']){
         alert('请选择分类！');
     }
-
+    if(!$pic_ids){
+        alert('至少上传一张图片！');
+    }
     $m_album =  M('albums');
     $m_photos =  M('album_photos');
     if($id){
