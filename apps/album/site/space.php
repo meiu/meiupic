@@ -2,7 +2,6 @@
 defined('IN_MWEB') or die('access denied');
 
 $uid = intval(getGet('id'));
-$aid = intval(getGet('aid'));
 $page = getGet('page',1);
 $m_album = M('albums');
 
@@ -12,17 +11,6 @@ $view->assign('uinfo',$uinfo);
 $where = 'deleted=0';
 $where .= ' and uid ='.$uid;
 $urlparam = array('page'=>'%page%','id'=>$uid);
-if($aid){
-    $where .= ' and album_id = '.$aid;
-    //获取相册信息
-    $albumInfo = M('albums')->load($aid);
-
-    if($albumInfo['priv_type'] != 0 && $_G['user']['id']!=$albumInfo['uid']){
-        showInfo('您无权查看该相册！','/','非法权限');
-    }
-    $view->assign('albumInfo',$albumInfo);
-    $urlparam['aid'] = $aid;
-}
 
 if($G_['user']['id'] != $uid){//访客，那么不取出私人照片
     $where .= ' and priv_type=0';

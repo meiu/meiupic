@@ -79,6 +79,7 @@
             <div class="owner_buttons">
                 <?php if($albumInfo['uid'] == $_G['user']['id']): ?>
                     <a class="light_button edit-photo" href="<?php echo U('album','post','id='.$albumInfo['id']); ?>">编辑作品</a>
+                    <a class="light_button edit-photo" href="<?php echo U('album','album_del','id='.$albumInfo['id']); ?>">删除作品</a>
                 <?php endif; ?>
                 <?php if($_G['user']['level']>=80): ?>
                 <a class="light_button edit-photo" href="<?php echo U('album','album_recommend','id='.$albumInfo['id']); ?>" onclick="return opt_one(this,'确定推荐该作品？')">推荐</a>

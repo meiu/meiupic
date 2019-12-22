@@ -129,6 +129,14 @@ class AlbumClass{
         return M('albums')->update($album_id,array('photos_num'=>$num));
     }
 
+    //更新相册排序
+    public function updatePhotoSort($pic_ids){
+        $m_photo = M('album_photos');
+        foreach ($pic_ids as $key => $value) {
+            $m_photo->update($value,array('sort'=>$key+1));
+        }
+    }
+
     //更新相册封面
     public function updateCover($album_id,$photo_id=0){
         if(!$album_id){
@@ -139,6 +147,7 @@ class AlbumClass{
         }else{
             $photoInfo = M('album_photos')->findRow(array(
                 'where'=>'album_id='.intval($album_id).' and deleted=0',
+                'order'=>'sort asc,id asc',
                 'limit' => 1
             ));
         }

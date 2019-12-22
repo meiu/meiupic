@@ -1,8 +1,6 @@
 <?php 
 defined('IN_MWEB') or die('access denied');
 
-//checkLogin();
-
 $id = intval(getGet('id'));
 $m_album = M('albums');
 $albumInfo = $m_album->load($id);
@@ -58,7 +56,7 @@ $view->assign('nextInfo',$nextInfo);
 $photos = $m_photo->findAll(array(
     'where' => "album_id=".$albumInfo['id']." AND deleted=0",
     'fields' => 'id,path,width,height,exif',
-    'order' => 'id asc'
+    'order' => 'sort asc,id asc'
 ));
 
 $exif_lib = new exif;

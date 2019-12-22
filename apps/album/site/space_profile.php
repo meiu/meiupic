@@ -1,6 +1,5 @@
 <?php
-
-
+defined('IN_MWEB') or die('access denied');
 
 $uid = intval(getGet('id'));
 $page = getGet('page',1);

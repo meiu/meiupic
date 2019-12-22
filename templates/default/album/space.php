@@ -3,16 +3,6 @@
 
 <div class="container">
     <?php $this->display('album/space_menu.php'); ?>
-    <?php /*if(!empty($albumInfo)): ?>
-    <div class="head-title">
-        <?php if($albumInfo['uid']==$_G['user']['id']): ?>
-        <a class="delete-album right" href="<?php echo U('album','album_del','id='.$albumInfo['id']); ?>" onclick="return opt_one(this,'确定删除该相册？')">删除相册</a>
-        <a href="javascript:void(0)" onclick="MuiShow('<?php echo U('album','album_edit','id='.$albumInfo['id']); ?>','编辑相册',500,500)" class="normal-btn right">编辑相册</a>
-        <a href="<?php echo U('album','post','id='.$albumInfo['id']) ?>" class="normal-btn right">继续上传</a>
-        <?php endif; ?>
-        <label id="album-title"><?php echo $albumInfo['name'];?></label> <span class="album-account "><?php echo $albumInfo['photos_num'];?>张</span>  
-    </div>
-    <?php endif */?>
     <div class="list-body">
         <div class="content-gallery">
             <?php if($rows): ?>
