@@ -21,9 +21,13 @@
     </div>
     <div class="list-body">
         <div class="content-gallery sets-gallery">
+            <?php if($rows):?>
             <div id="grid-gallery" class="listCont" style="opacity:0;">
                 <?php $this->display('album/sets_photo_list.php'); ?>
             </div>
+            <?php else: ?>
+            <div class="no-data">暂无内容</div>
+            <?php endif; ?>
             <div class="pageset" style="display:none"><?php echo $pagestr; ?></div> 
         </div>
     </div>
