@@ -27,9 +27,6 @@ if(isPost()){
     $updata = array('photo_id'=>$photo_id,'set_id'=>$set_id,'uid'=>$_G['user']['id'],'add_time'=>CURRENT_TIME);
 
     $photoInfo = M('album_photos')->load($photo_id);
-    if($photoInfo['uid']!=$_G['user']['id']){
-        alert('非法操作，该图片不属于您！');
-    }
 
     if( M('album_set_photos')->insert($updata) ){
         M('album_sets')->update($set_id,array('cover_id'=>$photo_id,'cover_path'=>$photoInfo['path'],'photos_num'=>array('exp','photos_num+1')) );

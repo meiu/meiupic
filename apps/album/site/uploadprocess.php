@@ -14,8 +14,8 @@ if($type == 'uploaded'){
     //保存图片并返回图片
     $data = array();
     $data['uid'] = $_G['user']['id'];
-    $data['cate_id'] = $albumInfo?$albumInfo['cate_id']:1;
-    $data['album_id'] = $albumInfo?$albumInfo['id']:1;
+    $data['cate_id'] = $albumInfo?$albumInfo['cate_id']:0;
+    $data['album_id'] = $albumInfo?$albumInfo['id']:0;
     $data['create_time'] = CURRENT_TIME;
     $data['priv_type'] = $albumInfo?$albumInfo['priv_type']:1;
     $data['path'] = getRequest('key');
@@ -222,8 +222,8 @@ if($chunk+1 == $chunks){
     //保存图片并返回图片
     $data = array();
     $data['uid'] = $_G['user']['id'];
-    $data['cate_id'] =  $albumInfo?$albumInfo['cate_id']:1;
-    $data['album_id'] = $albumInfo?$albumInfo['id']:1;
+    $data['cate_id'] =  $albumInfo?$albumInfo['cate_id']:0;
+    $data['album_id'] = $albumInfo?$albumInfo['id']:0;
     $data['create_time'] = CURRENT_TIME;
     $data['priv_type'] = $albumInfo?$albumInfo['priv_type']:1;
     $data['path'] = $path;

@@ -11,7 +11,7 @@ $info = $m_photo->load($id);
 if(!$info){
     alert('图片不存在！');
 }
-if($info['uid']!=$_G['user']['id']){
+if($info['priv_type']==1 && $info['uid']!=$_G['user']['id']){
     alert('非法操作，没有权限！');
 }
 

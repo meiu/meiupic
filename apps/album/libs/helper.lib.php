@@ -50,25 +50,26 @@ class x_album_helper{
             }
 
             if(isset($params['orderby'])){
-                $order_sql = $params['orderby'].' '.$sort;
+                $order_sql = 'a.'.$params['orderby'].' '.$sort;
             }else{
-                $order_sql = 'id desc';
+                $order_sql = 'a.id desc';
             }
 
-            $where = 'deleted=0 AND priv_type=0';//不取私密的作品
+            $where = 'a.deleted=0 AND a.priv_type=0';//不取私密的作品
             if($params['recommended']){
-                $where .= ' AND recommended=1';
+                $where .= ' AND a.recommended=1';
             }
             if($params['uid']){
-                $where .= ' AND uid='.intval($params['uid']);
+                $where .= ' AND a.uid='.intval($params['uid']);
             }
             if($params['name']){
-                $where .= " AND name like '%".$m_album->escape($params['name'],false)."%'";
+                $where .= " AND a.name like '%".$m_album->escape($params['name'],false)."%'";
             }
             if($params['cate_id']){
                 $catids = app('album')->catIds($params['cate_id']);
-                $where .= ' AND cate_id in ('.implode(',', $catids).')';
+                $where .= ' AND a.cate_id in ('.implode(',', $catids).')';
             }
+            $table = '#album as a';
             //筛选tags
             if($params['tag']){
                 if(preg_match('/^[0-9,]+$/', $params['tag'])){
@@ -81,7 +82,8 @@ class x_album_helper{
                     $tags_arr = M('album_tags')->select(array('fields'=>'id','where'=>"name in ('".implode("','", $tags_sarr)."')"))->getCol();
                 }
                 if($tags_arr){
-                    $where .= ' and id in (select rel_id from album_tag_rels where type="album" AND tag_id in ('.implode(',', $tags_arr).'))';
+                    $table = '#album_tag_rels as r inner join #albums as a on r.rel_id = a.id';
+                    $where .= ' AND r.type="album" AND r.tag_id in ('.implode(',', $tags_arr).')';
                 }
             }
             
@@ -90,6 +92,8 @@ class x_album_helper{
 
             $cateIndex = app('album')->getCateIndex();
             $rows = $m_album->findAll(array(
+                'fields' => 'a.*',
+                'table' => $table,
                 'where' => $where,
                 'start' => $limit['start'],
                 'limit' => $limit['limit'],
@@ -177,4 +181,24 @@ class x_album_helper{
         $data['list'] = $rows;
         return $data;
     }
+    /**
+     * 图集中的图片列表
+     */
+    static function sets_photos($set_id,$num=10){
+        $m_photo = M('album_photos');
+        //取出所有的照片吧
+        $photos = $m_photo->findAll(array(
+            'field'=>'p.*',
+            'table' => '#album_set_photos as sp inner join #album_photos as p on sp.photo_id = p.id',
+            'where' => "sp.set_id=".$set_id." AND p.deleted=0",
+            'fields' => 'p.id,p.path,p.album_id,p.uid,p.width,p.height',
+            'order' => 'sp.add_time desc',
+            'start' => 0,
+            'limit' => $num,
+        ));
+
+        $data['list'] = $photos;
+        return $data;
+    }
+
 }
