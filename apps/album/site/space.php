@@ -34,7 +34,7 @@ $view->assign('rows',$rows);
 $view->assign('uid',$uid);
 
 if(isAjax()){
-    echo json_encode(array('status'=>'ok','page'=>$page,'html'=>$view->fetch('album/space_photo_list.php'),'pagehtml'=>$pager->html()));
+    echo json_encode(array('status'=>'ok','page'=>$page,'html'=>$view->fetch('album/space_normal_list.php'),'pagehtml'=>$pager->html()));
     exit;
 }else{
     $site_title = (empty($albumInfo)?'全部作品':$albumInfo['name']).' - 用户中心 - '.getSetting('site_title');

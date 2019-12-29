@@ -100,7 +100,7 @@ if(isPost()){
 
     //取出当前相册的所有的图片(或不属于任何相册的图片)
     $photo_list = M('album_photos')->findAll(array(
-        'fields' => 'id,path',
+        'fields' => 'id,path,width,height',
         'where' => 'uid='.$_G['user']['id'].' AND album_id='.$album_id,
         'order' => 'sort asc,id asc'
     ));

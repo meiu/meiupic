@@ -1,4 +1,18 @@
 <?php $this->display('common/head.php'); ?>
+<?php 
+function autosizeStyle($w,$h){
+    $width = $height = 0;
+    if($w > $h){
+        $width = 250;
+        $height = intval($width/$w*$h);
+    }else{
+        $height = 250;
+        $width = intval($height/$h*$w);
+    }
+    return 'width:'.($width+10).'px;height:'.($height+10).'px;';
+}
+?>
+
 <script src="<?php echo S('base','tageditor/jquery.caret.min.js');?>"></script>
 <script src="<?php echo S('base','tageditor/jquery.tag-editor.min.js');?>"></script>
 <link rel="stylesheet" href="<?php echo S('base','tageditor/jquery.tag-editor.css');?>" />
@@ -11,7 +25,7 @@
            <div id="muilti_uploader">
                <ul class="photo-list">
                     <?php foreach ($photo_list as $key => $value): ?>
-                    <li class="photo-item old photo-progress"><img src="<?php echo thumb($value['path'],256,256,2); ?>"><div class="mask" style="width:100%;height:100%;"><a class="icon-close">x</a></div><input type="hidden" name="pic_ids[]" value="<?php echo $value['id'];?>" /></li>
+                    <li class="photo-item old"><img src="<?php echo thumb($value['path'],256,256,2); ?>"><div class="mask" style="<?php echo autosizeStyle($value['width'],$value['height']);?>"><a class="icon-close">x</a></div><input type="hidden" name="pic_ids[]" value="<?php echo $value['id'];?>" /></li>
                     <?php endforeach; ?>
                     <li class="upload-item">
                         <div class="upload-photo" id="pickfiles">

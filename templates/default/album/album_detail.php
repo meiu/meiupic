@@ -30,7 +30,7 @@
         <ul>
         <?php foreach ($photos as $key => $value):?>
             <li <?php if($value['id']==$photoInfo['id']): ?>class="current"<?php endif;?> data-imgid="<?php echo $value['id'];?>" data-bigsrc="<?php echo thumb($value['path'],1600,1600,2); ?>" data-exif="<?php echo $value['exif']?htmlentities(json_encode($value['exif'])):''; ?>">
-                <img src="<?php echo thumb($value['path'],180,180,2); ?>" alt="<?php echo $value['name']; ?>">
+                <img src="<?php echo thumb($value['path'],256,256,2); ?>" alt="<?php echo $value['name']; ?>">
             </li>
         <?php endforeach; ?>
         <?php if($nextInfo): ?>
