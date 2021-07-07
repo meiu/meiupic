@@ -12,7 +12,7 @@ define('SOFT_VERSION','3.0');
 
 define('CURRENT_TIME',isset($_SERVER['REQUEST_TIME'])?$_SERVER['REQUEST_TIME']:time());
 
-define('MAGIC_GPC',get_magic_quotes_gpc());
+define('MAGIC_GPC',ini_set("magic_quotes_runtime",0)?true:false);
 defined('MEMORY_LIMIT_ON') or define('MEMORY_LIMIT_ON', true);
 
 defined('LOG_PATH') or define('LOG_PATH', DATA_PATH.'logs'.DS); //项目日志目录
